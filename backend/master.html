@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль бьюти-специалиста</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --color-mulberry: #97332D; --color-tangerine: #EBA239; --color-leaves: #8F9F25; --color-cream: #FFE4A1; --color-cream-light: #FFFDF2; --color-white: #FFFFFF; --color-text-main: #2C2C2C; --color-text-muted: #666666; --color-border: #E8E5DC; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--color-cream-light); padding: 40px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; border: 1px solid var(--color-border); position: relative; }
+        .top-warning { background: #1A1A1A; color: white; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 25px; font-size: 14px; }
+        .top-warning a { color: white; text-decoration: underline; }
+        .profile-layout { display: grid; grid-template-columns: 140px 1fr 220px; gap: 30px; }
+        .avatar { width: 130px; height: 130px; border-radius: 12px; object-fit: cover; }
+        .btn-action { width: 100%; background: #E8E5DC; color: var(--color-text-muted); border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: not-allowed; }
+        .section-title { font-weight: 700; margin: 20px 0 10px; font-size: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="top-warning">Чтобы писать специалистам, <a href="/profile">заполните детали задачи</a></div>
+        
+        <div class="profile-layout">
+            <div>
+                <img id="avatar" class="avatar">
+            </div>
+            <div>
+                <h1 id="name" style="font-size: 24px; font-weight: 700;"></h1>
+                <p style="color: var(--color-text-muted); font-size: 13px; margin: 4px 0;">Был(а) в сети недавно</p>
+                <div style="margin: 10px 0; font-size: 14px;">
+                    <span style="color: var(--color-tangerine); font-weight:600;"><i class="fa-solid fa-star"></i> <span id="rating"></span></span>
+                    <span style="color: var(--color-text-muted); margin-left: 10px;"><i class="fa-regular fa-comment"></i> 3 отзыва</span>
+                </div>
+                <p style="font-size: 13px; color: var(--color-leaves); font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Паспорт проверен</p>
+            </div>
+            <div>
+                <button class="btn-action">Написать сообщение</button>
+                <p style="font-size: 12px; color: var(--color-text-muted); text-align: center; margin-top: 8px;">Вы сможете писать после заполнения деталей задачи</p>
+            </div>
+        </div>
+
+        <div class="section-title">Образование и опыт</div>
+        <p id="experience" style="font-size: 14px;"></p>
+
+        <div class="section-title">Услуги и цены</div>
+        <div id="specialization" style="font-size: 14px; background: var(--color-cream-light); padding: 15px; border-radius: 8px; line-height: 1.6;"></div>
+    </div>
+
+    <script>
+        async function loadProfile() {
+            const params = new URLSearchParams(window.location.search);
+            const res = await fetch(`/api/masters/${params.get('id')}`);
+            const m = await res.json();
+            
+            document.getElementById('avatar').src = m.portfolio[0];
+            document.getElementById('name').innerText = m.name;
+            document.getElementById('rating').innerText = m.rating;
+            document.getElementById('experience').innerText = `На сервисе работает: ${m.experience}`;
+            document.getElementById('specialization').innerText = `${m.category}: ${m.specialization} — Цена от ${m.price} ₽`;
+        }
+        loadProfile();
+    </script>
+</body>
+</html>

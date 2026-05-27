@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOW | Личный кабинет мастера</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #faf6f5; color: #1a1a2e; }
+        .header { background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); color: white; padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .logo { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, #fff, #f0c0d0); -webkit-background-clip: text; background-clip: text; color: transparent; text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-link { color: white; text-decoration: none; font-weight: 500; }
+        .logout-btn { background: rgba(255,255,255,0.2); border: none; padding: 6px 16px; border-radius: 40px; color: white; cursor: pointer; }
+        .profile-container { max-width: 1000px; margin: 40px auto; background: white; border-radius: 32px; overflow: hidden; }
+        .profile-header { background: linear-gradient(135deg, #2d1b4e, #4a2c6d); padding: 40px; color: white; text-align: center; }
+        .avatar { width: 80px; height: 80px; background: #c77d9e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 16px; }
+        .tabs { display: flex; border-bottom: 1px solid #f0e0e5; }
+        .tab { flex: 1; padding: 16px; text-align: center; cursor: pointer; font-weight: 600; color: #888; }
+        .tab.active { color: #2d1b4e; border-bottom: 2px solid #c77d9e; }
+        .tab-content { display: none; padding: 32px; }
+        .tab-content.active { display: block; }
+        .booking-card { background: #faf6f5; border-radius: 20px; padding: 20px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .btn-confirm { background: #22c55e; border: none; padding: 8px 16px; border-radius: 40px; color: white; cursor: pointer; margin-right: 8px; }
+        .btn-reject { background: #fee2e2; border: none; padding: 8px 16px; border-radius: 40px; color: #dc2626; cursor: pointer; }
+        .edit-form { background: #faf6f5; border-radius: 20px; padding: 24px; margin-top: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid #e2d0d8; border-radius: 16px; }
+        .btn-save { background: linear-gradient(135deg, #c77d9e, #a85a7a); border: none; padding: 12px 24px; border-radius: 40px; color: white; cursor: pointer; }
+        .portfolio-item { display: inline-block; margin: 8px; text-align: center; }
+        .portfolio-img { width: 100px; height: 100px; object-fit: cover; border-radius: 12px; cursor: pointer; }
+        @media (max-width: 768px) { .booking-card { flex-direction: column; text-align: center; gap: 12px; } }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">GLOW</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/master-profile.html" class="nav-link">Личный кабинет</a>
+                <button class="logout-btn" onclick="logout()">Выйти</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="avatar" id="masterAvatar">👩‍🎨</div>
+        <div class="profile-name" id="masterName">Загрузка...</div>
+        <div id="masterCategory"></div>
+    </div>
+    <div class="tabs">
+        <div class="tab active" data-tab="appointments">Заявки</div>
+        <div class="tab" data-tab="portfolio">Портфолио</div>
+        <div class="tab" data-tab="settings">Настройки</div>
+    </div>
+    <div id="appointments-tab" class="tab-content active"><div id="appointmentsList"></div></div>
+    <div id="portfolio-tab" class="tab-content">
+        <div id="portfolioList"></div>
+        <div class="edit-form"><h3>Добавить работу</h3><input type="text" id="newPhotoUrl" placeholder="URL фото"><button class="btn-save" onclick="addPortfolio()" style="margin-top:10px">Добавить</button></div>
+    </div>
+    <div id="settings-tab" class="tab-content">
+        <div class="edit-form"><h3>Редактировать профиль</h3>
+            <div class="form-group"><label>Имя</label><input type="text" id="editName"></div>
+            <div class="form-group"><label>Категория</label><input type="text" id="editCategory"></div>
+            <div class="form-group"><label>Специализация</label><input type="text" id="editSpecialization"></div>
+            <div class="form-group"><label>Цена за час</label><input type="number" id="editPrice"></div>
+            <div class="form-group"><label>Описание</label><textarea id="editDescription" rows="3"></textarea></div>
+            <button class="btn-save" onclick="saveProfile()">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentUser = JSON.parse(localStorage.getItem('glow_current_user'));
+    let masters = JSON.parse(localStorage.getItem('glow_masters')) || [];
+    let appointments = JSON.parse(localStorage.getItem('glow_appointments')) || [];
+    let currentMaster = masters.find(m => m.email === currentUser?.email || m.id === currentUser?.id);
+
+    if (!currentUser || currentUser.role !== 'master') window.location.href = '/';
+
+    function loadAppointments() {
+        const masterAppointments = appointments.filter(a => a.masterId === currentMaster?.id);
+        document.getElementById('appointmentsList').innerHTML = masterAppointments.length ? 
+            masterAppointments.map(a => `
+                <div class="booking-card">
+                    <div><strong>${a.clientName}</strong><br>${a.date} ${a.time}<br>${a.totalCost.toLocaleString()} ₽</div>
+                    <div>Статус: ${a.status === 'pending' ? '⏳ Ожидает' : '✅ Подтверждено'}</div>
+                    ${a.status === 'pending' ? `<div><button class="btn-confirm" onclick="confirmAppointment(${a.id})">Подтвердить</button><button class="btn-reject" onclick="rejectAppointment(${a.id})">Отклонить</button></div>` : ''}
+                </div>
+            `).join('') : '<p>Нет новых заявок</p>';
+    }
+
+    function confirmAppointment(id) { const app = appointments.find(a => a.id === id); if (app) app.status = 'confirmed'; localStorage.setItem('glow_appointments', JSON.stringify(appointments)); loadAppointments(); }
+    function rejectAppointment(id) { appointments = appointments.filter(a => a.id !== id); localStorage.setItem('glow_appointments', JSON.stringify(appointments)); loadAppointments(); }
+
+    function loadPortfolio() { const portfolio = currentMaster?.portfolio || []; document.getElementById('portfolioList').innerHTML = portfolio.map(p => `<div class="portfolio-item"><img src="${p}" class="portfolio-img"><br><button onclick="removePortfolio('${p}')">🗑️</button></div>`).join('') || '<p>Портфолио пусто</p>'; }
+    function addPortfolio() { const url = document.getElementById('newPhotoUrl').value; if (url) { if (!currentMaster.portfolio) currentMaster.portfolio = []; currentMaster.portfolio.push(url); localStorage.setItem('glow_masters', JSON.stringify(masters)); loadPortfolio(); document.getElementById('newPhotoUrl').value = ''; } }
+    function removePortfolio(url) { currentMaster.portfolio = currentMaster.portfolio.filter(p => p !== url); localStorage.setItem('glow_masters', JSON.stringify(masters)); loadPortfolio(); }
+
+    function saveProfile() {
+        currentMaster.name = document.getElementById('editName').value;
+        currentMaster.category = document.getElementById('editCategory').value;
+        currentMaster.specialization = document.getElementById('editSpecialization').value;
+        currentMaster.price = parseInt(document.getElementById('editPrice').value);
+        currentMaster.description = document.getElementById('editDescription').value;
+        const index = masters.findIndex(m => m.id === currentMaster.id);
+        if (index !== -1) masters[index] = currentMaster;
+        localStorage.setItem('glow_masters', JSON.stringify(masters));
+        document.getElementById('masterName').innerText = currentMaster.name;
+        document.getElementById('masterCategory').innerText = currentMaster.category;
+        alert('Профиль обновлён!');
+    }
+
+    function updateUI() {
+        document.getElementById('masterName').innerText = currentMaster?.name || currentUser.fullName;
+        document.getElementById('masterCategory').innerText = currentMaster?.category || '';
+        document.getElementById('editName').value = currentMaster?.name || '';
+        document.getElementById('editCategory').value = currentMaster?.category || '';
+        document.getElementById('editSpecialization').value = currentMaster?.specialization || '';
+        document.getElementById('editPrice').value = currentMaster?.price || '';
+        document.getElementById('editDescription').value = currentMaster?.description || '';
+    }
+
+    function logout() { localStorage.removeItem('glow_current_user'); window.location.href = '/'; }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+            if (tab.dataset.tab === 'portfolio') loadPortfolio();
+        });
+    });
+
+    updateUI();
+    loadAppointments();
+</script>
+</body>
+</html>

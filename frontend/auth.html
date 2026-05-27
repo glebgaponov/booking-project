@@ -1,0 +1,129 @@
+cat > frontend/auth.html << 'EOF'
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOW | Вход и регистрация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .auth-container { display: flex; max-width: 1000px; width: 100%; background: white; border-radius: 32px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+        .auth-left { flex: 1; background: linear-gradient(135deg, #2d1b4e, #4a2c6d); padding: 48px; color: white; display: flex; flex-direction: column; justify-content: center; }
+        .auth-left h2 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        .auth-left p { opacity: 0.8; line-height: 1.5; margin-bottom: 32px; }
+        .feature-list { list-style: none; }
+        .feature-list li { margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .feature-list i { width: 24px; font-size: 18px; }
+        .auth-right { flex: 1; padding: 48px; }
+        .tabs { display: flex; gap: 24px; margin-bottom: 32px; border-bottom: 2px solid #f0e0e5; }
+        .tab { font-size: 20px; font-weight: 600; padding-bottom: 12px; cursor: pointer; color: #888; transition: all 0.2s; }
+        .tab.active { color: #2d1b4e; border-bottom: 2px solid #c77d9e; }
+        .form-panel { display: none; }
+        .form-panel.active { display: block; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
+        .form-group input, .form-group select { width: 100%; padding: 14px 16px; border: 1px solid #e2d0d8; border-radius: 16px; font-size: 16px; outline: none; }
+        .form-group input:focus { border-color: #c77d9e; }
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #c77d9e, #a85a7a); border: none; padding: 14px; border-radius: 40px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .back-link { text-align: center; margin-top: 24px; }
+        .back-link a { color: #c77d9e; text-decoration: none; font-weight: 500; }
+        .error-message { background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; display: none; }
+        .success-message { background: #e0f2e7; color: #16a34a; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; display: none; }
+        @media (max-width: 768px) { .auth-container { flex-direction: column; } .auth-left { padding: 32px; text-align: center; } .feature-list { text-align: left; } }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <h2>GLOW</h2>
+            <p>Платформа для поиска лучших бьюти-мастеров</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check-circle"></i> Топ-мастера вашего города</li>
+                <li><i class="fas fa-check-circle"></i> Прозрачные цены и отзывы</li>
+                <li><i class="fas fa-check-circle"></i> Удобное бронирование</li>
+                <li><i class="fas fa-check-circle"></i> Защита ваших данных</li>
+            </ul>
+        </div>
+        <div class="auth-right">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('login')">Вход</div>
+                <div class="tab" onclick="switchTab('register')">Регистрация</div>
+            </div>
+            <div id="errorMsg" class="error-message"></div>
+            <div id="successMsg" class="success-message"></div>
+            <div id="loginPanel" class="form-panel active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required placeholder="example@mail.ru"></div>
+                    <div class="form-group"><label>Пароль</label><input type="password" id="loginPassword" required placeholder="••••••••"></div>
+                    <button type="submit" class="btn-submit">Войти</button>
+                </form>
+                <div class="back-link"><a href="/">← Вернуться на главную</a></div>
+            </div>
+            <div id="registerPanel" class="form-panel">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group"><label>Имя и фамилия</label><input type="text" id="regFullName" required placeholder="Анна Иванова"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail" required placeholder="example@mail.ru"></div>
+                    <div class="form-group"><label>Пароль</label><input type="password" id="regPassword" required placeholder="минимум 6 символов"></div>
+                    <div class="form-group"><label>Подтверждение пароля</label><input type="password" id="regPasswordConfirm" required placeholder="повторите пароль"></div>
+                    <div class="form-group"><label>Телефон</label><input type="tel" id="regPhone" placeholder="+7 (999) 123-45-67"></div>
+                    <div class="form-group"><label>Я хочу зарегистрироваться как</label><select id="regRole"><option value="client">Клиент — ищу мастера</option><option value="master">Мастер — предоставляю услуги</option></select></div>
+                    <button type="submit" class="btn-submit">Зарегистрироваться</button>
+                </form>
+                <div class="back-link"><a href="/">← Вернуться на главную</a></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let users = JSON.parse(localStorage.getItem('glow_users')) || [];
+        if (!users.find(u => u.email === 'admin@glow.com')) {
+            users.push({ id: 1, fullName: 'Администратор', email: 'admin@glow.com', password: 'admin123', phone: '', role: 'admin' });
+            localStorage.setItem('glow_users', JSON.stringify(users));
+        }
+        function showError(msg) { const d = document.getElementById('errorMsg'); d.textContent = msg; d.style.display = 'block'; setTimeout(() => d.style.display = 'none', 3000); }
+        function showSuccess(msg) { const d = document.getElementById('successMsg'); d.textContent = msg; d.style.display = 'block'; setTimeout(() => d.style.display = 'none', 3000); }
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+            if (tab === 'login') { document.querySelector('.tab').classList.add('active'); document.getElementById('loginPanel').classList.add('active'); }
+            else { document.querySelectorAll('.tab')[1].classList.add('active'); document.getElementById('registerPanel').classList.add('active'); }
+        }
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const user = users.find(u => u.email === email && u.password === password);
+            if (!user) { showError('Неверный email или пароль'); return; }
+            localStorage.setItem('glow_current_user', JSON.stringify({ id: user.id, email: user.email, fullName: user.fullName, role: user.role }));
+            showSuccess(`Добро пожаловать, ${user.fullName}!`);
+            setTimeout(() => window.location.href = '/', 1000);
+        }
+        function handleRegister(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('regFullName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+            const phone = document.getElementById('regPhone').value;
+            const role = document.getElementById('regRole').value;
+            if (password !== passwordConfirm) { showError('Пароли не совпадают'); return; }
+            if (password.length < 6) { showError('Пароль должен содержать минимум 6 символов'); return; }
+            if (users.find(u => u.email === email)) { showError('Пользователь с таким email уже существует'); return; }
+            const newUser = { id: users.length + 1, fullName, email, password, phone, role };
+            users.push(newUser);
+            localStorage.setItem('glow_users', JSON.stringify(users));
+            showSuccess('Регистрация прошла успешно! Теперь вы можете войти.');
+            document.getElementById('regFullName').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regPasswordConfirm').value = '';
+            document.getElementById('regPhone').value = '';
+            document.getElementById('regRole').value = 'client';
+            switchTab('login');
+        }
+    </script>
+</body>
+</html>
+EOF

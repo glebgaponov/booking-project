@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOW | Личный кабинет клиента</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #faf6f5; color: #1a1a2e; }
+        .header { background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); color: white; padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .logo { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, #fff, #f0c0d0); -webkit-background-clip: text; background-clip: text; color: transparent; text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-link { color: white; text-decoration: none; font-weight: 500; }
+        .logout-btn { background: rgba(255,255,255,0.2); border: none; padding: 6px 16px; border-radius: 40px; color: white; cursor: pointer; }
+        .profile-container { max-width: 900px; margin: 40px auto; background: white; border-radius: 32px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .profile-header { background: linear-gradient(135deg, #2d1b4e, #4a2c6d); padding: 40px; color: white; text-align: center; }
+        .avatar { width: 80px; height: 80px; background: #c77d9e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 16px; }
+        .profile-name { font-size: 24px; font-weight: 700; }
+        .tabs { display: flex; border-bottom: 1px solid #f0e0e5; background: white; }
+        .tab { flex: 1; padding: 16px; text-align: center; cursor: pointer; font-weight: 600; color: #888; }
+        .tab.active { color: #2d1b4e; border-bottom: 2px solid #c77d9e; }
+        .tab-content { display: none; padding: 32px; }
+        .tab-content.active { display: block; }
+        .booking-card { background: #faf6f5; border-radius: 20px; padding: 20px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .cancel-btn { background: #fee2e2; border: none; padding: 8px 16px; border-radius: 40px; color: #dc2626; cursor: pointer; }
+        .edit-form { background: #faf6f5; border-radius: 20px; padding: 24px; margin-top: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group input { width: 100%; padding: 12px 16px; border: 1px solid #e2d0d8; border-radius: 16px; }
+        .btn-save { background: linear-gradient(135deg, #c77d9e, #a85a7a); border: none; padding: 12px 24px; border-radius: 40px; color: white; cursor: pointer; }
+        @media (max-width: 768px) { .booking-card { flex-direction: column; text-align: center; gap: 12px; } }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">GLOW</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/client-profile.html" class="nav-link">Личный кабинет</a>
+                <button class="logout-btn" onclick="logout()">Выйти</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="avatar">👤</div>
+        <div class="profile-name" id="userName">Загрузка...</div>
+        <div>Клиент</div>
+    </div>
+    <div class="tabs">
+        <div class="tab active" data-tab="bookings">Мои записи</div>
+        <div class="tab" data-tab="settings">Настройки</div>
+    </div>
+    <div id="bookings-tab" class="tab-content active">
+        <div id="bookingsList"></div>
+    </div>
+    <div id="settings-tab" class="tab-content">
+        <div class="edit-form">
+            <h3>Редактировать профиль</h3>
+            <div class="form-group"><label>Имя и фамилия</label><input type="text" id="editFullName"></div>
+            <div class="form-group"><label>Телефон</label><input type="tel" id="editPhone"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="editEmail"></div>
+            <button class="btn-save" onclick="saveProfile()">Сохранить изменения</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentUser = JSON.parse(localStorage.getItem('glow_current_user'));
+    let appointments = JSON.parse(localStorage.getItem('glow_appointments')) || [];
+    let users = JSON.parse(localStorage.getItem('glow_users')) || [];
+
+    if (!currentUser || currentUser.role !== 'client') window.location.href = '/';
+
+    function updateProfileHeader() {
+        document.getElementById('userName').innerText = currentUser.fullName || currentUser.email;
+        document.getElementById('editFullName').value = currentUser.fullName || '';
+        document.getElementById('editPhone').value = currentUser.phone || '';
+        document.getElementById('editEmail').value = currentUser.email || '';
+    }
+
+    function loadBookings() {
+        const userBookings = appointments.filter(a => a.clientId === currentUser.id);
+        document.getElementById('bookingsList').innerHTML = userBookings.length ? 
+            userBookings.map(b => `
+                <div class="booking-card">
+                    <div><strong>${b.masterName}</strong><br>${b.date} ${b.time}<br>${b.totalCost.toLocaleString()} ₽</div>
+                    <div>Статус: ${b.status === 'pending' ? '⏳ Ожидает' : '✅ Подтверждено'}</div>
+                    ${b.status === 'pending' ? `<button class="cancel-btn" onclick="cancelBooking(${b.id})">Отменить</button>` : ''}
+                </div>
+            `).join('') : '<p style="text-align:center">У вас пока нет записей</p>';
+    }
+
+    function cancelBooking(id) {
+        appointments = appointments.filter(a => a.id !== id);
+        localStorage.setItem('glow_appointments', JSON.stringify(appointments));
+        loadBookings();
+    }
+
+    function saveProfile() {
+        currentUser.fullName = document.getElementById('editFullName').value;
+        currentUser.phone = document.getElementById('editPhone').value;
+        currentUser.email = document.getElementById('editEmail').value;
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        if (userIndex !== -1) users[userIndex] = currentUser;
+        localStorage.setItem('glow_users', JSON.stringify(users));
+        localStorage.setItem('glow_current_user', JSON.stringify(currentUser));
+        updateProfileHeader();
+        alert('Профиль обновлён');
+    }
+
+    function logout() { localStorage.removeItem('glow_current_user'); window.location.href = '/'; }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+        });
+    });
+
+    updateProfileHeader();
+    loadBookings();
+</script>
+</body>
+</html>

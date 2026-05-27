@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет профи:ру</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --color-mulberry: #97332D; --color-tangerine: #EBA239; --color-leaves: #8F9F25; --color-cream: #FFE4A1; --color-cream-light: #FFFDF2; --color-white: #FFFFFF; --color-text-main: #2C2C2C; --color-text-muted: #666666; --color-border: #E8E5DC; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--color-cream-light); color: var(--color-text-main); padding: 40px; }
+        .cab-container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 20px; border: 1px solid var(--color-border); }
+        .role-switcher { display: flex; gap: 10px; background: var(--color-cream-light); padding: 6px; border-radius: 10px; margin-bottom: 30px; width: fit-content; }
+        .role-btn { border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; background: none; color: var(--color-text-muted); }
+        .role-btn.active { background: var(--color-mulberry); color: white; }
+        .cabinet-view { display: none; }
+        .cabinet-view.active { display: block; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; outline: none; }
+        .btn-save { background: var(--color-leaves); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="cab-container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>Личный кабинет</h2>
+            <a href="/" style="color:var(--color-mulberry); text-decoration:none; font-weight:600;"><i class="fa-solid fa-house"></i> На главную</a>
+        </div>
+
+        <div class="role-switcher">
+            <button class="role-btn active" onclick="switchRole('client')">Я клиент</button>
+            <button class="role-btn" onclick="switchRole('master')">Я бьюти-мастер</button>
+        </div>
+
+        <div id="clientView" class="cabinet-view active">
+            <h3>Создать заказ на бьюти-услугу</h3>
+            <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: 20px;">Заполните детали, чтобы мастера могли предложить вам свои услуги.</p>
+            <div class="form-group">
+                <label>Что нужно сделать?</label>
+                <input type="text" placeholder="Например: Свадебный макияж и прическа 25 июня">
+            </div>
+            <div class="form-group">
+                <label>Ваш бюджет (₽)</label>
+                <input type="number" placeholder="Бюджет в рублях">
+            </div>
+            <button class="btn-save" onclick="alert('Заказ размещен!')">Разместить заказ</button>
+        </div>
+
+        <div id="masterView" class="cabinet-view">
+            <h3>Профиль бьюти-мастера</h3>
+            <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: 20px;">Настройте портфолио и услуги, чтобы клиенты видели вас на главной.</p>
+            <div class="form-group">
+                <label>Имя специалиста</label>
+                <input type="text" value="Глеб Д.">
+            </div>
+            <div class="form-group">
+                <label>Вид бьюти-услуг</label>
+                <input type="text" value="Стилист по волосам, колорирование">
+            </div>
+            <div class="form-group">
+                <label>Стоимость услуг (от, ₽)</label>
+                <input type="number" value="4000">
+            </div>
+            <button class="btn-save" onclick="alert('Данные мастера сохранены!')">Сохранить анкету</button>
+        </div>
+    </div>
+
+    <script>
+        function switchRole(role) {
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.cabinet-view').forEach(view => view.classList.remove('active'));
+            
+            if(role === 'client') {
+                document.querySelector('[onclick="switchRole(\'client\')"]').classList.add('active');
+                document.getElementById('clientView').classList.add('active');
+            } else {
+                document.querySelector('[onclick="switchRole(\'master\')"]').classList.add('active');
+                document.getElementById('masterView').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

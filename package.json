@@ -1,0 +1,9 @@
+{
+  "name": "booking-platform-root",
+  "version": "1.0.0",
+  "description": "Корневой модуль управления системой бронирования услуг",
+  "scripts": {
+    "start": "docker-compose up --build",
+    "down": "docker-compose down"
+  }
+}
