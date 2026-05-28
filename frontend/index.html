@@ -9,48 +9,121 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #faf6f5; color: #1a1a2e; }
-        .header { background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); color: white; padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+
+        /* Header */
+        .header { background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); color: white; padding: 16px 0; position: sticky; top: 0; z-index: 100; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .logo { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, #fff, #f0c0d0); -webkit-background-clip: text; background-clip: text; color: transparent; text-decoration: none; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .logo { font-size: 26px; font-weight: 700; background: linear-gradient(135deg, #fff, #f0c0d0); -webkit-background-clip: text; background-clip: text; color: transparent; text-decoration: none; }
         .nav-links { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
-        .nav-link { color: white; text-decoration: none; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
-        .auth-buttons { display: flex; gap: 12px; }
-        .btn-outline-light { background: transparent; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 8px 20px; border-radius: 40px; cursor: pointer; font-weight: 500; text-decoration: none; display: inline-block; }
-        .user-info { display: flex; align-items: center; gap: 16px; }
+        .nav-link { color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 500; cursor: pointer; transition: color 0.2s; font-size: 15px; }
+        .nav-link:hover { color: white; }
+        .btn-outline-light { background: transparent; border: 1.5px solid rgba(255,255,255,0.5); color: white; padding: 7px 20px; border-radius: 40px; cursor: pointer; font-weight: 500; text-decoration: none; display: inline-block; transition: background 0.2s; font-size: 14px; }
+        .btn-outline-light:hover { background: rgba(255,255,255,0.15); }
+        .user-info { display: flex; align-items: center; gap: 14px; }
+        .logout-btn { background: rgba(255,255,255,0.2); border: none; padding: 6px 16px; border-radius: 40px; cursor: pointer; color: white; font-size: 14px; }
+
+        /* Role panels */
         .role-panel { display: none; }
         .role-panel.active { display: block; }
-        .hero { background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 100%); color: white; padding: 60px 0; text-align: center; }
-        .hero h1 { font-size: 48px; margin-bottom: 16px; }
-        .search-box { max-width: 500px; margin: 32px auto 0; display: flex; gap: 12px; }
-        .search-input { flex: 1; padding: 14px 20px; border: none; border-radius: 48px; font-size: 16px; }
-        .search-btn { background: #c77d9e; border: none; padding: 14px 28px; border-radius: 48px; color: white; cursor: pointer; }
-        .slider-container { position: relative; overflow: hidden; border-radius: 24px; margin: 40px 0; }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 100%); color: white; padding: 56px 0 48px; text-align: center; }
+        .hero h1 { font-size: 44px; font-weight: 700; margin-bottom: 12px; }
+        .hero p { opacity: 0.8; font-size: 17px; }
+        .search-box { max-width: 520px; margin: 28px auto 0; display: flex; gap: 10px; }
+        .search-input { flex: 1; padding: 14px 20px; border: none; border-radius: 48px; font-size: 15px; outline: none; font-family: inherit; }
+        .search-btn { background: #c77d9e; border: none; padding: 14px 28px; border-radius: 48px; color: white; cursor: pointer; font-weight: 600; font-family: inherit; transition: background 0.2s; white-space: nowrap; }
+        .search-btn:hover { background: #a85a7a; }
+        .promo-row { margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .promo-input { padding: 10px 18px; border-radius: 40px; border: none; font-family: inherit; font-size: 14px; outline: none; }
+        .promo-btn { padding: 10px 20px; border-radius: 40px; background: #f59e0b; border: none; cursor: pointer; font-weight: 600; font-family: inherit; font-size: 14px; }
+
+        /* Slider */
+        .slider-container { position: relative; overflow: hidden; border-radius: 24px; margin: 36px 0 24px; }
         .slider-track { display: flex; transition: transform 0.5s ease; }
-        .slider-slide { min-width: 100%; box-sizing: border-box; text-align: center; background: white; border-radius: 24px; overflow: hidden; }
-        .slider-slide img { width: 100%; height: 300px; object-fit: cover; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin: 40px 0; }
-        .category-card { background: white; padding: 24px; border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.3s; border: 1px solid #f0e0e5; }
-        .filters { background: white; padding: 20px; border-radius: 20px; margin: 24px 0; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
-        .filters input, .filters select { padding: 10px 16px; border: 1px solid #e2d0d8; border-radius: 40px; }
-        .masters-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin: 24px 0; }
+        .slider-slide { min-width: 100%; background: white; border-radius: 24px; overflow: hidden; }
+        .slider-slide img { width: 100%; height: 280px; object-fit: cover; }
+        .slider-info { padding: 20px; text-align: left; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.85); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px; transition: background 0.2s; }
+        .slider-btn.prev { left: 12px; }
+        .slider-btn.next { right: 12px; }
+        .slider-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #e2d0d8; cursor: pointer; transition: background 0.2s; }
+        .dot.active { background: #c77d9e; }
+
+        /* Categories */
+        .section-title { font-size: 22px; font-weight: 700; margin: 32px 0 16px; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .category-card { background: white; padding: 20px 16px; border-radius: 20px; text-align: center; cursor: pointer; transition: all 0.25s; border: 1.5px solid #f0e0e5; }
+        .category-card:hover { border-color: #c77d9e; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(199,125,158,0.15); }
+        .category-icon { font-size: 30px; margin-bottom: 8px; }
+        .category-name { font-weight: 600; font-size: 14px; }
+        .category-count { font-size: 12px; color: #999; margin-top: 2px; }
+
+        /* Filters */
+        .filters { background: white; padding: 16px 20px; border-radius: 20px; margin-bottom: 24px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        .filters input, .filters select { padding: 9px 16px; border: 1.5px solid #e2d0d8; border-radius: 40px; font-family: inherit; font-size: 14px; outline: none; }
+        .filters input:focus, .filters select:focus { border-color: #c77d9e; }
+        .reset-btn { background: #f0e0e5; border: none; padding: 9px 18px; border-radius: 40px; cursor: pointer; font-size: 14px; font-family: inherit; }
+
+        /* Masters grid */
+        .masters-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px; }
         .master-card { background: white; border-radius: 24px; overflow: hidden; transition: all 0.3s; border: 1px solid #f0e0e5; cursor: pointer; }
-        .master-card:hover { transform: translateY(-4px); box-shadow: 0 20px 30px rgba(0,0,0,0.1); }
-        .master-info { padding: 20px; }
-        .master-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-        .book-btn { width: 100%; background: linear-gradient(135deg, #c77d9e, #a85a7a); border: none; padding: 10px; border-radius: 40px; color: white; cursor: pointer; margin-top: 8px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: white; border-radius: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
-        .modal-header { padding: 20px; border-bottom: 1px solid #f0e0e5; display: flex; justify-content: space-between; }
-        .modal-body { padding: 20px; }
-        .master-photo { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-bottom: 16px; }
-        .portfolio-grid { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
-        .portfolio-img { width: 100px; height: 100px; object-fit: cover; border-radius: 12px; }
-        .review-item { background: #faf6f5; border-radius: 16px; padding: 12px; margin-bottom: 12px; }
-        .toast { position: fixed; bottom: 20px; right: 20px; background: #2d1b4e; color: white; padding: 12px 24px; border-radius: 40px; z-index: 2000; }
-        footer { text-align: center; padding: 40px 0; color: #888; border-top: 1px solid #f0e0e5; margin-top: 40px; }
-        @media (max-width: 768px) { .hero h1 { font-size: 32px; } .search-box { flex-direction: column; } }
+        .master-card:hover { transform: translateY(-4px); box-shadow: 0 20px 30px rgba(0,0,0,0.08); }
+        .master-card-photo { width: 100%; height: 200px; object-fit: cover; background: #f0e0e5; display: block; }
+        .master-card-photo-placeholder { width: 100%; height: 200px; background: linear-gradient(135deg, #f0e0e5, #e8d0dc); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+        .master-info { padding: 18px 20px 20px; }
+        .master-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+        .master-meta { font-size: 13px; color: #888; margin-bottom: 6px; }
+        .master-rating { font-size: 14px; font-weight: 500; color: #f59e0b; }
+        .master-price { font-size: 16px; font-weight: 700; color: #2d1b4e; margin: 8px 0; }
+        .book-btn { width: 100%; background: linear-gradient(135deg, #c77d9e, #a85a7a); border: none; padding: 10px; border-radius: 40px; color: white; cursor: pointer; font-size: 14px; font-weight: 600; font-family: inherit; transition: opacity 0.2s; }
+        .book-btn:hover { opacity: 0.9; }
+
+        /* Skeleton loading */
+        .skeleton { background: linear-gradient(90deg, #f0e0e5 25%, #faf0f5 50%, #f0e0e5 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 12px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .skeleton-card { background: white; border-radius: 24px; overflow: hidden; border: 1px solid #f0e0e5; }
+        .skeleton-photo { height: 200px; }
+        .skeleton-line { height: 14px; margin: 12px 20px 0; }
+        .skeleton-line.short { width: 60%; }
+        .skeleton-line.medium { width: 80%; margin-bottom: 20px; }
+
+        /* Master modal */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal.open { display: flex; }
+        .modal-content { background: white; border-radius: 28px; max-width: 540px; width: 100%; max-height: 88vh; overflow-y: auto; }
+        .modal-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 1; padding-bottom: 12px; border-bottom: 1px solid #f0e0e5; }
+        .modal-header h3 { font-size: 20px; font-weight: 700; }
+        .close-btn { background: #f0e0e5; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .modal-body { padding: 20px 24px 24px; }
+        .master-photo-modal { width: 100%; height: 260px; object-fit: cover; border-radius: 20px; margin-bottom: 16px; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #f0e0e5; color: #a85a7a; margin-right: 6px; margin-bottom: 6px; }
+        .portfolio-grid { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0 16px; }
+        .portfolio-img { width: 90px; height: 90px; object-fit: cover; border-radius: 12px; }
+        .review-item { background: #faf6f5; border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; }
+        .review-author { font-weight: 600; font-size: 14px; }
+        .review-text { font-size: 13px; color: #555; margin-top: 4px; }
+
+        /* Booking modal */
+        .booking-modal-content { background: white; border-radius: 28px; max-width: 440px; width: 100%; padding: 28px; }
+        .booking-modal-content h3 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; color: #333; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; border: 1.5px solid #e2d0d8; border-radius: 14px; font-size: 15px; font-family: inherit; outline: none; }
+        .form-group input:focus { border-color: #c77d9e; }
+        .booking-summary { background: #faf6f5; border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
+        .booking-summary strong { color: #2d1b4e; }
+        .btn-book-confirm { width: 100%; background: linear-gradient(135deg, #c77d9e, #a85a7a); border: none; padding: 14px; border-radius: 40px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .btn-book-cancel { width: 100%; background: #f0e0e5; border: none; padding: 12px; border-radius: 40px; color: #888; font-size: 15px; cursor: pointer; font-family: inherit; margin-top: 10px; }
+
+        /* Toast */
+        .toast { position: fixed; bottom: 24px; right: 24px; background: #2d1b4e; color: white; padding: 12px 24px; border-radius: 40px; z-index: 2000; font-size: 14px; animation: fadeInUp 0.3s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        footer { text-align: center; padding: 36px 0; color: #aaa; border-top: 1px solid #f0e0e5; margin-top: 24px; font-size: 14px; }
+        @media (max-width: 768px) { .hero h1 { font-size: 30px; } .search-box { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -58,19 +131,19 @@
 <header class="header">
     <div class="container">
         <div class="header-content">
-            <a href="/" class="logo">GLOW</a>
+            <a href="/" class="logo">✨ GLOW</a>
             <div class="nav-links">
                 <span class="nav-link" onclick="switchRole('client')">Клиентам</span>
                 <span class="nav-link" onclick="switchRole('master')">Мастерам</span>
                 <span class="nav-link" onclick="switchRole('admin')">Администраторам</span>
-                <div id="authSection" class="auth-buttons">
-                    <a href="/auth.html" class="btn-outline-light">Вход</a>
+                <div id="authSection">
+                    <a href="/auth.html" class="btn-outline-light" style="margin-right:8px">Вход</a>
                     <a href="/auth.html" class="btn-outline-light">Регистрация</a>
                 </div>
                 <div id="userSection" class="user-info" style="display:none">
-                    <a id="profileLink" href="/client-profile.html" class="nav-link" style="color:white">Личный кабинет</a>
-                    <span class="user-name" id="userName"></span>
-                    <button class="logout-btn" onclick="logout()" style="background:rgba(255,255,255,0.2); border:none; padding:6px 16px; border-radius:40px; cursor:pointer;">Выйти</button>
+                    <a id="profileLink" href="/client-profile.html" class="nav-link">Кабинет</a>
+                    <span id="userName" style="font-size:14px;opacity:0.85"></span>
+                    <button class="logout-btn" onclick="logout()">Выйти</button>
                 </div>
             </div>
         </div>
@@ -78,6 +151,7 @@
 </header>
 
 <main>
+    <!-- ── Клиентская панель ─────────────────────────────────── -->
     <div id="client-panel" class="role-panel active">
         <section class="hero">
             <div class="container">
@@ -85,104 +159,369 @@
                 <p>Топ-мастера бьюти-сферы вашего города</p>
                 <div class="search-box">
                     <input type="text" id="searchInput" class="search-input" placeholder="Поиск по имени или категории...">
-                    <button class="search-btn" onclick="loadMasters()">Найти</button>
+                    <button class="search-btn" onclick="loadMasters()"><i class="fas fa-search"></i> Найти</button>
                 </div>
-                <div style="margin-top:20px">
-                    <input type="text" id="promoCodeInput" placeholder="Промокод" style="padding:10px 20px; border-radius:40px; border:none">
-                    <button onclick="applyPromoCode()" style="padding:10px 20px; border-radius:40px; background:#f59e0b; border:none; cursor:pointer">Применить</button>
-                    <span id="promoMessage"></span>
+                <div class="promo-row">
+                    <input type="text" id="promoCodeInput" class="promo-input" placeholder="Промокод">
+                    <button class="promo-btn" onclick="applyPromoCode()">Применить</button>
+                    <span id="promoMessage" style="font-size:14px"></span>
                 </div>
             </div>
         </section>
+
         <div class="container">
-            <div class="slider-container"><div class="slider-track" id="sliderTrack"></div><button class="slider-btn prev" onclick="prevSlide()">‹</button><button class="slider-btn next" onclick="nextSlide()">›</button></div>
+            <!-- Слайдер топ-мастеров -->
+            <div class="slider-container">
+                <div class="slider-track" id="sliderTrack"></div>
+                <button class="slider-btn prev" onclick="prevSlide()">‹</button>
+                <button class="slider-btn next" onclick="nextSlide()">›</button>
+            </div>
             <div class="slider-dots" id="sliderDots"></div>
+
+            <!-- Категории -->
+            <div class="section-title">Выберите категорию</div>
             <div class="categories-grid" id="categoriesGrid"></div>
-            <div class="filters"><input type="number" id="filterPrice" placeholder="Макс. цена"><select id="filterRating"><option value="0">Любой рейтинг</option><option value="4.5">4.5+</option><option value="4.8">4.8+</option></select><button onclick="resetFilters()">Сбросить</button></div>
+
+            <!-- Фильтры -->
+            <div class="filters">
+                <input type="number" id="filterPrice" placeholder="Макс. цена, ₽" min="0">
+                <select id="filterRating">
+                    <option value="0">Любой рейтинг</option>
+                    <option value="4.5">4.5+</option>
+                    <option value="4.8">4.8+</option>
+                    <option value="5.0">5.0 ★</option>
+                </select>
+                <button class="reset-btn" onclick="resetFilters()">Сбросить</button>
+            </div>
+
             <div id="mastersGrid" class="masters-grid"></div>
         </div>
     </div>
-    <div id="master-panel" class="role-panel"><div class="container" style="padding:60px 0;text-align:center"><h2>Панель мастера</h2><p><a href="/master-profile.html">Перейти в личный кабинет мастера →</a></p></div></div>
-    <div id="admin-panel" class="role-panel"><div class="container" style="padding:60px 0;text-align:center"><h2>Админ-панель</h2><p><a href="/admin-profile.html">Перейти в админ-панель →</a></p></div></div>
-</main>
-<footer><div class="container"><p>GLOW — поиск бьюти-мастеров. Красота начинается здесь.</p></div></footer>
 
-<!-- Модалка карточки мастера -->
-<div id="masterModal" class="modal"><div class="modal-content"><div class="modal-header"><h3 id="modalMasterName"></h3><button onclick="closeMasterModal()">✕</button></div><div class="modal-body" id="modalMasterBody"></div></div></div>
+    <!-- ── Панель мастера ────────────────────────────────────── -->
+    <div id="master-panel" class="role-panel">
+        <div class="container" style="padding:60px 0;text-align:center">
+            <h2 style="font-size:28px;margin-bottom:12px">Вы мастер?</h2>
+            <p style="color:#888;margin-bottom:24px">Управляйте своим расписанием и заявками в личном кабинете</p>
+            <a href="/master-profile.html" class="book-btn" style="display:inline-block;padding:12px 32px;text-decoration:none;border-radius:40px">Перейти в кабинет →</a>
+        </div>
+    </div>
+
+    <!-- ── Админ-панель ──────────────────────────────────────── -->
+    <div id="admin-panel" class="role-panel">
+        <div class="container" style="padding:60px 0;text-align:center">
+            <h2 style="font-size:28px;margin-bottom:12px">Администрирование</h2>
+            <a href="/admin-profile.html" class="book-btn" style="display:inline-block;padding:12px 32px;text-decoration:none;border-radius:40px">Открыть админ-панель →</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>✨ GLOW — поиск бьюти-мастеров. Красота начинается здесь.</p>
+    </div>
+</footer>
+
+<!-- Модалка: карточка мастера -->
+<div id="masterModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalMasterName"></h3>
+            <button class="close-btn" onclick="closeMasterModal()">✕</button>
+        </div>
+        <div class="modal-body" id="modalMasterBody"></div>
+    </div>
+</div>
+
+<!-- Модалка: бронирование -->
+<div id="bookingModal" class="modal">
+    <div class="booking-modal-content">
+        <h3>Записаться к мастеру</h3>
+        <div id="bookingSummary" class="booking-summary"></div>
+        <div class="form-group">
+            <label><i class="fas fa-calendar"></i> Дата</label>
+            <input type="date" id="bookingDate" min="">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-clock"></i> Время</label>
+            <select id="bookingTime">
+                <option value="">Выберите время</option>
+                <option>09:00</option><option>10:00</option><option>11:00</option>
+                <option>12:00</option><option>13:00</option><option>14:00</option>
+                <option>15:00</option><option>16:00</option><option>17:00</option>
+                <option>18:00</option><option>19:00</option>
+            </select>
+        </div>
+        <button class="btn-book-confirm" onclick="confirmBooking()">Подтвердить запись</button>
+        <button class="btn-book-cancel" onclick="closeBookingModal()">Отмена</button>
+    </div>
+</div>
 
 <script>
+// ─── Состояние ────────────────────────────────────────────────────────────────
 let currentUser = JSON.parse(localStorage.getItem('glow_current_user'));
 let currentSlide = 0;
 let activePromoDiscount = 0;
-let allMasters = [
-    { id: 1, name: "Анна Соловьёва", category: "Макияж", specialization: "Свадебный визаж", price: 4500, rating: 4.9, reviews: 128, photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400", description: "Визажист с 7-летним опытом. Работала с известными блогерами и на неделях моды.", portfolio: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200","https://images.unsplash.com/photo-1512496015851-a90ab38aba96?w=200"] },
-    { id: 2, name: "Елена Морозова", category: "Маникюр", specialization: "Нейл-дизайн", price: 2500, rating: 4.8, reviews: 94, photo: "https://images.unsplash.com/photo-1604654894610-df4906b1150c?w=400", description: "Мастер маникюра с 5-летним стажем. Сложный дизайн, выравнивание.", portfolio: ["https://images.unsplash.com/photo-1604654894610-df4906b1150c?w=200"] },
-    { id: 3, name: "Мария Волкова", category: "Брови", specialization: "Архитектура бровей", price: 1800, rating: 5.0, reviews: 56, photo: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400", description: "Бровист с медицинским образованием. Коррекция, окрашивание, ламинирование.", portfolio: ["https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200"] },
-    { id: 4, name: "Ольга Новикова", category: "Волосы", specialization: "Стилист", price: 3500, rating: 4.7, reviews: 73, photo: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400", description: "Стилист-парикмахер. Стрижки, окрашивание, укладки.", portfolio: ["https://images.unsplash.com/photo-1562322140-8baeececf3df?w=200"] },
-    { id: 5, name: "Татьяна Белова", category: "Макияж", specialization: "Вечерний образ", price: 4000, rating: 4.8, reviews: 45, photo: "https://images.unsplash.com/photo-1512496015851-a90ab38aba96?w=400", description: "Визажист. Специализация: вечерний и свадебный макияж.", portfolio: ["https://images.unsplash.com/photo-1512496015851-a90ab38aba96?w=200"] },
-    { id: 6, name: "Ирина Соколова", category: "Уход", specialization: "Косметолог", price: 3000, rating: 4.6, reviews: 38, photo: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400", description: "Косметолог. Чистки, уходовые процедуры.", portfolio: ["https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=200"] }
-];
-if (!localStorage.getItem('glow_masters')) localStorage.setItem('glow_masters', JSON.stringify(allMasters));
-let masters = JSON.parse(localStorage.getItem('glow_masters'));
-let appointments = JSON.parse(localStorage.getItem('glow_appointments')) || [];
-let reviews = JSON.parse(localStorage.getItem('glow_reviews')) || [];
-let promoCodes = JSON.parse(localStorage.getItem('glow_promocodes')) || [{ code: "WELCOME10", discount: 10, usedBy: [] }];
-const categories = [{ name: "Макияж", icon: "💄", count: 24 },{ name: "Маникюр", icon: "💅", count: 18 },{ name: "Брови", icon: "✨", count: 12 },{ name: "Волосы", icon: "💇‍♀️", count: 15 },{ name: "Уход", icon: "🧖‍♀️", count: 9 }];
-const topMasters = allMasters.slice(0, 3);
+let selectedMasterId = null;
+let masters = [];
 
-function renderSlider() { const track = document.getElementById('sliderTrack'); track.innerHTML = topMasters.map(m => `<div class="slider-slide"><img src="${m.photo}"><div style="padding:20px"><h3>${m.name}</h3><p>${m.category} • ⭐ ${m.rating}</p><p>${m.price.toLocaleString()} ₽</p><button class="book-btn" onclick="bookMaster(${m.id})">Записаться</button></div></div>`).join(''); document.getElementById('sliderDots').innerHTML = topMasters.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></span>`).join(''); }
-function prevSlide() { currentSlide = (currentSlide - 1 + topMasters.length) % topMasters.length; updateSlider(); }
-function nextSlide() { currentSlide = (currentSlide + 1) % topMasters.length; updateSlider(); }
-function goToSlide(i) { currentSlide = i; updateSlider(); }
-function updateSlider() { document.getElementById('sliderTrack').style.transform = `translateX(-${currentSlide * 100}%)`; document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide)); }
-function renderCategories() { document.getElementById('categoriesGrid').innerHTML = categories.map(c => `<div class="category-card" onclick="filterByCategory('${c.name}')"><div style="font-size:32px">${c.icon}</div><div>${c.name}</div><div>${c.count} мастеров</div></div>`).join(''); }
-function filterByCategory(cat) { document.getElementById('searchInput').value = cat; loadMasters(); }
-function loadMasters() {
-    let filtered = [...masters];
-    const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
-    const maxPrice = parseInt(document.getElementById('filterPrice')?.value);
-    const minRating = parseFloat(document.getElementById('filterRating')?.value);
-    if (search) filtered = filtered.filter(m => m.name.toLowerCase().includes(search) || m.category.toLowerCase().includes(search));
-    if (maxPrice) filtered = filtered.filter(m => m.price <= maxPrice);
-    if (minRating) filtered = filtered.filter(m => m.rating >= minRating);
-    document.getElementById('mastersGrid').innerHTML = filtered.map(m => `
-        <div class="master-card" onclick="openMasterModal(${m.id})">
-            <div class="master-info">
-                <div class="master-name">${m.name}</div>
-                <div>${m.category} • ${m.specialization}</div>
-                <div>⭐ ${m.rating} (${m.reviews} отзывов)</div>
-                <div>${(m.price * (100 - activePromoDiscount) / 100).toLocaleString()} ₽</div>
-                <button class="book-btn" onclick="event.stopPropagation(); bookMaster(${m.id})">Записаться</button>
-            </div>
+const TOKEN = localStorage.getItem('glow_token');
+const authHeaders = TOKEN ? { 'Authorization': `Bearer ${TOKEN}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
+
+const categories = [
+    { name: 'Макияж', icon: '💄', count: 24 },
+    { name: 'Маникюр', icon: '💅', count: 18 },
+    { name: 'Брови', icon: '✨', count: 12 },
+    { name: 'Волосы', icon: '💇‍♀️', count: 15 },
+    { name: 'Уход', icon: '🧖‍♀️', count: 9 }
+];
+
+const promoCodes = [{ code: 'WELCOME10', discount: 10 }, { code: 'GLOW20', discount: 20 }];
+
+// ─── API ──────────────────────────────────────────────────────────────────────
+async function fetchMasters(params = {}) {
+    const qs = new URLSearchParams(params).toString();
+    try {
+        const res = await fetch(`/api/masters${qs ? '?' + qs : ''}`);
+        return await res.json();
+    } catch {
+        return [];
+    }
+}
+
+// ─── Загрузка и рендер мастеров ───────────────────────────────────────────────
+function renderSkeletons() {
+    document.getElementById('mastersGrid').innerHTML = Array(6).fill(0).map(() => `
+        <div class="skeleton-card">
+            <div class="skeleton skeleton-photo"></div>
+            <div class="skeleton skeleton-line" style="width:70%"></div>
+            <div class="skeleton skeleton-line short"></div>
+            <div class="skeleton skeleton-line medium"></div>
         </div>
     `).join('');
 }
-function openMasterModal(masterId) {
-    const m = masters.find(m => m.id === masterId);
-    const masterReviews = reviews.filter(r => r.masterId === masterId);
-    document.getElementById('modalMasterName').innerText = m.name;
-    document.getElementById('modalMasterBody').innerHTML = `
-        <img src="${m.photo}" class="master-photo">
-        <p><strong>${m.category} • ${m.specialization}</strong></p>
-        <p>⭐ ${m.rating} (${m.reviews} отзывов) • ${m.price.toLocaleString()} ₽/час</p>
-        <p>${m.description || 'Нет описания'}</p>
-        <h4>📸 Портфолио</h4>
-        <div class="portfolio-grid">${(m.portfolio || []).map(p => `<img src="${p}" class="portfolio-img">`).join('') || '<p>Нет примеров работ</p>'}</div>
-        <h4>💬 Отзывы</h4>
-        ${masterReviews.length ? masterReviews.map(r => `<div class="review-item"><strong>${r.userName}</strong> ★${r.rating}<br>${r.text}</div>`).join('') : '<p>Пока нет отзывов</p>'}
-        <button class="book-btn" onclick="bookMaster(${m.id}); closeMasterModal();">Записаться</button>
-    `;
-    document.getElementById('masterModal').style.display = 'flex';
+
+async function loadMasters() {
+    renderSkeletons();
+    const params = {};
+    const search = document.getElementById('searchInput')?.value.trim();
+    const maxPrice = document.getElementById('filterPrice')?.value;
+    const minRating = document.getElementById('filterRating')?.value;
+    if (search) params.search = search;
+    if (maxPrice) params.maxPrice = maxPrice;
+    if (minRating && minRating !== '0') params.minRating = minRating;
+
+    masters = await fetchMasters(params);
+    renderMasters(masters);
 }
-function closeMasterModal() { document.getElementById('masterModal').style.display = 'none'; }
-function resetFilters() { document.getElementById('filterPrice').value = ''; document.getElementById('filterRating').value = '0'; document.getElementById('searchInput').value = ''; loadMasters(); }
-function applyPromoCode() { const code = document.getElementById('promoCodeInput').value.toUpperCase(); const promo = promoCodes.find(p => p.code === code && !p.usedBy.includes(currentUser?.id)); if (promo && currentUser) { activePromoDiscount = promo.discount; document.getElementById('promoMessage').innerHTML = `<span style="color:#22c55e">✅ Скидка ${promo.discount}%</span>`; promo.usedBy.push(currentUser.id); localStorage.setItem('glow_promocodes', JSON.stringify(promoCodes)); loadMasters(); } else { document.getElementById('promoMessage').innerHTML = '<span style="color:#dc2626">❌ Неверный промокод</span>'; } }
-function bookMaster(masterId) { if (!currentUser) { showToast('Войдите в аккаунт'); return; } const date = prompt('Дата (ГГГГ-ММ-ДД):'); const time = prompt('Время (например, 14:00):'); if (!date || !time) return; const master = masters.find(m => m.id === masterId); const finalPrice = master.price * (100 - activePromoDiscount) / 100; appointments.push({ id: Date.now(), masterId, masterName: master.name, clientId: currentUser.id, clientName: currentUser.fullName, date, time, totalCost: finalPrice, status: 'pending' }); localStorage.setItem('glow_appointments', JSON.stringify(appointments)); showToast('Заявка отправлена!'); activePromoDiscount = 0; document.getElementById('promoMessage').innerHTML = ''; }
-function showToast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
-function switchRole(role) { document.querySelectorAll('.role-panel').forEach(p => p.classList.remove('active')); document.getElementById(`${role}-panel`).classList.add('active'); }
-function updateAuthUI() { if (currentUser) { document.getElementById('authSection').style.display = 'none'; document.getElementById('userSection').style.display = 'flex'; document.getElementById('userName').innerText = currentUser.fullName || currentUser.email; const profileLink = document.getElementById('profileLink'); if (currentUser.role === 'client') profileLink.href = '/client-profile.html'; else if (currentUser.role === 'master') profileLink.href = '/master-profile.html'; else if (currentUser.role === 'admin') profileLink.href = '/admin-profile.html'; } else { document.getElementById('authSection').style.display = 'flex'; document.getElementById('userSection').style.display = 'none'; } }
-function logout() { localStorage.removeItem('glow_current_user'); window.location.reload(); }
-renderSlider(); renderCategories(); loadMasters(); updateAuthUI();
+
+function renderMasters(list) {
+    if (!list.length) {
+        document.getElementById('mastersGrid').innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#999;padding:40px">Мастера не найдены</p>';
+        return;
+    }
+    const discount = activePromoDiscount;
+    document.getElementById('mastersGrid').innerHTML = list.map(m => {
+        const price = Math.round(m.price * (1 - discount / 100));
+        return `
+        <div class="master-card" onclick="openMasterModal(${m.id})">
+            ${m.photo
+                ? `<img class="master-card-photo" src="${m.photo}" alt="${m.name}" loading="lazy">`
+                : `<div class="master-card-photo-placeholder">💄</div>`}
+            <div class="master-info">
+                <div class="master-name">${m.name}</div>
+                <div class="master-meta">${m.category} · ${m.specialization}</div>
+                <div class="master-rating">⭐ ${m.rating} <span style="color:#999;font-weight:400">(${m.reviews} отзывов)</span></div>
+                <div class="master-price">${price.toLocaleString()} ₽/час${discount > 0 ? ` <span style="color:#22c55e;font-size:13px">-${discount}%</span>` : ''}</div>
+                <button class="book-btn" onclick="event.stopPropagation(); openBookingModal(${m.id})">Записаться</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ─── Слайдер ──────────────────────────────────────────────────────────────────
+async function renderSlider() {
+    const top = (await fetchMasters()).slice(0, 3);
+    document.getElementById('sliderTrack').innerHTML = top.map(m => `
+        <div class="slider-slide">
+            <img src="${m.photo}" alt="${m.name}" style="width:100%;height:280px;object-fit:cover">
+            <div class="slider-info">
+                <strong style="font-size:17px">${m.name}</strong>
+                <span style="color:#888;font-size:14px;margin-left:10px">${m.category} · ⭐ ${m.rating}</span>
+                <button class="book-btn" style="width:auto;padding:8px 20px;margin-left:16px" onclick="openBookingModal(${m.id})">Записаться</button>
+            </div>
+        </div>`).join('');
+    document.getElementById('sliderDots').innerHTML = top.map((_, i) =>
+        `<span class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></span>`
+    ).join('');
+    setInterval(nextSlide, 5000);
+}
+
+function prevSlide() { currentSlide = (currentSlide - 1 + 3) % 3; updateSlider(); }
+function nextSlide() { currentSlide = (currentSlide + 1) % 3; updateSlider(); }
+function goToSlide(i) { currentSlide = i; updateSlider(); }
+function updateSlider() {
+    document.getElementById('sliderTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+}
+
+// ─── Категории ────────────────────────────────────────────────────────────────
+function renderCategories() {
+    document.getElementById('categoriesGrid').innerHTML = categories.map(c => `
+        <div class="category-card" onclick="filterByCategory('${c.name}')">
+            <div class="category-icon">${c.icon}</div>
+            <div class="category-name">${c.name}</div>
+            <div class="category-count">${c.count} мастеров</div>
+        </div>`).join('');
+}
+function filterByCategory(cat) { document.getElementById('searchInput').value = cat; loadMasters(); }
+function resetFilters() {
+    document.getElementById('filterPrice').value = '';
+    document.getElementById('filterRating').value = '0';
+    document.getElementById('searchInput').value = '';
+    loadMasters();
+}
+
+// ─── Модалка мастера ──────────────────────────────────────────────────────────
+async function openMasterModal(id) {
+    const modal = document.getElementById('masterModal');
+    modal.classList.add('open');
+    document.getElementById('modalMasterName').textContent = 'Загрузка...';
+    document.getElementById('modalMasterBody').innerHTML = '<p style="text-align:center;padding:20px">⏳</p>';
+
+    try {
+        const res = await fetch(`/api/masters/${id}`);
+        const m = await res.json();
+        document.getElementById('modalMasterName').textContent = m.name;
+        document.getElementById('modalMasterBody').innerHTML = `
+            <img src="${m.photo}" class="master-photo-modal" alt="${m.name}">
+            <div style="margin-bottom:10px">
+                <span class="badge">${m.category}</span>
+                <span class="badge">${m.specialization}</span>
+            </div>
+            <p style="font-size:15px;font-weight:700;margin-bottom:6px">⭐ ${m.rating} · ${m.price.toLocaleString()} ₽/час</p>
+            <p style="font-size:14px;color:#555;line-height:1.6;margin-bottom:16px">${m.description || ''}</p>
+            ${m.portfolio?.length ? `<h4 style="margin-bottom:8px">📸 Портфолио</h4><div class="portfolio-grid">${m.portfolio.map(p => `<img src="${p}" class="portfolio-img">`).join('')}</div>` : ''}
+            <h4 style="margin:12px 0 8px">💬 Отзывы</h4>
+            ${m.reviewsList?.length
+                ? m.reviewsList.map(r => `<div class="review-item"><div class="review-author">${r.userName} ${'★'.repeat(r.rating)}</div><div class="review-text">${r.text}</div></div>`).join('')
+                : '<p style="color:#999;font-size:14px">Пока нет отзывов</p>'}
+            <button class="book-btn" style="margin-top:16px" onclick="openBookingModal(${m.id}); closeMasterModal()">Записаться</button>
+        `;
+    } catch {
+        document.getElementById('modalMasterBody').innerHTML = '<p style="color:#dc2626">Ошибка загрузки</p>';
+    }
+}
+function closeMasterModal() { document.getElementById('masterModal').classList.remove('open'); }
+
+// ─── Модалка бронирования ─────────────────────────────────────────────────────
+function openBookingModal(masterId) {
+    if (!currentUser) { showToast('Войдите в аккаунт для записи'); setTimeout(() => window.location.href = '/auth.html', 1000); return; }
+    selectedMasterId = masterId;
+    const master = masters.find(m => m.id === masterId);
+    const price = master ? Math.round(master.price * (1 - activePromoDiscount / 100)) : '—';
+
+    document.getElementById('bookingSummary').innerHTML = master ? `
+        <strong>${master.name}</strong><br>
+        ${master.category} · ${master.specialization}<br>
+        Стоимость: <strong>${price.toLocaleString()} ₽</strong>${activePromoDiscount > 0 ? ` <span style="color:#22c55e">(-${activePromoDiscount}%)</span>` : ''}
+    ` : '';
+
+    // Минимальная дата — завтра
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('bookingDate').min = tomorrow.toISOString().split('T')[0];
+    document.getElementById('bookingDate').value = '';
+    document.getElementById('bookingTime').value = '';
+
+    document.getElementById('bookingModal').classList.add('open');
+}
+function closeBookingModal() { document.getElementById('bookingModal').classList.remove('open'); }
+
+async function confirmBooking() {
+    const date = document.getElementById('bookingDate').value;
+    const time = document.getElementById('bookingTime').value;
+    if (!date || !time) { showToast('Выберите дату и время'); return; }
+
+    try {
+        const res = await fetch('/api/bookings', {
+            method: 'POST',
+            headers: authHeaders,
+            body: JSON.stringify({ masterId: selectedMasterId, date, time, promoDiscount: activePromoDiscount })
+        });
+        if (res.status === 401) { showToast('Сессия истекла — войдите снова'); window.location.href = '/auth.html'; return; }
+        const data = await res.json();
+        if (!res.ok) { showToast(data.error || 'Ошибка'); return; }
+
+        closeBookingModal();
+        showToast('✅ Запись успешно создана!');
+        activePromoDiscount = 0;
+        document.getElementById('promoMessage').innerHTML = '';
+        renderMasters(masters);
+    } catch {
+        showToast('Ошибка сервера');
+    }
+}
+
+// ─── Промокод ─────────────────────────────────────────────────────────────────
+function applyPromoCode() {
+    if (!currentUser) { showToast('Войдите в аккаунт'); return; }
+    const code = document.getElementById('promoCodeInput').value.toUpperCase().trim();
+    const promo = promoCodes.find(p => p.code === code);
+    if (promo) {
+        activePromoDiscount = promo.discount;
+        document.getElementById('promoMessage').innerHTML = `<span style="color:#22c55e">✅ Скидка ${promo.discount}%</span>`;
+        renderMasters(masters);
+    } else {
+        document.getElementById('promoMessage').innerHTML = '<span style="color:#dc2626">❌ Неверный промокод</span>';
+    }
+}
+
+// ─── Авторизация ──────────────────────────────────────────────────────────────
+function updateAuthUI() {
+    if (currentUser) {
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('userSection').style.display = 'flex';
+        document.getElementById('userName').textContent = currentUser.fullName || currentUser.email;
+        const link = document.getElementById('profileLink');
+        if (currentUser.role === 'master') link.href = '/master-profile.html';
+        else if (currentUser.role === 'admin') link.href = '/admin-profile.html';
+        else link.href = '/client-profile.html';
+    } else {
+        document.getElementById('authSection').style.display = 'flex';
+        document.getElementById('userSection').style.display = 'none';
+    }
+}
+function logout() {
+    localStorage.removeItem('glow_token');
+    localStorage.removeItem('glow_current_user');
+    window.location.reload();
+}
+
+// ─── Роли ─────────────────────────────────────────────────────────────────────
+function switchRole(role) {
+    document.querySelectorAll('.role-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`${role}-panel`).classList.add('active');
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+}
+
+// ─── Закрытие модалок по клику вне ───────────────────────────────────────────
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', e => { if (e.target === modal) { modal.classList.remove('open'); } });
+});
+
+// ─── Инициализация ────────────────────────────────────────────────────────────
+renderSlider();
+renderCategories();
+loadMasters();
+updateAuthUI();
 </script>
 </body>
 </html>
