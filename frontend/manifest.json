@@ -1,0 +1,40 @@
+{
+    "name": "GLOW — Бьюти-платформа",
+    "short_name": "GLOW",
+    "description": "Поиск и бронирование лучших бьюти-мастеров вашего города",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#faf6f5",
+    "theme_color": "#2d1b4e",
+    "orientation": "portrait-primary",
+    "icons": [
+      {
+        "src": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=192",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=512",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ],
+    "categories": ["lifestyle", "beauty", "health"],
+    "shortcuts": [
+      {
+        "name": "Найти мастера",
+        "short_name": "Поиск",
+        "url": "/?role=client",
+        "description": "Открыть поиск мастеров"
+      },
+      {
+        "name": "Мой кабинет",
+        "short_name": "Кабинет",
+        "url": "/client-profile.html",
+        "description": "Открыть личный кабинет"
+      }
+    ]
+  }
+  
