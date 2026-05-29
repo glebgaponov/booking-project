@@ -1,242 +1,288 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GLOW | Вход и регистрация</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #faf6f5; --bg2: #fff; --text: #1a1a2e; --text2: #6b6b8a;
+            --border: #f0e0e8; --accent: #c77d9e; --accent2: #a85a7a;
+            --gradient: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%);
+        }
+        [data-theme="dark"] { --bg: #0f0a1a; --bg2: #1a122e; --text: #f0eaf6; --text2: #a89cc0; --border: #2d2044; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .auth-container { display: flex; max-width: 1000px; width: 100%; background: white; border-radius: 32px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
-        .auth-left { flex: 1; background: linear-gradient(135deg, #2d1b4e, #4a2c6d); padding: 48px; color: white; display: flex; flex-direction: column; justify-content: center; }
-        .auth-left h2 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
-        .auth-left p { opacity: 0.8; line-height: 1.5; margin-bottom: 32px; }
-        .feature-list { list-style: none; }
-        .feature-list li { margin-bottom: 16px; display: flex; align-items: center; gap: 12px; font-size: 15px; }
-        .feature-list i { width: 24px; font-size: 18px; color: #c77d9e; }
-        .auth-right { flex: 1; padding: 48px; overflow-y: auto; }
-        .tabs { display: flex; gap: 24px; margin-bottom: 32px; border-bottom: 2px solid #f0e0e5; }
-        .tab { font-size: 20px; font-weight: 600; padding-bottom: 12px; cursor: pointer; color: #888; transition: all 0.2s; border-bottom: 2px solid transparent; margin-bottom: -2px; }
-        .tab.active { color: #2d1b4e; border-bottom-color: #c77d9e; }
-        .form-panel { display: none; }
-        .form-panel.active { display: block; }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: #333; font-size: 14px; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 13px 16px; border: 1.5px solid #e2d0d8;
-            border-radius: 14px; font-size: 15px; outline: none;
-            transition: border-color 0.2s; font-family: inherit;
-        }
-        .form-group input:focus, .form-group select:focus { border-color: #c77d9e; }
-        .form-group input.error { border-color: #dc2626; }
-        .input-hint { font-size: 12px; color: #999; margin-top: 4px; }
-        .btn-submit {
-            width: 100%; background: linear-gradient(135deg, #c77d9e, #a85a7a);
-            border: none; padding: 14px; border-radius: 40px; color: white;
-            font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px;
-            transition: opacity 0.2s; font-family: inherit;
-        }
-        .btn-submit:hover { opacity: 0.9; }
-        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-        .back-link { text-align: center; margin-top: 20px; }
-        .back-link a { color: #c77d9e; text-decoration: none; font-weight: 500; }
-        .alert { padding: 12px 16px; border-radius: 12px; margin-bottom: 18px; font-size: 14px; display: none; }
-        .alert-error { background: #fee2e2; color: #dc2626; }
-        .alert-success { background: #e0f2e7; color: #16a34a; }
-        .password-strength { height: 4px; border-radius: 2px; margin-top: 6px; transition: all 0.3s; }
-        @media (max-width: 768px) { .auth-container { flex-direction: column; } .auth-left { padding: 32px; } }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+        .page-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; }
+        .auth-card { background: var(--bg2); border-radius: 28px; padding: 40px; width: 100%; max-width: 440px; box-shadow: 0 24px 64px rgba(45,27,78,0.12); }
+        .logo { text-align: center; font-size: 28px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px; }
+        .auth-subtitle { text-align: center; color: var(--text2); font-size: 15px; margin-bottom: 28px; }
+        .tabs { display: flex; gap: 0; background: var(--bg); border-radius: 12px; padding: 4px; margin-bottom: 28px; }
+        .tab { flex: 1; padding: 10px; text-align: center; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s; color: var(--text2); border: none; background: none; }
+        .tab.active { background: var(--bg2); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .form { display: none; }
+        .form.active { display: block; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-control { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); font-size: 15px; outline: none; transition: border-color 0.2s; font-family: inherit; }
+        .form-control:focus { border-color: var(--accent); }
+        .password-wrap { position: relative; }
+        .password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 16px; background: none; border: none; color: var(--text2); }
+        .strength-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        .strength-fill { height: 100%; border-radius: 2px; width: 0; transition: width 0.3s, background 0.3s; }
+        .strength-label { font-size: 11px; color: var(--text2); margin-top: 4px; }
+        .role-select { display: flex; gap: 10px; margin-top: 6px; }
+        .role-option { flex: 1; padding: 10px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; text-align: center; font-size: 13px; font-weight: 500; transition: all 0.2s; color: var(--text); background: var(--bg); }
+        .role-option.active { border-color: var(--accent); background: #fce8f1; color: var(--accent2); }
+        [data-theme="dark"] .role-option.active { background: #3d1a30; }
+        .btn-primary { width: 100%; padding: 14px; background: var(--gradient); border: none; border-radius: 12px; color: white; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; margin-top: 8px; font-family: inherit; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .error-msg { background: #fee2e2; color: #991b1b; border-radius: 10px; padding: 12px 16px; font-size: 14px; margin-top: 14px; display: none; }
+        .back-link { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text2); }
+        .back-link a { color: var(--accent2); text-decoration: none; font-weight: 600; }
+        .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
     </style>
 </head>
 <body>
-<div class="auth-container">
-    <div class="auth-left">
-        <h2>✨ GLOW</h2>
-        <p>Платформа для поиска лучших бьюти-мастеров вашего города</p>
-        <ul class="feature-list">
-            <li><i class="fas fa-star"></i> Топ-мастера с проверенными отзывами</li>
-            <li><i class="fas fa-tag"></i> Прозрачные цены без скрытых комиссий</li>
-            <li><i class="fas fa-calendar-check"></i> Удобное онлайн-бронирование</li>
-            <li><i class="fas fa-shield-alt"></i> Ваши данные надёжно защищены</li>
-        </ul>
-    </div>
-    <div class="auth-right">
+<div class="page-wrap">
+    <div class="auth-card">
+        <div class="logo">✨ GLOW</div>
+        <div class="auth-subtitle">Бьюти-платформа №1</div>
+
         <div class="tabs">
-            <div class="tab active" onclick="switchTab('login')">Вход</div>
-            <div class="tab" onclick="switchTab('register')">Регистрация</div>
+            <button class="tab active" onclick="switchTab('login')">Вход</button>
+            <button class="tab" onclick="switchTab('register')">Регистрация</button>
         </div>
 
-        <div id="alertBox" class="alert"></div>
-
-        <!-- Форма входа -->
-        <div id="loginPanel" class="form-panel active">
-            <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="loginEmail" required placeholder="example@mail.ru">
+        <!-- LOGIN -->
+        <div class="form active" id="loginForm">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" class="form-control" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <div class="password-wrap">
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Введите пароль" autocomplete="current-password">
+                    <button class="password-toggle" onclick="togglePass('loginPassword', this)">👁</button>
                 </div>
-                <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="loginPassword" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn-submit" id="loginBtn">Войти</button>
-            </form>
-            <div class="back-link"><a href="/">← На главную</a></div>
+            </div>
+            <button class="btn-primary" id="loginBtn" onclick="handleLogin()">Войти</button>
+            <div class="error-msg" id="loginError"></div>
         </div>
 
-        <!-- Форма регистрации -->
-        <div id="registerPanel" class="form-panel">
-            <form id="registerForm" onsubmit="handleRegister(event)" novalidate>
-                <div class="form-group">
-                    <label>Имя и фамилия</label>
-                    <input type="text" id="regFullName" required placeholder="Анна Иванова">
+        <!-- REGISTER -->
+        <div class="form" id="registerForm">
+            <div class="form-group">
+                <label>Имя и фамилия</label>
+                <input type="text" id="regName" class="form-control" placeholder="Мария Иванова">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="regEmail" class="form-control" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label>Телефон (необязательно)</label>
+                <input type="tel" id="regPhone" class="form-control" placeholder="+7 999 000-00-00">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <div class="password-wrap">
+                    <input type="password" id="regPassword" class="form-control" placeholder="Минимум 6 символов" oninput="checkStrength(this.value)" autocomplete="new-password">
+                    <button class="password-toggle" onclick="togglePass('regPassword', this)">👁</button>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="regEmail" required placeholder="example@mail.ru">
+                <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                <div class="strength-label" id="strengthLabel"></div>
+            </div>
+            <div class="form-group">
+                <label>Вы регистрируетесь как</label>
+                <div class="role-select">
+                    <div class="role-option active" onclick="selectRole('client', this)">👤 Клиент</div>
+                    <div class="role-option" onclick="selectRole('master', this)">💅 Мастер</div>
                 </div>
-                <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="regPassword" required placeholder="минимум 6 символов"
-                           oninput="checkPasswordStrength(this.value)">
-                    <div class="password-strength" id="pwStrength"></div>
-                    <div class="input-hint" id="pwHint"></div>
-                </div>
-                <div class="form-group">
-                    <label>Подтверждение пароля</label>
-                    <input type="password" id="regPasswordConfirm" required placeholder="повторите пароль">
-                </div>
-                <div class="form-group">
-                    <label>Телефон <span style="color:#999">(необязательно)</span></label>
-                    <input type="tel" id="regPhone" placeholder="+7 (999) 123-45-67">
-                </div>
-                <div class="form-group">
-                    <label>Я регистрируюсь как</label>
-                    <select id="regRole">
-                        <option value="client">Клиент — ищу мастера</option>
-                        <option value="master">Мастер — предоставляю услуги</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-submit" id="registerBtn">Зарегистрироваться</button>
-            </form>
-            <div class="back-link"><a href="/">← На главную</a></div>
+            </div>
+            <button class="btn-primary" id="registerBtn" onclick="handleRegister()">Создать аккаунт</button>
+            <div class="error-msg" id="registerError"></div>
         </div>
+
+        <hr class="divider">
+        <div class="back-link"><a href="/">← На главную</a></div>
     </div>
 </div>
 
 <script>
-    // ─── Утилиты ──────────────────────────────────────────────────────────────
-    function showAlert(msg, type = 'error') {
-        const box = document.getElementById('alertBox');
-        box.className = `alert alert-${type}`;
-        box.textContent = msg;
-        box.style.display = 'block';
-        setTimeout(() => box.style.display = 'none', 4000);
-    }
+let selectedRole = 'client';
 
-    function setLoading(btnId, loading) {
-        const btn = document.getElementById(btnId);
-        btn.disabled = loading;
-        btn.textContent = loading ? 'Загрузка...' : (btnId === 'loginBtn' ? 'Войти' : 'Зарегистрироваться');
-    }
+// Auto-switch tab from URL
+(function() {
+    const theme = localStorage.getItem('glow_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
 
-    function switchTab(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
-        document.getElementById('alertBox').style.display = 'none';
-        if (tab === 'login') {
-            document.querySelector('.tab').classList.add('active');
-            document.getElementById('loginPanel').classList.add('active');
-        } else {
-            document.querySelectorAll('.tab')[1].classList.add('active');
-            document.getElementById('registerPanel').classList.add('active');
-        }
-    }
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'register') switchTab('register');
 
-    function checkPasswordStrength(pw) {
-        const bar = document.getElementById('pwStrength');
-        const hint = document.getElementById('pwHint');
-        if (!pw) { bar.style.width = '0'; bar.style.background = ''; hint.textContent = ''; return; }
-        let score = 0;
-        if (pw.length >= 6) score++;
-        if (pw.length >= 10) score++;
-        if (/[A-Z]/.test(pw)) score++;
-        if (/[0-9]/.test(pw)) score++;
-        if (/[^A-Za-z0-9]/.test(pw)) score++;
-        const colors = ['#dc2626', '#f97316', '#eab308', '#22c55e', '#16a34a'];
-        const labels = ['Очень слабый', 'Слабый', 'Средний', 'Хороший', 'Отличный'];
-        bar.style.width = `${score * 20}%`;
-        bar.style.background = colors[score - 1] || '#e5e7eb';
-        hint.textContent = score > 0 ? labels[score - 1] : '';
-    }
-
-    // ─── Вход ─────────────────────────────────────────────────────────────────
-    async function handleLogin(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        if (!email || !password) { showAlert('Заполните все поля'); return; }
-
-        setLoading('loginBtn', true);
+    // If already logged in, redirect
+    const user = localStorage.getItem('glow_user');
+    if (user) {
         try {
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-            const data = await res.json();
-            if (!res.ok) { showAlert(data.error || 'Ошибка входа'); return; }
-
-            // Сохраняем JWT-токен вместо пароля
-            localStorage.setItem('glow_token', data.token);
-            localStorage.setItem('glow_current_user', JSON.stringify(data.user));
-            showAlert(`Добро пожаловать, ${data.user.fullName}!`, 'success');
-            setTimeout(() => window.location.href = '/', 800);
-        } catch {
-            showAlert('Сервер недоступен. Попробуйте позже.');
-        } finally {
-            setLoading('loginBtn', false);
-        }
+            const u = JSON.parse(user);
+            if (u.role === 'master') window.location.href = '/master-profile.html';
+            else if (u.role === 'admin') window.location.href = '/admin-profile.html';
+            else window.location.href = '/client-profile.html';
+        } catch(e) {}
     }
+})();
 
-    // ─── Регистрация ──────────────────────────────────────────────────────────
-    async function handleRegister(e) {
-        e.preventDefault();
-        const fullName = document.getElementById('regFullName').value.trim();
-        const email = document.getElementById('regEmail').value.trim();
-        const password = document.getElementById('regPassword').value;
-        const passwordConfirm = document.getElementById('regPasswordConfirm').value;
-        const phone = document.getElementById('regPhone').value.trim();
-        const role = document.getElementById('regRole').value;
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register')));
+    document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+    document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+}
 
-        if (!fullName || !email || !password) { showAlert('Заполните все обязательные поля'); return; }
-        if (password.length < 6) { showAlert('Пароль должен содержать минимум 6 символов'); return; }
-        if (password !== passwordConfirm) { showAlert('Пароли не совпадают'); return; }
+function togglePass(id, btn) {
+    const input = document.getElementById(id);
+    if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+    else { input.type = 'password'; btn.textContent = '👁'; }
+}
 
-        setLoading('registerBtn', true);
-        try {
-            const res = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fullName, email, password, phone, role })
-            });
-            const data = await res.json();
-            if (!res.ok) { showAlert(data.error || 'Ошибка регистрации'); return; }
+function checkStrength(password) {
+    const fill = document.getElementById('strengthFill');
+    const label = document.getElementById('strengthLabel');
+    let score = 0;
+    if (password.length >= 6) score++;
+    if (password.length >= 10) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    const levels = [
+        { pct: '0%', color: '', text: '' },
+        { pct: '25%', color: '#dc2626', text: 'Слабый' },
+        { pct: '50%', color: '#f59e0b', text: 'Средний' },
+        { pct: '75%', color: '#3b82f6', text: 'Хороший' },
+        { pct: '100%', color: '#22c55e', text: 'Отличный' },
+    ];
+    const lvl = Math.min(score, 4);
+    fill.style.width = levels[lvl].pct;
+    fill.style.background = levels[lvl].color;
+    label.textContent = levels[lvl].text;
+    label.style.color = levels[lvl].color;
+}
 
-            localStorage.setItem('glow_token', data.token);
-            localStorage.setItem('glow_current_user', JSON.stringify(data.user));
-            showAlert('Регистрация прошла успешно!', 'success');
-            setTimeout(() => window.location.href = '/', 800);
-        } catch {
-            showAlert('Сервер недоступен. Попробуйте позже.');
-        } finally {
-            setLoading('registerBtn', false);
-        }
+function selectRole(role, el) {
+    selectedRole = role;
+    document.querySelectorAll('.role-option').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+}
+
+function showError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+function hideError(id) { document.getElementById(id).style.display = 'none'; }
+
+async function handleLogin() {
+    hideError('loginError');
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if (!email || !password) { showError('loginError', 'Заполните все поля'); return; }
+
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true;
+    btn.textContent = 'Входим...';
+
+    try {
+        const res = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) { showError('loginError', data.error || 'Ошибка входа'); return; }
+
+        localStorage.setItem('glow_token', data.token);
+        localStorage.setItem('glow_user', JSON.stringify(data.user));
+        redirectByRole(data.user.role);
+    } catch {
+        // Fallback: demo accounts
+        loginDemo(email, password);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Войти';
     }
+}
 
-    // Если уже авторизован — редирект
-    if (localStorage.getItem('glow_token')) window.location.href = '/';
+function loginDemo(email, password) {
+    // Demo mode (без сервера)
+    const demoUsers = [
+        { id: 1, email: 'admin@glow.com', password: 'admin123', role: 'admin', fullName: 'Администратор' },
+        { id: 2, email: 'master@glow.com', password: 'master123', role: 'master', fullName: 'Мастер Иванова' },
+        { id: 3, email: 'client@glow.com', password: 'client123', role: 'client', fullName: 'Клиент Петрова' },
+    ];
+    const user = demoUsers.find(u => u.email === email && u.password === password);
+    if (user) {
+        const { password: _, ...u } = user;
+        localStorage.setItem('glow_user', JSON.stringify(u));
+        localStorage.setItem('glow_token', 'demo_token_' + u.id);
+        redirectByRole(u.role);
+    } else {
+        showError('loginError', 'Неверный email или пароль');
+    }
+}
+
+async function handleRegister() {
+    hideError('registerError');
+    const fullName = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const password = document.getElementById('regPassword').value;
+
+    if (!fullName || !email || !password) { showError('registerError', 'Заполните все обязательные поля'); return; }
+    if (password.length < 6) { showError('registerError', 'Пароль не менее 6 символов'); return; }
+
+    const btn = document.getElementById('registerBtn');
+    btn.disabled = true;
+    btn.textContent = 'Регистрируем...';
+
+    try {
+        const res = await fetch('http://localhost:5000/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName, email, phone, password, role: selectedRole }),
+        });
+        const data = await res.json();
+        if (!res.ok) { showError('registerError', data.error || 'Ошибка регистрации'); return; }
+
+        localStorage.setItem('glow_token', data.token);
+        localStorage.setItem('glow_user', JSON.stringify(data.user));
+        redirectByRole(data.user.role);
+    } catch {
+        // Fallback: offline registration
+        const newUser = { id: Date.now(), fullName, email, phone, role: selectedRole };
+        localStorage.setItem('glow_user', JSON.stringify(newUser));
+        localStorage.setItem('glow_token', 'offline_token');
+        redirectByRole(selectedRole);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Создать аккаунт';
+    }
+}
+
+function redirectByRole(role) {
+    if (role === 'master') window.location.href = '/master-profile.html';
+    else if (role === 'admin') window.location.href = '/admin-profile.html';
+    else window.location.href = '/client-profile.html';
+}
+
+// Enter key support
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+        if (document.getElementById('loginForm').classList.contains('active')) handleLogin();
+        else handleRegister();
+    }
+});
 </script>
 </body>
 </html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOW | О нас</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg:#faf6f5;--bg2:#fff;--text:#1a1a2e;--text2:#6b6b8a;--border:#f0e0e8;--accent:#c77d9e;--accent2:#a85a7a;--gradient:linear-gradient(135deg,#2d1b4e 0%,#4a2c6d 50%,#c77d9e 100%); }
+        [data-theme="dark"] { --bg:#0f0a1a;--bg2:#1a122e;--text:#f0eaf6;--text2:#a89cc0;--border:#2d2044; }
+        *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+        .header{background:var(--gradient);color:white;padding:18px 0;position:sticky;top:0;z-index:100;}
+        .container{max-width:1100px;margin:0 auto;padding:0 24px;}
+        .header-content{display:flex;justify-content:space-between;align-items:center;}
+        .logo{font-size:24px;font-weight:800;background:linear-gradient(135deg,#fff,#f0c0d0);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;}
+        .nav-link{color:rgba(255,255,255,0.9);text-decoration:none;font-size:15px;font-weight:500;}
+        .hero{background:var(--gradient);color:white;padding:80px 0;text-align:center;}
+        .hero h1{font-size:clamp(32px,6vw,56px);font-weight:800;margin-bottom:16px;letter-spacing:-1px;}
+        .hero p{font-size:18px;opacity:0.85;max-width:500px;margin:0 auto;}
+        section{padding:64px 0;}
+        .section-title{font-size:clamp(24px,4vw,36px);font-weight:800;text-align:center;margin-bottom:8px;letter-spacing:-0.5px;}
+        .section-sub{text-align:center;color:var(--text2);margin-bottom:44px;font-size:16px;}
+        .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;}
+        .value-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px;text-align:center;transition:transform 0.3s;}
+        .value-card:hover{transform:translateY(-6px);}
+        .value-icon{font-size:40px;margin-bottom:14px;}
+        .value-title{font-size:17px;font-weight:700;margin-bottom:8px;}
+        .value-text{font-size:14px;color:var(--text2);line-height:1.6;}
+        .stats-section{background:var(--gradient);color:white;padding:64px 0;text-align:center;}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:32px;}
+        .stat-num{font-size:48px;font-weight:800;}
+        .stat-label{font-size:14px;opacity:0.8;margin-top:4px;}
+        .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
+        .team-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;text-align:center;}
+        .team-photo{width:100%;height:200px;object-fit:cover;}
+        .team-info{padding:20px;}
+        .team-name{font-size:16px;font-weight:700;margin-bottom:4px;}
+        .team-role{font-size:13px;color:var(--text2);}
+        .cta{background:var(--gradient);color:white;padding:64px 0;text-align:center;border-radius:0;}
+        .cta h2{font-size:clamp(24px,4vw,40px);font-weight:800;margin-bottom:16px;}
+        .cta p{font-size:16px;opacity:0.85;margin-bottom:32px;}
+        .btn-white{display:inline-block;background:white;color:#2d1b4e;padding:14px 36px;border-radius:40px;font-weight:700;text-decoration:none;font-size:16px;transition:transform 0.2s;}
+        .btn-white:hover{transform:scale(1.04);}
+        footer{background:#2d1b4e;color:rgba(255,255,255,0.65);text-align:center;padding:32px;font-size:14px;}
+        .fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.6s,transform 0.6s;}
+        .fade-in.visible{opacity:1;transform:none;}
+        @media(max-width:600px){.hero{padding:56px 0;}}
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="logo">✨ GLOW</a>
+            <a href="/" class="nav-link">← На главную</a>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>О платформе GLOW</h1>
+        <p>Мы создаём пространство, где красота встречается с профессионализмом</p>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2 class="section-title fade-in">Наша миссия</h2>
+        <p class="section-sub fade-in">Сделать профессиональные бьюти-услуги доступными для каждого</p>
+        <p class="fade-in" style="max-width:680px;margin:0 auto;text-align:center;line-height:1.8;color:var(--text2);font-size:16px;">
+            GLOW — это платформа, которая соединяет талантливых мастеров бьюти-индустрии с клиентами, которые ценят качество и профессионализм. Мы верим, что каждый человек заслуживает выглядеть и чувствовать себя на все сто.
+        </p>
+    </div>
+</section>
+
+<section style="background:var(--bg2);">
+    <div class="container">
+        <h2 class="section-title fade-in">Наши ценности</h2>
+        <p class="section-sub fade-in">То, во что мы верим каждый день</p>
+        <div class="values-grid">
+            <div class="value-card fade-in"><div class="value-icon">💎</div><div class="value-title">Качество</div><div class="value-text">Только проверенные мастера с подтверждёнными отзывами и портфолио</div></div>
+            <div class="value-card fade-in"><div class="value-icon">🤝</div><div class="value-title">Доверие</div><div class="value-text">Прозрачные условия сотрудничества и честные отзывы без фильтров</div></div>
+            <div class="value-card fade-in"><div class="value-icon">⚡</div><div class="value-title">Удобство</div><div class="value-text">Онлайн-запись за 2 минуты, уведомления и история посещений</div></div>
+            <div class="value-card fade-in"><div class="value-icon">🌸</div><div class="value-title">Забота</div><div class="value-text">Мы заботимся как о клиентах, так и о мастерах нашей платформы</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div><div class="stat-num">1200+</div><div class="stat-label">Мастеров</div></div>
+            <div><div class="stat-num">48K+</div><div class="stat-label">Записей</div></div>
+            <div><div class="stat-num">98%</div><div class="stat-label">Довольных клиентов</div></div>
+            <div><div class="stat-num">50</div><div class="stat-label">Городов</div></div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2 class="section-title fade-in">Наша команда</h2>
+        <p class="section-sub fade-in">Люди, которые делают GLOW возможным</p>
+        <div class="team-grid">
+            <div class="team-card fade-in">
+                <img class="team-photo" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400" alt="CEO">
+                <div class="team-info"><div class="team-name">Анна Светлова</div><div class="team-role">Основатель и CEO</div></div>
+            </div>
+            <div class="team-card fade-in">
+                <img class="team-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="CTO">
+                <div class="team-info"><div class="team-name">Дмитрий Кузнецов</div><div class="team-role">Технический директор</div></div>
+            </div>
+            <div class="team-card fade-in">
+                <img class="team-photo" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400" alt="Design">
+                <div class="team-info"><div class="team-name">Мария Орлова</div><div class="team-role">Дизайн-директор</div></div>
+            </div>
+            <div class="team-card fade-in">
+                <img class="team-photo" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400" alt="Growth">
+                <div class="team-info"><div class="team-name">Иван Попов</div><div class="team-role">Директор по развитию</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <h2>Готовы начать?</h2>
+        <p>Присоединяйтесь к тысячам довольных клиентов и мастеров GLOW</p>
+        <a href="/" class="btn-white">Найти мастера →</a>
+    </div>
+</section>
+
+<footer>© 2025 GLOW. Все права защищены.</footer>
+
+<script>
+(function(){
+    const t = localStorage.getItem('glow_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', t);
+})();
+const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

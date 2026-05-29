@@ -1,64 +1,45 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GLOW | Страница не найдена</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg:#faf6f5; --text:#1a1a2e; --muted:#888; --accent:#c77d9e; --purple:#2d1b4e; }
-        [data-theme="dark"] { --bg:#0f0a1a; --text:#f0e8f5; --muted:#9988aa; --accent:#e090bb; --purple:#9b7cc7; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; transition:background 0.3s,color 0.3s; overflow:hidden; }
-
-        /* Анимированный фон */
-        .bg-circles { position:fixed; inset:0; pointer-events:none; z-index:0; }
-        .circle { position:absolute; border-radius:50%; opacity:0.07; animation:float 8s ease-in-out infinite; }
-        .circle:nth-child(1) { width:400px;height:400px;background:var(--accent);top:-100px;left:-100px;animation-delay:0s; }
-        .circle:nth-child(2) { width:300px;height:300px;background:var(--purple);bottom:-80px;right:-80px;animation-delay:2s; }
-        .circle:nth-child(3) { width:200px;height:200px;background:var(--accent);top:40%;left:60%;animation-delay:4s; }
-        @keyframes float { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-20px) scale(1.05)} }
-
-        .content { position:relative;z-index:1; }
-
-        /* Большой 404 */
-        .four-o-four { font-size:140px; font-weight:700; line-height:1; background:linear-gradient(135deg,var(--accent),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent; animation:slideDown 0.7s ease; letter-spacing:-4px; }
-        @keyframes slideDown { from{opacity:0;transform:translateY(-30px)} to{opacity:1;transform:translateY(0)} }
-
-        .emoji { font-size:64px; margin:12px 0; animation:bounce 2s ease infinite; display:block; }
-        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-
-        h1 { font-size:26px; font-weight:700; margin-bottom:10px; animation:fadeIn 0.7s 0.2s ease both; }
-        p { color:var(--muted); font-size:16px; max-width:340px; line-height:1.6; animation:fadeIn 0.7s 0.35s ease both; }
-        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-
-        .actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px; animation:fadeIn 0.7s 0.5s ease both; }
-        .btn-home { background:linear-gradient(135deg,var(--accent),#a85a7a); color:white; border:none; padding:13px 28px; border-radius:40px; font-size:15px; font-weight:600; cursor:pointer; text-decoration:none; font-family:inherit; transition:transform 0.2s,opacity 0.2s; }
-        .btn-home:hover { transform:scale(1.05); opacity:0.92; }
-        .btn-back { background:transparent; color:var(--muted); border:1.5px solid var(--muted); padding:12px 24px; border-radius:40px; font-size:15px; cursor:pointer; text-decoration:none; font-family:inherit; transition:border-color 0.2s,color 0.2s; }
-        .btn-back:hover { border-color:var(--accent); color:var(--accent); }
-
-        .logo { position:fixed; top:20px; left:24px; font-size:22px; font-weight:700; background:linear-gradient(135deg,var(--accent),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent; text-decoration:none; z-index:10; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
+            background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); color: white; text-align: center; }
+        .bubble { position: fixed; border-radius: 50%; opacity: 0.15; animation: float linear infinite; }
+        @keyframes float { 0%{transform:translateY(110vh) scale(0)} 100%{transform:translateY(-20vh) scale(1)} }
+        .content { position: relative; z-index: 10; padding: 40px; }
+        .emoji { font-size: 80px; animation: bounce 1.5s ease-in-out infinite; display: block; margin-bottom: 24px; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+        h1 { font-size: clamp(80px, 15vw, 140px); font-weight: 800; letter-spacing: -4px; line-height: 1; opacity: 0.9; }
+        h2 { font-size: clamp(20px, 4vw, 28px); font-weight: 700; margin: 12px 0 16px; }
+        p { font-size: 16px; opacity: 0.8; margin-bottom: 32px; }
+        .btn { display: inline-block; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); color: white;
+            padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px;
+            transition: background 0.3s; }
+        .btn:hover { background: rgba(255,255,255,0.3); }
     </style>
 </head>
 <body>
-    <div class="bg-circles">
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-    </div>
-
-    <a href="/" class="logo">✨ GLOW</a>
-
-    <div class="content">
-        <div class="four-o-four">404</div>
-        <span class="emoji">🪞</span>
-        <h1>Страница не найдена</h1>
-        <p>Похоже, эта страница ушла на процедуры и ещё не вернулась. Но мы найдём вам что-то получше!</p>
-        <div class="actions">
-            <a href="/" class="btn-home">На главную</a>
-            <a href="javascript:history.back()" class="btn-back">← Назад</a>
-        </div>
-    </div>
+<script>
+    const colors = ['#ffffff','#f0c0d0','#d4a0c0','#c0e0ff'];
+    for (let i = 0; i < 8; i++) {
+        const b = document.createElement('div');
+        b.className = 'bubble';
+        const size = Math.random() * 120 + 40;
+        b.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*4}s;`;
+        document.body.appendChild(b);
+    }
+</script>
+<div class="content">
+    <span class="emoji">✨</span>
+    <h1>404</h1>
+    <h2>Страница не найдена</h2>
+    <p>Кажется, эта страница исчезла, как тени от идеального контуринга</p>
+    <a href="/" class="btn">← На главную</a>
+</div>
 </body>
 </html>
