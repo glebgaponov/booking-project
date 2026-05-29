@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLOW | Страница не найдена</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
-            background: linear-gradient(135deg, #2d1b4e 0%, #4a2c6d 50%, #c77d9e 100%); color: white; text-align: center; }
-        .bubble { position: fixed; border-radius: 50%; opacity: 0.15; animation: float linear infinite; }
-        @keyframes float { 0%{transform:translateY(110vh) scale(0)} 100%{transform:translateY(-20vh) scale(1)} }
-        .content { position: relative; z-index: 10; padding: 40px; }
-        .emoji { font-size: 80px; animation: bounce 1.5s ease-in-out infinite; display: block; margin-bottom: 24px; }
-        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
-        h1 { font-size: clamp(80px, 15vw, 140px); font-weight: 800; letter-spacing: -4px; line-height: 1; opacity: 0.9; }
-        h2 { font-size: clamp(20px, 4vw, 28px); font-weight: 700; margin: 12px 0 16px; }
-        p { font-size: 16px; opacity: 0.8; margin-bottom: 32px; }
-        .btn { display: inline-block; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); color: white;
-            padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px;
-            transition: background 0.3s; }
-        .btn:hover { background: rgba(255,255,255,0.3); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Страница не найдена | GLOW</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0f0a1e;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+  .bubble{position:absolute;border-radius:50%;opacity:.15;animation:float linear infinite}
+  @keyframes float{0%{transform:translateY(100vh) rotate(0)}100%{transform:translateY(-100px) rotate(360deg)}}
+  .container{text-align:center;z-index:10;padding:2rem}
+  .code{font-size:clamp(80px,20vw,160px);font-weight:700;background:linear-gradient(135deg,#b06ab3,#4776e6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+  .emoji{font-size:4rem;margin:1rem 0;display:block;animation:bounce 1s ease-in-out infinite alternate}
+  @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-20px)}}
+  h1{font-size:clamp(1.2rem,4vw,1.8rem);font-weight:600;margin-bottom:.75rem;opacity:.9}
+  p{font-size:1rem;opacity:.6;margin-bottom:2rem;line-height:1.6;max-width:400px;margin-left:auto;margin-right:auto}
+  .btn{display:inline-block;padding:.85rem 2rem;background:linear-gradient(135deg,#b06ab3,#4776e6);color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:.95rem;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 25px rgba(176,106,179,.4)}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(176,106,179,.6)}
+  .links{margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .link-small{color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;transition:color .2s}
+  .link-small:hover{color:#fff}
+</style>
 </head>
 <body>
-<script>
-    const colors = ['#ffffff','#f0c0d0','#d4a0c0','#c0e0ff'];
-    for (let i = 0; i < 8; i++) {
-        const b = document.createElement('div');
-        b.className = 'bubble';
-        const size = Math.random() * 120 + 40;
-        b.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*4}s;`;
-        document.body.appendChild(b);
-    }
-</script>
-<div class="content">
-    <span class="emoji">✨</span>
-    <h1>404</h1>
-    <h2>Страница не найдена</h2>
-    <p>Кажется, эта страница исчезла, как тени от идеального контуринга</p>
-    <a href="/" class="btn">← На главную</a>
+<div id="bubbles"></div>
+<div class="container">
+  <div class="code">404</div>
+  <span class="emoji">💅</span>
+  <h1>Ой, такой страницы нет!</h1>
+  <p>Возможно, она переехала или никогда не существовала. Но красота — точно существует!</p>
+  <a href="/" class="btn">✨ На главную</a>
+  <div class="links">
+    <a href="/about.html" class="link-small">О нас</a>
+    <a href="/auth.html" class="link-small">Войти</a>
+    <a href="/client-profile.html" class="link-small">Мой профиль</a>
+  </div>
 </div>
+<script>
+const colors=['#b06ab3','#4776e6','#f093fb','#43e97b','#f5576c'];
+const container=document.getElementById('bubbles');
+for(let i=0;i<15;i++){
+  const b=document.createElement('div');
+  b.className='bubble';
+  const size=Math.random()*80+20;
+  b.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*15+8}s;animation-delay:${Math.random()*5}s`;
+  container.appendChild(b);
+}
+</script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /admin-profile.html
+Disallow: /admin/
 
-Sitemap: https://glow-beauty.app/sitemap.xml
+Sitemap: https://yourdomain.com/sitemap.xml
