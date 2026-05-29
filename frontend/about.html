@@ -13,29 +13,37 @@
 [data-theme="light"]{--bg:#faf8ff;--bg2:#f0ebff;--card:#fff;--border:rgba(0,0,0,.08);--text:#1a1030;--muted:rgba(26,16,48,.6)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s}
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(15,10,30,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(15,10,30,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s}
+[data-theme="light"] .navbar{background:rgba(250,248,255,.92);border-bottom-color:rgba(0,0,0,.08)}
+
 .nav-logo{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
 .nav-links{display:flex;gap:1.5rem;align-items:center}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s}
 .nav-links a:hover,.nav-links a.active{color:var(--text)}
 .theme-btn{background:none;border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;transition:all .2s}
 .theme-btn:hover{border-color:var(--accent)}
+
 .hero-about{padding:8rem 2rem 5rem;text-align:center;background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);position:relative;overflow:hidden}
 .hero-about::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(176,106,179,.15),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);pointer-events:none}
 .hero-about h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;margin-bottom:1rem;background:linear-gradient(135deg,var(--text),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-about p{font-size:1.1rem;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.7}
+
 .section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
 .section-title{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin-bottom:.75rem;text-align:center}
 .section-sub{color:var(--muted);text-align:center;margin-bottom:3rem;font-size:1rem;line-height:1.6}
+
 .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
 .value-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;transition:transform .3s,border-color .3s}
 .value-card:hover{transform:translateY(-6px);border-color:var(--accent)}
 .value-icon{font-size:2.5rem;margin-bottom:1rem}
 .value-card h3{font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
 .value-card p{color:var(--muted);font-size:.9rem;line-height:1.6}
+
 .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;padding:3rem 2rem;background:var(--bg2);text-align:center}
 .stat-item .num{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-item p{color:var(--muted);font-size:.85rem;margin-top:.25rem}
+
 .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
 .team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;text-align:center;transition:transform .3s}
 .team-card:hover{transform:translateY(-6px)}
@@ -43,12 +51,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .team-card h3{font-size:1rem;font-weight:600;margin-bottom:.25rem}
 .team-card .role{color:var(--accent);font-size:.85rem;margin-bottom:.5rem}
 .team-card p{color:var(--muted);font-size:.85rem;line-height:1.5}
+
 .cta-section{background:linear-gradient(135deg,rgba(176,106,179,.15),rgba(71,118,230,.15));border-radius:var(--radius);padding:4rem 2rem;text-align:center;margin:4rem 2rem;border:1px solid var(--border)}
 .cta-section h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:1rem}
 .cta-section p{color:var(--muted);margin-bottom:2rem;font-size:1rem;line-height:1.6}
 .btn{display:inline-block;padding:.85rem 2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:.95rem;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 25px rgba(176,106,179,.4)}
 .btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(176,106,179,.6)}
+
 .footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--muted);font-size:.85rem}
+
 @media(max-width:768px){.nav-links{display:none}.navbar{padding:1rem}}
 </style>
 </head>
@@ -72,7 +83,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
   <div class="stat-item"><div class="num" data-target="500">0</div><p>Довольных клиентов</p></div>
   <div class="stat-item"><div class="num" data-target="50">0</div><p>Проверенных мастеров</p></div>
   <div class="stat-item"><div class="num" data-target="12">0</div><p>Категорий услуг</p></div>
-  <div class="stat-item"><div class="num" data-target="4.9">0</div><p>Средний рейтинг</p></div>
+  <div class="stat-item"><div class="num" data-target="4.9" data-float="1">0</div><p>Средний рейтинг</p></div>
 </div>
 
 <div class="section">
@@ -135,23 +146,26 @@ function toggleTheme(){
   document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
   localStorage.setItem('theme',html.dataset.theme);
 }
-const saved=localStorage.getItem('theme');
-if(saved){document.documentElement.dataset.theme=saved;document.getElementById('themeBtn').textContent=saved==='dark'?'🌙':'☀️';}
+(function(){
+  const saved=localStorage.getItem('theme')||'dark';
+  document.documentElement.dataset.theme=saved;
+  document.getElementById('themeBtn').textContent=saved==='dark'?'🌙':'☀️';
+})();
 
-// Counter animation
 const counters=document.querySelectorAll('[data-target]');
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       const el=e.target;
       const target=parseFloat(el.dataset.target);
-      const isFloat=target%1!==0;
+      const isFloat=el.dataset.float==='1';
+      const suffix=target>=100?'+':'';
       let current=0;
       const step=target/60;
       const timer=setInterval(()=>{
         current+=step;
         if(current>=target){current=target;clearInterval(timer);}
-        el.textContent=isFloat?current.toFixed(1):Math.floor(current)+(target>=100?'+':'');
+        el.textContent=isFloat?current.toFixed(1):Math.floor(current)+suffix;
       },25);
       observer.unobserve(el);
     }

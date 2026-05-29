@@ -12,7 +12,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ===== CSS VARIABLES ===== */
 :root{
   --bg:#0f0a1e;--bg2:#1a1030;--card:#1e1535;
   --border:rgba(255,255,255,.08);--text:#f0eaff;
@@ -29,9 +28,9 @@
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;overflow-x:hidden}
 
-/* ===== NAVBAR ===== */
-.navbar{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(15,10,30,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
-[data-theme="light"] .navbar{background:rgba(250,248,255,.9)}
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(15,10,30,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s}
+[data-theme="light"] .navbar{background:rgba(250,248,255,.92);border-bottom-color:rgba(0,0,0,.08)}
 .nav-logo{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;letter-spacing:-.5px}
 .nav-links{display:flex;gap:1.5rem;align-items:center}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
@@ -49,7 +48,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .mobile-menu.open{display:flex}
 .mobile-menu a{color:var(--text);text-decoration:none;font-size:1rem;font-weight:500;padding:.5rem 0;border-bottom:1px solid var(--border)}
 
-/* ===== HERO ===== */
+/* HERO */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:7rem 2rem 4rem;position:relative;overflow:hidden;background:var(--bg)}
 .hero-bg{position:absolute;inset:0;pointer-events:none}
 .hero-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.3}
@@ -72,7 +71,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);animation:bounce 2s ease-in-out infinite;color:var(--muted);font-size:.8rem;text-align:center;cursor:pointer}
 .scroll-indicator::before{content:'';display:block;width:24px;height:24px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin:0 auto .5rem}
 
-/* ===== SECTIONS ===== */
+/* SECTIONS */
 .section{padding:5rem 2rem}
 .container{max-width:1200px;margin:0 auto}
 .section-header{text-align:center;margin-bottom:3rem}
@@ -80,26 +79,31 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .section-header h2{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;margin-bottom:.75rem}
 .section-header p{color:var(--muted);font-size:1rem;line-height:1.6;max-width:500px;margin:0 auto}
 
-/* ===== CATEGORIES ===== */
+/* CATEGORIES */
 .categories-grid{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1rem;scrollbar-width:none;-ms-overflow-style:none}
 .categories-grid::-webkit-scrollbar{display:none}
 .category-btn{flex-shrink:0;padding:.65rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:50px;color:var(--muted);cursor:pointer;font-size:.9rem;font-weight:500;transition:all .2s;white-space:nowrap;font-family:'Inter',sans-serif}
 .category-btn:hover,.category-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;box-shadow:0 4px 15px rgba(176,106,179,.4)}
 
-/* ===== MASTERS ===== */
+/* MASTER CARDS */
 .masters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
-.master-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .35s;position:relative;cursor:default}
+.master-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .35s;position:relative}
 .master-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,.3);border-color:rgba(176,106,179,.3)}
-.card-header{height:180px;display:flex;align-items:center;justify-content:center;position:relative}
-.master-avatar{width:80px;height:80px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,.3);box-shadow:0 8px 25px rgba(0,0,0,.3);z-index:1}
-.fav-btn{position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,.3);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1.1rem;backdrop-filter:blur(10px);transition:all .2s;z-index:2}
+.card-header{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.card-header-bg{position:absolute;inset:0;opacity:.6}
+/* Фото мастера */
+.master-photo{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .4s ease}
+.master-card:hover .master-photo{transform:scale(1.05)}
+.master-avatar-fallback{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,.4);box-shadow:0 8px 25px rgba(0,0,0,.3);z-index:1;position:relative;background:rgba(255,255,255,.2)}
+.card-header-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 60%);z-index:1}
+.fav-btn{position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,.35);border:none;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:1.1rem;backdrop-filter:blur(10px);transition:all .2s;z-index:3}
 .fav-btn:hover{transform:scale(1.2)}
 .fav-btn.active{background:rgba(245,87,108,.3)}
-.rating-badge{position:absolute;bottom:.75rem;left:.75rem;background:rgba(0,0,0,.5);border-radius:20px;padding:.3rem .75rem;font-size:.8rem;font-weight:600;color:#ffd700;backdrop-filter:blur(10px);z-index:2}
+.rating-badge{position:absolute;bottom:.75rem;left:.75rem;background:rgba(0,0,0,.55);border-radius:20px;padding:.3rem .75rem;font-size:.8rem;font-weight:600;color:#ffd700;backdrop-filter:blur(10px);z-index:3}
 .card-body{padding:1.5rem}
-.card-body h3{font-size:1.1rem;font-weight:700;margin-bottom:.25rem}
-.card-body .specialty{color:var(--accent);font-size:.85rem;margin-bottom.75rem}
-.card-meta{display:flex;gap:1rem;margin:.75rem 0;flex-wrap:wrap}
+.card-body h3{font-size:1.1rem;font-weight:700;margin-bottom:.2rem}
+.specialty{color:var(--accent);font-size:.85rem;margin-bottom:.65rem}
+.card-meta{display:flex;gap:1rem;flex-wrap:wrap;margin:.5rem 0}
 .meta-item{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.3rem}
 .services-list{display:flex;flex-wrap:wrap;gap:.4rem;margin:.75rem 0}
 .service-tag{padding:.2rem .65rem;background:rgba(176,106,179,.1);border:1px solid rgba(176,106,179,.2);border-radius:20px;font-size:.75rem;color:var(--accent)}
@@ -110,7 +114,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .btn-info{padding:.65rem 1rem;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:12px;font-size:.85rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
 .btn-info:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ===== REVIEWS TICKER ===== */
+/* REVIEWS TICKER */
 .reviews-track{overflow:hidden;padding:2rem 0;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .reviews-inner{display:flex;gap:1.5rem;animation:ticker 30s linear infinite;width:max-content}
 .reviews-inner:hover{animation-play-state:paused}
@@ -119,7 +123,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .review-chip p{font-size:.85rem;color:var(--muted)}
 .review-chip .author{font-size:.8rem;font-weight:600}
 
-/* ===== HOW IT WORKS ===== */
+/* HOW IT WORKS */
 .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem}
 .step-card{text-align:center;padding:2rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:all .3s;position:relative;overflow:hidden}
 .step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(135deg,var(--accent),var(--accent2));transform:scaleX(0);transition:transform .3s}
@@ -130,7 +134,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .step-card h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
 .step-card p{color:var(--muted);font-size:.85rem;line-height:1.6}
 
-/* ===== BOOKING MODAL ===== */
+/* BOOKING MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
 .modal{background:var(--card);border:1px solid var(--border);border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
@@ -150,9 +154,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .time-btn:hover{border-color:var(--accent);color:var(--accent)}
 .time-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
 .form-group{margin-bottom:1.25rem}
-.form-group label{display:block;font-size:.85rem;font-weight:500;margin-bottom:.5rem;color:var(--text);opacity:.8}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.95rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
-[data-theme="light"] .form-group input,[data-theme="light"] .form-group textarea,[data-theme="light"] .form-group select{background:rgba(0,0,0,.03)}
+.form-group label{display:block;font-size:.85rem;font-weight:500;margin-bottom:.5rem;opacity:.8}
+.form-group input,.form-group textarea{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.95rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+[data-theme="light"] .form-group input,[data-theme="light"] .form-group textarea{background:rgba(0,0,0,.03)}
 .form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
 .form-group textarea{resize:vertical;min-height:80px}
 .promo-row{display:flex;gap:.5rem}
@@ -162,7 +166,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .promo-result{font-size:.8rem;margin-top:.5rem;padding:.4rem .75rem;border-radius:8px;display:none}
 .promo-result.ok{background:rgba(67,233,123,.1);color:#43e97b;display:block}
 .promo-result.err{background:rgba(245,87,108,.1);color:#f5576c;display:block}
-/* Payment */
 .pay-methods{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
 .pay-method{flex:1;min-width:100px;padding:.85rem;background:var(--bg2);border:2px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Inter',sans-serif;color:var(--text)}
 .pay-method:hover{border-color:var(--accent)}
@@ -171,7 +174,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .pay-method .pm-label{font-size:.8rem;font-weight:600}
 .pay-form{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-top:.5rem}
 .pay-form.hidden{display:none}
-/* Confirm step */
 .confirm-box{background:rgba(176,106,179,.08);border:1px solid rgba(176,106,179,.2);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
 .confirm-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)}
 .confirm-row:last-child{border-bottom:none;font-weight:700;color:var(--accent)}
@@ -182,10 +184,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .modal-footer .btn-back{padding:.85rem 1.5rem;background:none;border:1px solid var(--border);color:var(--text);border-radius:50px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
 .modal-footer .btn-back:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ===== MASTER INFO MODAL ===== */
+/* INFO MODAL */
 .info-modal{background:var(--card);border:1px solid var(--border);border-radius:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
-.info-modal-header{padding:0;overflow:hidden;border-radius:24px 24px 0 0;position:relative}
-.info-master-banner{height:160px;display:flex;align-items:center;justify-content:center}
+.info-modal-header{overflow:hidden;border-radius:24px 24px 0 0;position:relative}
+.info-master-banner{height:200px;position:relative;overflow:hidden}
+.info-master-banner img{width:100%;height:100%;object-fit:cover}
+.info-master-banner-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent)}
 .info-modal-body{padding:1.75rem}
 .info-modal-body h2{font-size:1.3rem;font-weight:700;margin-bottom:.25rem}
 .info-specialty{color:var(--accent);font-size:.9rem;margin-bottom:1rem}
@@ -193,25 +197,24 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .info-meta-item{background:var(--bg2);border-radius:12px;padding:.85rem;text-align:center}
 .info-meta-item .val{font-size:1.1rem;font-weight:700;margin-bottom:.25rem}
 .info-meta-item .lbl{font-size:.75rem;color:var(--muted)}
-.info-services{margin-bottom:1.5rem}
 .info-services h4{font-size:.85rem;font-weight:600;margin-bottom:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.info-services-list{display:flex;flex-wrap:wrap;gap:.5rem}
+.info-services-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
 .info-service-item{padding:.35rem .9rem;background:rgba(176,106,179,.1);border:1px solid rgba(176,106,179,.2);border-radius:20px;font-size:.8rem;color:var(--accent)}
-.close-info{position:absolute;top:.75rem;right:.75rem;background:rgba(0,0,0,.4);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;color:#fff;font-size:1.2rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+.close-info{position:absolute;top:.75rem;right:.75rem;background:rgba(0,0,0,.4);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;color:#fff;font-size:1.2rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);z-index:2}
 
-/* ===== TOAST ===== */
+/* TOAST */
 .toast{position:fixed;top:2rem;right:2rem;padding:1rem 1.5rem;border-radius:12px;font-size:.9rem;font-weight:500;z-index:9999;transform:translateX(120%);transition:transform .3s;max-width:320px;box-shadow:var(--shadow)}
 .toast.show{transform:translateX(0)}
 .toast.success{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#0a2e1a}
 .toast.error{background:linear-gradient(135deg,#f5576c,#f093fb);color:#fff}
 .toast.info{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#0a1e2e}
 
-/* ===== BACK TO TOP ===== */
+/* BACK TO TOP */
 .back-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;z-index:100;opacity:0;transform:translateY(20px);transition:all .3s;box-shadow:0 4px 15px rgba(176,106,179,.4)}
 .back-top.visible{opacity:1;transform:translateY(0)}
 .back-top:hover{transform:translateY(-3px) scale(1.05)}
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 .footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2rem;text-align:center}
 .footer-logo{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.75rem}
 .footer-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
@@ -219,7 +222,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .footer-links a:hover{color:var(--text)}
 .footer p{color:var(--muted);font-size:.8rem;margin-top:.75rem}
 
-/* ===== ANIMATIONS ===== */
+/* ANIMATIONS */
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -227,13 +230,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ===== CANVAS CONFETTI ===== */
+/* CANVAS CONFETTI */
 #confettiCanvas{position:fixed;inset:0;pointer-events:none;z-index:9998;display:none}
 
-/* ===== LOADER ===== */
+/* LOADER */
 .loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .5s}
 .loader.hidden{opacity:0;pointer-events:none}
-.loader-inner{text-align:center}
 .loader-logo{font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:pulse 1s ease-in-out infinite}
 .loader-dots{display:flex;gap:.5rem;justify-content:center;margin-top:1rem}
 .loader-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:dot .8s ease-in-out infinite}
@@ -242,10 +244,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes dot{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
 
-/* ===== RESPONSIVE ===== */
 @media(max-width:768px){
-  .nav-links{display:none}
-  .burger{display:block}
+  .nav-links{display:none}.burger{display:block}
   .hero-stats{gap:1.5rem}
   .time-grid{grid-template-columns:repeat(3,1fr)}
   .masters-grid{grid-template-columns:1fr}
@@ -253,28 +253,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
   .modal-footer .btn-primary,.modal-footer .btn-back{width:100%;text-align:center}
   .pay-methods{flex-direction:column}
   .pay-method{min-width:unset;display:flex;align-items:center;gap:.75rem;text-align:left}
-  .pay-method .pm-icon{font-size:1.2rem}
 }
 </style>
 </head>
 <body>
 
-<!-- Loader -->
 <div class="loader" id="loader">
-  <div class="loader-inner">
+  <div style="text-align:center">
     <div class="loader-logo">✨ GLOW</div>
     <div class="loader-dots">
-      <div class="loader-dot"></div>
-      <div class="loader-dot"></div>
-      <div class="loader-dot"></div>
+      <div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div>
     </div>
   </div>
 </div>
 
-<!-- Confetti Canvas -->
 <canvas id="confettiCanvas"></canvas>
 
-<!-- Navbar -->
 <nav class="navbar" id="navbar">
   <a href="/" class="nav-logo">✨ GLOW</a>
   <div class="nav-links">
@@ -297,7 +291,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
   <a href="/auth.html">🔑 Войти / Регистрация</a>
 </div>
 
-<!-- Hero -->
 <section class="hero" id="home">
   <div class="hero-bg">
     <div class="hero-blob blob1"></div>
@@ -321,12 +314,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
   <div class="scroll-indicator" onclick="document.getElementById('masters').scrollIntoView({behavior:'smooth'})">Смотреть мастеров</div>
 </section>
 
-<!-- Reviews ticker -->
 <div class="reviews-track">
   <div class="reviews-inner" id="reviewsTicker"></div>
 </div>
 
-<!-- Masters -->
 <section class="section" id="masters">
   <div class="container">
     <div class="section-header reveal">
@@ -339,7 +330,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
   </div>
 </section>
 
-<!-- How it works -->
 <section class="section" id="how" style="background:var(--bg2)">
   <div class="container">
     <div class="section-header reveal">
@@ -348,47 +338,23 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
       <p>Запись к мастеру за 3 простых шага</p>
     </div>
     <div class="steps-grid">
-      <div class="step-card reveal">
-        <div class="step-num">01</div>
-        <div class="step-icon">🔍</div>
-        <h3>Выберите мастера</h3>
-        <p>Просмотрите профили, рейтинги и отзывы. Фильтруйте по специальности.</p>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-num">02</div>
-        <div class="step-icon">📅</div>
-        <h3>Выберите время</h3>
-        <p>Удобная дата и время. Добавьте комментарий и промокод на скидку.</p>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-num">03</div>
-        <div class="step-icon">💳</div>
-        <h3>Оплатите</h3>
-        <p>Картой, через СБП или наличными при визите. Безопасно и быстро.</p>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-num">04</div>
-        <div class="step-icon">✨</div>
-        <h3>Наслаждайтесь</h3>
-        <p>Приходите к мастеру и получайте удовольствие от профессионального ухода.</p>
-      </div>
+      <div class="step-card reveal"><div class="step-num">01</div><div class="step-icon">🔍</div><h3>Выберите мастера</h3><p>Просмотрите профили, рейтинги и отзывы. Фильтруйте по специальности.</p></div>
+      <div class="step-card reveal"><div class="step-num">02</div><div class="step-icon">📅</div><h3>Выберите время</h3><p>Удобная дата и время. Добавьте комментарий и промокод на скидку.</p></div>
+      <div class="step-card reveal"><div class="step-num">03</div><div class="step-icon">💳</div><h3>Оплатите</h3><p>Картой, через СБП или наличными при визите. Безопасно и быстро.</p></div>
+      <div class="step-card reveal"><div class="step-num">04</div><div class="step-icon">✨</div><h3>Наслаждайтесь</h3><p>Приходите к мастеру и получайте удовольствие от профессионального ухода.</p></div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
 <footer class="footer">
   <div class="footer-logo">✨ GLOW</div>
   <div class="footer-links">
-    <a href="/">Главная</a>
-    <a href="/about.html">О нас</a>
-    <a href="/auth.html">Войти</a>
-    <a href="/client-profile.html">Профиль</a>
+    <a href="/">Главная</a><a href="/about.html">О нас</a>
+    <a href="/auth.html">Войти</a><a href="/client-profile.html">Профиль</a>
   </div>
   <p>© 2024 GLOW Beauty Platform. Сделано с 💜 для красоты</p>
 </footer>
 
-<!-- Back to top -->
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <!-- Booking Modal -->
@@ -400,86 +366,45 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
     </div>
     <div class="modal-body">
       <div class="progress-bar">
-        <div class="progress-step" id="ps1"></div>
-        <div class="progress-step" id="ps2"></div>
-        <div class="progress-step" id="ps3"></div>
-        <div class="progress-step" id="ps4"></div>
+        <div class="progress-step" id="ps1"></div><div class="progress-step" id="ps2"></div>
+        <div class="progress-step" id="ps3"></div><div class="progress-step" id="ps4"></div>
       </div>
-
-      <!-- Step 1: Date & Time -->
       <div class="booking-step active" id="bStep1">
         <div class="step-label">Шаг 1 из 4 — Дата и время</div>
-        <div class="form-group">
-          <label>Дата</label>
-          <input type="date" id="bookDate" min="">
-        </div>
-        <div class="form-group">
-          <label>Время</label>
-          <div class="time-grid" id="timeGrid"></div>
-        </div>
+        <div class="form-group"><label>Дата</label><input type="date" id="bookDate"></div>
+        <div class="form-group"><label>Время</label><div class="time-grid" id="timeGrid"></div></div>
       </div>
-
-      <!-- Step 2: Comment & Promo -->
       <div class="booking-step" id="bStep2">
         <div class="step-label">Шаг 2 из 4 — Комментарий и скидка</div>
-        <div class="form-group">
-          <label>Комментарий (необязательно)</label>
-          <textarea id="bookComment" placeholder="Пожелания, аллергии, особые требования..."></textarea>
-        </div>
+        <div class="form-group"><label>Комментарий (необязательно)</label><textarea id="bookComment" placeholder="Пожелания, аллергии, особые требования..."></textarea></div>
         <div class="form-group">
           <label>Промокод</label>
-          <div class="promo-row">
-            <input type="text" id="promoInput" placeholder="Введите промокод">
-            <button class="promo-apply" onclick="applyPromoInline()">Применить</button>
-          </div>
+          <div class="promo-row"><input type="text" id="promoInput" placeholder="Введите промокод"><button class="promo-apply" onclick="applyPromoInline()">Применить</button></div>
           <div class="promo-result" id="promoResult"></div>
           <div style="margin-top:.5rem;font-size:.75rem;color:var(--muted)">Попробуйте: GLOW10, BEAUTY20, FIRST15, VIP30</div>
         </div>
       </div>
-
-      <!-- Step 3: Payment -->
       <div class="booking-step" id="bStep3">
         <div class="step-label">Шаг 3 из 4 — Способ оплаты</div>
         <div class="pay-methods">
-          <button class="pay-method active" onclick="selectPayMethod('card',this)">
-            <span class="pm-icon">💳</span>
-            <span class="pm-label">Карта</span>
-          </button>
-          <button class="pay-method" onclick="selectPayMethod('sbp',this)">
-            <span class="pm-icon">📱</span>
-            <span class="pm-label">СБП</span>
-          </button>
-          <button class="pay-method" onclick="selectPayMethod('cash',this)">
-            <span class="pm-icon">💵</span>
-            <span class="pm-label">Наличные</span>
-          </button>
+          <button class="pay-method active" onclick="selectPayMethod('card',this)"><span class="pm-icon">💳</span><span class="pm-label">Карта</span></button>
+          <button class="pay-method" onclick="selectPayMethod('sbp',this)"><span class="pm-icon">📱</span><span class="pm-label">СБП</span></button>
+          <button class="pay-method" onclick="selectPayMethod('cash',this)"><span class="pm-icon">💵</span><span class="pm-label">Наличные</span></button>
         </div>
-
         <div class="pay-form" id="cardForm">
-          <div class="form-group">
-            <label>Номер карты</label>
-            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCardNumber(this)">
-          </div>
+          <div class="form-group"><label>Номер карты</label><input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCardNumber(this)"></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-            <div class="form-group">
-              <label>Срок</label>
-              <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
-            </div>
-            <div class="form-group">
-              <label>CVV</label>
-              <input type="text" id="cardCvv" placeholder="•••" maxlength="3">
-            </div>
+            <div class="form-group"><label>Срок</label><input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)"></div>
+            <div class="form-group"><label>CVV</label><input type="text" id="cardCvv" placeholder="•••" maxlength="3"></div>
           </div>
         </div>
-
         <div class="pay-form hidden" id="sbpForm">
           <div style="text-align:center;padding:2rem;background:var(--bg2);border-radius:12px">
             <div style="font-size:3rem;margin-bottom:.75rem">📱</div>
             <p style="font-weight:600;margin-bottom:.5rem">Оплата через СБП</p>
-            <p style="color:var(--muted);font-size:.85rem">QR-код будет показан после подтверждения записи</p>
+            <p style="color:var(--muted);font-size:.85rem">QR-код будет показан после подтверждения</p>
           </div>
         </div>
-
         <div class="pay-form hidden" id="cashForm">
           <div style="text-align:center;padding:2rem;background:rgba(67,233,123,.05);border:1px solid rgba(67,233,123,.15);border-radius:12px">
             <div style="font-size:3rem;margin-bottom:.75rem">💵</div>
@@ -488,15 +413,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
           </div>
         </div>
       </div>
-
-      <!-- Step 4: Confirm -->
       <div class="booking-step" id="bStep4">
         <div class="step-label">Шаг 4 из 4 — Подтверждение</div>
         <div class="confirm-box" id="confirmBox"></div>
         <button class="btn-primary" style="width:100%;padding:1rem;font-size:1rem" onclick="confirmBooking()">✅ Подтвердить и оплатить</button>
       </div>
     </div>
-
     <div class="modal-footer" id="modalFooter">
       <button class="btn-back" id="btnBack" onclick="bookingPrev()" style="display:none">← Назад</button>
       <button class="btn-primary" id="btnNext" onclick="bookingNext()">Далее →</button>
@@ -509,28 +431,25 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
   <div class="info-modal" id="infoModalContent"></div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-// ===== DATA =====
 const MASTERS = [
-  {id:1,name:'Анна Соколова',specialty:'Мастер маникюра',rating:4.9,reviews:127,price:'от 1500 ₽',experience:'5 лет',services:['Маникюр','Педикюр','Гель-лак','Наращивание'],avatar:'АС',gradient:'linear-gradient(135deg,#f093fb,#f5576c)',category:'manicure'},
-  {id:2,name:'Мария Иванова',specialty:'Бровист',rating:4.8,reviews:89,price:'от 2000 ₽',experience:'3 года',services:['Коррекция','Окрашивание','Ламинирование','Татуаж'],avatar:'МИ',gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',category:'brows'},
-  {id:3,name:'Елена Козлова',specialty:'Визажист',rating:5.0,reviews:203,price:'от 3000 ₽',experience:'7 лет',services:['Дневной макияж','Вечерний','Свадебный','Обучение'],avatar:'ЕК',gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',category:'makeup'},
-  {id:4,name:'Ольга Петрова',specialty:'Мастер по волосам',rating:4.7,reviews:156,price:'от 2500 ₽',experience:'6 лет',services:['Стрижка','Окрашивание','Укладка','Кератин'],avatar:'ОП',gradient:'linear-gradient(135deg,#fa709a,#fee140)',category:'hair'},
-  {id:5,name:'Наталья Сидорова',specialty:'Косметолог',rating:4.9,reviews:94,price:'от 3500 ₽',experience:'8 лет',services:['Чистка лица','Пилинг','Мезотерапия','Массаж'],avatar:'НС',gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',category:'skin'},
-  {id:6,name:'Юлия Новикова',specialty:'Лэшмейкер',rating:4.8,reviews:112,price:'от 2200 ₽',experience:'4 года',services:['Наращивание ресниц','Ламинирование','Окрашивание','Завивка'],avatar:'ЮН',gradient:'linear-gradient(135deg,#f7971e,#ffd200)',category:'lash'}
+  {id:1,name:'Анна Соколова',specialty:'Мастер маникюра',rating:4.9,reviews:127,price:'от 1500 ₽',experience:'5 лет',services:['Маникюр','Педикюр','Гель-лак','Наращивание'],avatar:'АС',gradient:'linear-gradient(135deg,#f093fb,#f5576c)',category:'manicure',photo:'master1.jpg'},
+  {id:2,name:'Мария Иванова',specialty:'Бровист',rating:4.8,reviews:89,price:'от 2000 ₽',experience:'3 года',services:['Коррекция','Окрашивание','Ламинирование','Татуаж'],avatar:'МИ',gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',category:'brows',photo:'master2.jpg'},
+  {id:3,name:'Елена Козлова',specialty:'Визажист',rating:5.0,reviews:203,price:'от 3000 ₽',experience:'7 лет',services:['Дневной макияж','Вечерний','Свадебный','Обучение'],avatar:'ЕК',gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',category:'makeup',photo:'master3.jpg'},
+  {id:4,name:'Ольга Петрова',specialty:'Мастер по волосам',rating:4.7,reviews:156,price:'от 2500 ₽',experience:'6 лет',services:['Стрижка','Окрашивание','Укладка','Кератин'],avatar:'ОП',gradient:'linear-gradient(135deg,#fa709a,#fee140)',category:'hair',photo:'master4.jpg'},
+  {id:5,name:'Наталья Сидорова',specialty:'Косметолог',rating:4.9,reviews:94,price:'от 3500 ₽',experience:'8 лет',services:['Чистка лица','Пилинг','Мезотерапия','Массаж'],avatar:'НС',gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',category:'skin',photo:'master5.jpg'},
+  {id:6,name:'Юлия Новикова',specialty:'Лэшмейкер',rating:4.8,reviews:112,price:'от 2200 ₽',experience:'4 года',services:['Наращивание ресниц','Ламинирование','Окрашивание','Завивка'],avatar:'ЮН',gradient:'linear-gradient(135deg,#f7971e,#ffd200)',category:'lash',photo:'master6.jpg'}
 ];
 
-const CATEGORIES = [
-  {id:'all',label:'✨ Все'},
-  {id:'manicure',label:'💅 Маникюр'},
-  {id:'brows',label:'🤩 Брови'},
-  {id:'makeup',label:'💄 Макияж'},
-  {id:'hair',label:'💇 Волосы'},
-  {id:'skin',label:'🧖 Кожа'},
-  {id:'lash',label:'👁 Ресницы'}
+const CATEGORIES=[
+  {id:'all',label:'✨ Все'},{id:'manicure',label:'💅 Маникюр'},
+  {id:'brows',label:'🤩 Брови'},{id:'makeup',label:'💄 Макияж'},
+  {id:'hair',label:'💇 Волосы'},{id:'skin',label:'🧖 Кожа'},{id:'lash',label:'👁 Ресницы'}
 ];
 
-const REVIEWS_DATA = [
+const REVIEWS_DATA=[
   {author:'Анна',text:'Просто восторг! Лучший маникюр в жизни',stars:'⭐⭐⭐⭐⭐'},
   {author:'Мария',text:'Брови как нарисованные, очень довольна',stars:'⭐⭐⭐⭐⭐'},
   {author:'Катя',text:'Записалась за 2 минуты, всё удобно',stars:'⭐⭐⭐⭐⭐'},
@@ -541,77 +460,54 @@ const REVIEWS_DATA = [
   {author:'Вика',text:'Стрижка получилась именно такой, как хотела',stars:'⭐⭐⭐⭐⭐'}
 ];
 
-// ===== STATE =====
-let currentStep = 1;
-let currentBookingMaster = null;
-let selectedTime = null;
-let activePromoDiscount = 0;
-let selectedPayMethod = 'card';
-let mastersRendered = false;
-let activeCategory = 'all';
+let currentStep=1,currentBookingMaster=null,selectedTime=null,activePromoDiscount=0,selectedPayMethod='card';
 
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-  // Hide loader
-  setTimeout(() => {
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
     document.getElementById('loader').classList.add('hidden');
-    setTimeout(() => document.getElementById('loader').remove(), 600);
-  }, 800);
+    setTimeout(()=>document.getElementById('loader').remove(),600);
+  },800);
 
-  // Theme
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  document.documentElement.dataset.theme = savedTheme;
-  document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+  const savedTheme=localStorage.getItem('theme')||'dark';
+  document.documentElement.dataset.theme=savedTheme;
+  document.getElementById('themeBtn').textContent=savedTheme==='dark'?'🌙':'☀️';
 
-  // Set min date
-  const today = new Date().toISOString().split('T')[0];
-  const dateInput = document.getElementById('bookDate');
-  if (dateInput) { dateInput.min = today; dateInput.value = today; }
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('bookDate').min=today;
+  document.getElementById('bookDate').value=today;
 
-  // Render
   renderCategories();
   renderMasters('all');
   renderReviews();
   initCounters();
   initReveal();
-
-  // Nav auth
   updateNavAuth();
 
-  // Back to top
-  window.addEventListener('scroll', () => {
-    document.getElementById('backTop').classList.toggle('visible', window.scrollY > 300);
+  window.addEventListener('scroll',()=>{
+    document.getElementById('backTop').classList.toggle('visible',window.scrollY>300);
   });
 
-  // SW
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
-  }
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
 });
 
-// ===== THEME =====
-function toggleTheme() {
-  const html = document.documentElement;
-  const isDark = html.dataset.theme === 'dark';
-  html.dataset.theme = isDark ? 'light' : 'dark';
-  document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
-  localStorage.setItem('theme', html.dataset.theme);
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.dataset.theme==='dark';
+  html.dataset.theme=isDark?'light':'dark';
+  document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
+  localStorage.setItem('theme',html.dataset.theme);
 }
 
-// ===== MOBILE MENU =====
-function toggleMobile() {
-  document.getElementById('mobileMenu').classList.toggle('open');
-}
+function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open')}
 
-// ===== NAV AUTH =====
-function updateNavAuth() {
-  const user = JSON.parse(localStorage.getItem('glowUser') || 'null');
-  const navAuth = document.getElementById('navAuth');
-  if (user) {
-    const initials = (user.name || 'U').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    navAuth.innerHTML = `
+function updateNavAuth(){
+  const user=JSON.parse(localStorage.getItem('glowUser')||'null');
+  const navAuth=document.getElementById('navAuth');
+  if(user){
+    const ini=(user.name||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    navAuth.innerHTML=`
       <a href="/client-profile.html" class="btn-nav btn-nav-outline" style="display:flex;align-items:center;gap:.5rem">
-        <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:inline-flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff">${initials}</span>
+        <span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:inline-flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff">${ini}</span>
         ${user.name.split(' ')[0]}
       </a>
       <button onclick="logout()" class="btn-nav btn-nav-outline" style="color:#f5576c;border-color:rgba(245,87,108,.3)">Выйти</button>
@@ -619,40 +515,36 @@ function updateNavAuth() {
   }
 }
 
-function logout() {
-  localStorage.removeItem('glowToken');
-  localStorage.removeItem('glowUser');
-  updateNavAuth();
-  showToast('До свидания! 👋', 'info');
+function logout(){
+  localStorage.removeItem('glowToken');localStorage.removeItem('glowUser');
+  updateNavAuth();showToast('До свидания! 👋','info');
 }
 
-// ===== CATEGORIES =====
-function renderCategories() {
-  const grid = document.getElementById('categoriesGrid');
-  grid.innerHTML = CATEGORIES.map(c => `
-    <button class="category-btn ${c.id === 'all' ? 'active' : ''}" onclick="filterCategory('${c.id}',this)">${c.label}</button>
+function renderCategories(){
+  document.getElementById('categoriesGrid').innerHTML=CATEGORIES.map(c=>`
+    <button class="category-btn ${c.id==='all'?'active':''}" onclick="filterCategory('${c.id}',this)">${c.label}</button>
   `).join('');
 }
 
-function filterCategory(id, btn) {
-  activeCategory = id;
-  document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+function filterCategory(id,btn){
+  document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderMasters(id);
 }
 
-// ===== MASTERS =====
-function renderMasters(category) {
-  const filtered = category === 'all' ? MASTERS : MASTERS.filter(m => m.category === category);
-  const grid = document.getElementById('mastersGrid');
-  const favs = JSON.parse(localStorage.getItem('glowFavorites') || '[]');
-
-  grid.innerHTML = filtered.map(m => `
+function renderMasters(category){
+  const filtered=category==='all'?MASTERS:MASTERS.filter(m=>m.category===category);
+  const favs=JSON.parse(localStorage.getItem('glowFavorites')||'[]');
+  document.getElementById('mastersGrid').innerHTML=filtered.map(m=>`
     <div class="master-card reveal">
       <div class="card-header" style="background:${m.gradient}">
-        <div class="master-avatar" style="background:rgba(255,255,255,.2)">${m.avatar}</div>
-        <button class="fav-btn ${favs.includes(m.id) ? 'active' : ''}" onclick="toggleFav(${m.id},this)" title="В избранное">
-          ${favs.includes(m.id) ? '❤️' : '🤍'}
+        <div class="card-header-bg" style="background:${m.gradient}"></div>
+        <img class="master-photo" src="/images/${m.photo}" alt="${m.name}"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="master-avatar-fallback" style="display:none">${m.avatar}</div>
+        <div class="card-header-overlay"></div>
+        <button class="fav-btn ${favs.includes(m.id)?'active':''}" onclick="toggleFav(${m.id},this)">
+          ${favs.includes(m.id)?'❤️':'🤍'}
         </button>
         <div class="rating-badge">⭐ ${m.rating} (${m.reviews})</div>
       </div>
@@ -664,8 +556,8 @@ function renderMasters(category) {
           <span class="meta-item">📋 ${m.reviews} отзывов</span>
         </div>
         <div class="services-list">
-          ${m.services.slice(0, 3).map(s => `<span class="service-tag">${s}</span>`).join('')}
-          ${m.services.length > 3 ? `<span class="service-tag">+${m.services.length - 3}</span>` : ''}
+          ${m.services.slice(0,3).map(s=>`<span class="service-tag">${s}</span>`).join('')}
+          ${m.services.length>3?`<span class="service-tag">+${m.services.length-3}</span>`:''}
         </div>
       </div>
       <div class="card-footer">
@@ -675,203 +567,158 @@ function renderMasters(category) {
       </div>
     </div>
   `).join('');
-
-  // Re-init reveal for new cards
-  setTimeout(() => {
-    document.querySelectorAll('.master-card.reveal').forEach(el => {
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-      }, { threshold: 0.1 });
+  setTimeout(()=>{
+    document.querySelectorAll('.master-card.reveal').forEach(el=>{
+      const obs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+      },{threshold:.1});
       obs.observe(el);
     });
-  }, 50);
+  },50);
 }
 
-// ===== FAVORITES =====
-function toggleFav(id, btn) {
-  const favs = JSON.parse(localStorage.getItem('glowFavorites') || '[]');
-  const idx = favs.indexOf(id);
-  if (idx === -1) {
-    favs.push(id);
-    btn.textContent = '❤️';
-    btn.classList.add('active');
-    showToast('Добавлено в избранное ❤️', 'success');
-  } else {
-    favs.splice(idx, 1);
-    btn.textContent = '🤍';
-    btn.classList.remove('active');
-    showToast('Удалено из избранного', 'info');
-  }
-  localStorage.setItem('glowFavorites', JSON.stringify(favs));
+function toggleFav(id,btn){
+  const favs=JSON.parse(localStorage.getItem('glowFavorites')||'[]');
+  const idx=favs.indexOf(id);
+  if(idx===-1){favs.push(id);btn.textContent='❤️';btn.classList.add('active');showToast('Добавлено в избранное ❤️');}
+  else{favs.splice(idx,1);btn.textContent='🤍';btn.classList.remove('active');showToast('Удалено из избранного','info');}
+  localStorage.setItem('glowFavorites',JSON.stringify(favs));
 }
 
-// ===== BOOKING MODAL =====
-function openBookingModal(masterId) {
-  currentBookingMaster = MASTERS.find(m => m.id === masterId);
-  if (!currentBookingMaster) return;
-
-  // Reset
-  currentStep = 1;
-  selectedTime = null;
-  activePromoDiscount = 0;
-  selectedPayMethod = 'card';
-  document.getElementById('bookComment').value = '';
-  document.getElementById('promoInput').value = '';
-  document.getElementById('promoResult').className = 'promo-result';
-  document.getElementById('promoResult').textContent = '';
-  document.getElementById('cardForm').style.display = 'block';
-  document.getElementById('sbpForm').style.display = 'none';
-  document.getElementById('cashForm').style.display = 'none';
-  document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('active'));
+function openBookingModal(masterId){
+  currentBookingMaster=MASTERS.find(m=>m.id===masterId);
+  if(!currentBookingMaster)return;
+  currentStep=1;selectedTime=null;activePromoDiscount=0;selectedPayMethod='card';
+  document.getElementById('bookComment').value='';
+  document.getElementById('promoInput').value='';
+  document.getElementById('promoResult').className='promo-result';
+  document.getElementById('promoResult').textContent='';
+  document.getElementById('cardForm').style.display='block';
+  document.getElementById('sbpForm').style.display='none';
+  document.getElementById('cashForm').style.display='none';
+  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('active'));
   document.querySelector('.pay-method').classList.add('active');
-
-  // Time slots
-  const timeSlots = ['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
-  document.getElementById('timeGrid').innerHTML = timeSlots.map(t => `
-    <button class="time-btn" onclick="selectTime('${t}',this)">${t}</button>
-  `).join('');
-
-  document.getElementById('modalTitle').textContent = `Запись — ${currentBookingMaster.name}`;
+  const times=['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
+  document.getElementById('timeGrid').innerHTML=times.map(t=>`<button class="time-btn" onclick="selectTime('${t}',this)">${t}</button>`).join('');
+  document.getElementById('modalTitle').textContent=`Запись — ${currentBookingMaster.name}`;
   bookingGoTo(1);
   document.getElementById('bookingModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
 
-function closeBookingModal() {
+function closeBookingModal(){
   document.getElementById('bookingModal').classList.remove('open');
-  document.body.style.overflow = '';
-  currentBookingMaster = null;
-  activePromoDiscount = 0;
+  document.body.style.overflow='';
+  currentBookingMaster=null;activePromoDiscount=0;
 }
 
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('bookingModal')) closeBookingModal();
-}
+function handleOverlayClick(e){if(e.target===document.getElementById('bookingModal'))closeBookingModal();}
 
-function selectTime(t, btn) {
-  selectedTime = t;
-  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+function selectTime(t,btn){
+  selectedTime=t;
+  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
 
-function selectPayMethod(method, el) {
-  selectedPayMethod = method;
-  document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('active'));
+function selectPayMethod(method,el){
+  selectedPayMethod=method;
+  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('cardForm').style.display = method === 'card' ? 'block' : 'none';
-  document.getElementById('sbpForm').style.display = method === 'sbp' ? 'block' : 'none';
-  document.getElementById('cashForm').style.display = method === 'cash' ? 'block' : 'none';
+  document.getElementById('cardForm').style.display=method==='card'?'block':'none';
+  document.getElementById('sbpForm').style.display=method==='sbp'?'block':'none';
+  document.getElementById('cashForm').style.display=method==='cash'?'block':'none';
 }
 
-function formatCardNumber(input) {
-  let v = input.value.replace(/\D/g, '').substring(0, 16);
-  input.value = v.replace(/(.{4})/g, '$1 ').trim();
+function formatCardNumber(input){
+  let v=input.value.replace(/\D/g,'').substring(0,16);
+  input.value=v.replace(/(.{4})/g,'$1 ').trim();
+}
+function formatExpiry(input){
+  let v=input.value.replace(/\D/g,'').substring(0,4);
+  if(v.length>=2)v=v.substring(0,2)+'/'+v.substring(2);
+  input.value=v;
 }
 
-function formatExpiry(input) {
-  let v = input.value.replace(/\D/g, '').substring(0, 4);
-  if (v.length >= 2) v = v.substring(0, 2) + '/' + v.substring(2);
-  input.value = v;
-}
-
-function applyPromoInline() {
-  const code = document.getElementById('promoInput').value.trim().toUpperCase();
-  const codes = { 'GLOW10': 10, 'BEAUTY20': 20, 'FIRST15': 15, 'VIP30': 30 };
-  const result = document.getElementById('promoResult');
-  if (!code) { result.className = 'promo-result err'; result.textContent = 'Введите промокод'; return; }
-  if (codes[code]) {
-    activePromoDiscount = codes[code];
-    result.className = 'promo-result ok';
-    result.textContent = `✅ Скидка ${activePromoDiscount}% применена!`;
-  } else {
-    activePromoDiscount = 0;
-    result.className = 'promo-result err';
-    result.textContent = '❌ Промокод не найден';
+function applyPromoInline(){
+  const code=document.getElementById('promoInput').value.trim().toUpperCase();
+  const codes={'GLOW10':10,'BEAUTY20':20,'FIRST15':15,'VIP30':30};
+  const result=document.getElementById('promoResult');
+  if(!code){result.className='promo-result err';result.textContent='Введите промокод';return;}
+  if(codes[code]){
+    activePromoDiscount=codes[code];
+    result.className='promo-result ok';result.textContent=`✅ Скидка ${activePromoDiscount}% применена!`;
+  }else{
+    activePromoDiscount=0;result.className='promo-result err';result.textContent='❌ Промокод не найден';
   }
 }
 
-function bookingGoTo(step) {
-  [1, 2, 3, 4].forEach(i => {
-    document.getElementById('bStep' + i).classList.toggle('active', i === step);
-    const ps = document.getElementById('ps' + i);
-    if (ps) ps.classList.toggle('done', i <= step);
+function bookingGoTo(step){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('bStep'+i).classList.toggle('active',i===step);
+    const ps=document.getElementById('ps'+i);
+    if(ps)ps.classList.toggle('done',i<=step);
   });
-  currentStep = step;
-  document.getElementById('btnBack').style.display = step > 1 ? 'inline-flex' : 'none';
-  const footer = document.getElementById('modalFooter');
-  footer.style.display = step === 4 ? 'none' : 'flex';
-  document.getElementById('btnNext').textContent = step === 3 ? 'Далее →' : 'Далее →';
-
-  if (step === 4 && currentBookingMaster) {
-    const date = document.getElementById('bookDate').value || 'не выбрана';
-    const time = selectedTime || 'не выбрано';
-    const payLabel = selectedPayMethod === 'card' ? '💳 Карта' : selectedPayMethod === 'sbp' ? '📱 СБП' : '💵 Наличные';
-    const discount = activePromoDiscount > 0 ? `<div class="confirm-row"><span>Скидка промокод</span><span style="color:#43e97b">-${activePromoDiscount}%</span></div>` : '';
-    document.getElementById('confirmBox').innerHTML = `
+  currentStep=step;
+  document.getElementById('btnBack').style.display=step>1?'inline-flex':'none';
+  document.getElementById('modalFooter').style.display=step===4?'none':'flex';
+  if(step===4&&currentBookingMaster){
+    const date=document.getElementById('bookDate').value||'—';
+    const time=selectedTime||'—';
+    const payLabel=selectedPayMethod==='card'?'💳 Карта':selectedPayMethod==='sbp'?'📱 СБП':'💵 Наличные';
+    const disc=activePromoDiscount>0?`<div class="confirm-row"><span>Скидка</span><span style="color:#43e97b">-${activePromoDiscount}%</span></div>`:'';
+    document.getElementById('confirmBox').innerHTML=`
       <div class="confirm-row"><span>Мастер</span><span>${currentBookingMaster.name}</span></div>
       <div class="confirm-row"><span>Услуга</span><span>${currentBookingMaster.specialty}</span></div>
       <div class="confirm-row"><span>Дата</span><span>${date}</span></div>
       <div class="confirm-row"><span>Время</span><span>${time}</span></div>
       <div class="confirm-row"><span>Оплата</span><span>${payLabel}</span></div>
-      ${discount}
+      ${disc}
       <div class="confirm-row"><span>Стоимость</span><span>${currentBookingMaster.price}</span></div>
     `;
   }
 }
 
-function bookingNext() {
-  if (currentStep === 1) {
-    const date = document.getElementById('bookDate').value;
-    if (!date) { showToast('Выберите дату', 'error'); return; }
-    if (!selectedTime) { showToast('Выберите время', 'error'); return; }
+function bookingNext(){
+  if(currentStep===1){
+    if(!document.getElementById('bookDate').value){showToast('Выберите дату','error');return;}
+    if(!selectedTime){showToast('Выберите время','error');return;}
   }
-  if (currentStep < 4) bookingGoTo(currentStep + 1);
+  if(currentStep<4)bookingGoTo(currentStep+1);
 }
+function bookingPrev(){if(currentStep>1)bookingGoTo(currentStep-1);}
 
-function bookingPrev() {
-  if (currentStep > 1) bookingGoTo(currentStep - 1);
-}
-
-function confirmBooking() {
-  if (!currentBookingMaster) return;
-  const date = document.getElementById('bookDate').value;
-  const comment = document.getElementById('bookComment').value;
-
-  const btn = document.querySelector('#bStep4 .btn-primary');
-  if (btn) { btn.textContent = '⏳ Обработка...'; btn.disabled = true; }
-
-  setTimeout(() => {
-    const appointment = {
-      masterName: currentBookingMaster.name,
-      masterId: currentBookingMaster.id,
-      service: currentBookingMaster.specialty,
-      date,
-      time: selectedTime,
-      comment,
-      payMethod: selectedPayMethod,
-      discount: activePromoDiscount,
-      status: 'confirmed',
-      createdAt: new Date().toISOString()
+function confirmBooking(){
+  if(!currentBookingMaster)return;
+  const btn=document.querySelector('#bStep4 .btn-primary');
+  if(btn){btn.textContent='⏳ Обработка...';btn.disabled=true;}
+  setTimeout(()=>{
+    const appointment={
+      masterName:currentBookingMaster.name,masterId:currentBookingMaster.id,
+      service:currentBookingMaster.specialty,
+      date:document.getElementById('bookDate').value,
+      time:selectedTime,comment:document.getElementById('bookComment').value,
+      payMethod:selectedPayMethod,discount:activePromoDiscount,
+      status:'confirmed',createdAt:new Date().toISOString()
     };
-    const appointments = JSON.parse(localStorage.getItem('glowAppointments') || '[]');
-    appointments.unshift(appointment);
-    localStorage.setItem('glowAppointments', JSON.stringify(appointments));
-
+    const list=JSON.parse(localStorage.getItem('glowAppointments')||'[]');
+    list.unshift(appointment);
+    localStorage.setItem('glowAppointments',JSON.stringify(list));
     closeBookingModal();
-    showToast('🎉 Запись и оплата подтверждены!', 'success');
+    showToast('🎉 Запись и оплата подтверждены!','success');
     launchConfetti();
-    if (btn) { btn.textContent = '✅ Подтвердить и оплатить'; btn.disabled = false; }
-  }, 1500);
+    if(btn){btn.textContent='✅ Подтвердить и оплатить';btn.disabled=false;}
+  },1500);
 }
 
-// ===== INFO MODAL =====
-function openInfoModal(masterId) {
-  const m = MASTERS.find(x => x.id === masterId);
-  if (!m) return;
-  document.getElementById('infoModalContent').innerHTML = `
+function openInfoModal(masterId){
+  const m=MASTERS.find(x=>x.id===masterId);
+  if(!m)return;
+  document.getElementById('infoModalContent').innerHTML=`
     <div class="info-modal-header">
       <div class="info-master-banner" style="background:${m.gradient}">
-        <div style="width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,.4)">${m.avatar}</div>
+        <img src="/images/${m.photo}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none'">
+        <div class="info-master-banner-overlay"></div>
         <button class="close-info" onclick="closeInfoModal()">×</button>
       </div>
     </div>
@@ -885,29 +732,25 @@ function openInfoModal(masterId) {
       </div>
       <div class="info-services">
         <h4>Услуги</h4>
-        <div class="info-services-list">${m.services.map(s => `<span class="info-service-item">${s}</span>`).join('')}</div>
+        <div class="info-services-list">${m.services.map(s=>`<span class="info-service-item">${s}</span>`).join('')}</div>
       </div>
       <div style="font-size:1.1rem;font-weight:700;margin-bottom:1.25rem">Стоимость: <span style="color:var(--accent)">${m.price}</span></div>
       <button class="btn-primary" style="width:100%;padding:1rem" onclick="closeInfoModal();openBookingModal(${m.id})">💅 Записаться</button>
     </div>
   `;
   document.getElementById('infoModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
 
-function closeInfoModal() {
+function closeInfoModal(){
   document.getElementById('infoModal').classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
 }
+function handleInfoOverlay(e){if(e.target===document.getElementById('infoModal'))closeInfoModal();}
 
-function handleInfoOverlay(e) {
-  if (e.target === document.getElementById('infoModal')) closeInfoModal();
-}
-
-// ===== REVIEWS =====
-function renderReviews() {
-  const doubled = [...REVIEWS_DATA, ...REVIEWS_DATA];
-  document.getElementById('reviewsTicker').innerHTML = doubled.map(r => `
+function renderReviews(){
+  const doubled=[...REVIEWS_DATA,...REVIEWS_DATA];
+  document.getElementById('reviewsTicker').innerHTML=doubled.map(r=>`
     <div class="review-chip">
       <span class="stars">${r.stars}</span>
       <span class="author">${r.author}:</span>
@@ -916,104 +759,64 @@ function renderReviews() {
   `).join('');
 }
 
-// ===== COUNTERS =====
-function initCounters() {
-  const counters = document.querySelectorAll('[data-target]');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const el = e.target;
-        const target = parseFloat(el.dataset.target);
-        const isFloat = el.dataset.float === '1';
-        const suffix = target >= 100 ? '+' : '';
-        let current = 0;
-        const step = target / 60;
-        const timer = setInterval(() => {
-          current += step;
-          if (current >= target) { current = target; clearInterval(timer); }
-          el.textContent = isFloat ? current.toFixed(1) : Math.floor(current) + suffix;
-        }, 25);
+function initCounters(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const el=e.target,target=parseFloat(el.dataset.target),isFloat=el.dataset.float==='1';
+        const suffix=target>=100?'+':'';let current=0;const step=target/60;
+        const timer=setInterval(()=>{
+          current+=step;if(current>=target){current=target;clearInterval(timer);}
+          el.textContent=isFloat?current.toFixed(1):Math.floor(current)+suffix;
+        },25);
         obs.unobserve(el);
       }
     });
-  }, { threshold: 0.5 });
-  counters.forEach(c => obs.observe(c));
+  },{threshold:.5});
+  document.querySelectorAll('[data-target]').forEach(c=>obs.observe(c));
 }
 
-// ===== REVEAL =====
-function initReveal() {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+function initReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 }
 
-// ===== TOAST =====
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast') || createToast();
-  t.textContent = msg;
-  t.className = `toast ${type}`;
-  setTimeout(() => t.classList.add('show'), 10);
-  setTimeout(() => t.classList.remove('show'), 3500);
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast ${type}`;
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-function createToast() {
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.id = 'toast';
-  document.body.appendChild(t);
-  return t;
-}
-
-// ===== CONFETTI =====
-function launchConfetti() {
-  const canvas = document.getElementById('confettiCanvas');
-  canvas.style.display = 'block';
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  const ctx = canvas.getContext('2d');
-  const particles = [];
-  const colors = ['#b06ab3','#4776e6','#f093fb','#43e97b','#f5576c','#ffd700','#00f2fe'];
-
-  for (let i = 0; i < 150; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height - canvas.height,
-      w: Math.random() * 10 + 5,
-      h: Math.random() * 6 + 3,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      speed: Math.random() * 4 + 2,
-      angle: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 0.2,
-      drift: (Math.random() - 0.5) * 2
+function launchConfetti(){
+  const canvas=document.getElementById('confettiCanvas');
+  canvas.style.display='block';canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  const colors=['#b06ab3','#4776e6','#f093fb','#43e97b','#f5576c','#ffd700','#00f2fe'];
+  const particles=Array.from({length:150},()=>({
+    x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,
+    w:Math.random()*10+5,h:Math.random()*6+3,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    speed:Math.random()*4+2,angle:Math.random()*Math.PI*2,
+    spin:(Math.random()-.5)*.2,drift:(Math.random()-.5)*2
+  }));
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    particles.forEach(p=>{
+      p.y+=p.speed;p.x+=p.drift;p.angle+=p.spin;
+      if(p.y<canvas.height+20)alive=true;
+      ctx.save();ctx.translate(p.x+p.w/2,p.y+p.h/2);ctx.rotate(p.angle);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
     });
-  }
-
-  let frame = 0;
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let alive = false;
-    particles.forEach(p => {
-      p.y += p.speed;
-      p.x += p.drift;
-      p.angle += p.spin;
-      if (p.y < canvas.height + 20) alive = true;
-      ctx.save();
-      ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
-      ctx.rotate(p.angle);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-      ctx.restore();
-    });
-    if (alive && frame < 200) { frame++; requestAnimationFrame(draw); }
-    else { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.style.display = 'none'; }
+    if(alive&&frame<200){frame++;requestAnimationFrame(draw);}
+    else{ctx.clearRect(0,0,canvas.width,canvas.height);canvas.style.display='none';}
   }
   draw();
 }
 </script>
-
-<!-- Toast element -->
-<div class="toast" id="toast"></div>
-
 </body>
 </html>
