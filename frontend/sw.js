@@ -1,57 +1,42 @@
-const CACHE_NAME = 'glow-v3';
-const STATIC_ASSETS = [
-  '/manifest.json'
+const CACHE = 'glow-v4';
+const ASSETS = [
+  '/',
+  '/index.html',
+  '/auth.html',
+  '/about.html',
+  '/client-profile.html',
+  '/master-profile.html',
+  '/404.html',
+  '/manifest.json',
 ];
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(CACHE).then(c => c.addAll(ASSETS).catch(() => {}))
   );
   self.skipWaiting();
 });
 
-self.addEventListener('activate', event => {
-  event.waitUntil(
+self.addEventListener('activate', e => {
+  e.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
-self.addEventListener('fetch', event => {
-  const request = event.request;
-  const url = new URL(request.url);
-
-  // Always fetch HTML from network
-  if (
-    request.headers.get('Accept')?.includes('text/html') ||
-    url.pathname.endsWith('.html') ||
-    url.pathname === '/'
-  ) {
-    event.respondWith(
-      fetch(request).catch(() => caches.match('/404.html'))
-    );
-    return;
-  }
-
-  // API calls — network only
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(fetch(request));
-    return;
-  }
-
-  // Static assets — cache first
-  event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request).then(response => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+self.addEventListener('fetch', e => {
+  if (e.request.url.includes('/api/')) return; // never cache API
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      const fresh = fetch(e.request).then(res => {
+        if (res && res.status === 200 && res.type === 'basic') {
+          caches.open(CACHE).then(c => c.put(e.request, res.clone()));
         }
-        return response;
-      });
+        return res;
+      }).catch(() => cached);
+      return cached || fresh;
     })
   );
 });

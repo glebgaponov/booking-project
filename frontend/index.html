@@ -187,7 +187,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 /* INFO MODAL */
 .info-modal{background:var(--card);border:1px solid var(--border);border-radius:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .info-modal-header{overflow:hidden;border-radius:24px 24px 0 0;position:relative}
-.info-master-banner{height:200px;position:relative;overflow:hidden}
+.info-master-banner{height:340px;position:relative;overflow:hidden}
 .info-master-banner img{width:100%;height:100%;object-fit:cover}
 .info-master-banner-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent)}
 .info-modal-body{padding:1.75rem}
@@ -373,8 +373,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
       </div>
       <div class="booking-step active" id="bStep1">
         <div class="step-label">Шаг 1 из 4 — Дата и время</div>
-        <div class="form-group"><label>Дата</label><input type="date" id="bookDate"></div>
-        <div class="form-group"><label>Время</label><div class="time-grid" id="timeGrid"></div></div>
+        <div class="form-group"><label>Дата</label><input type="date" id="bookDate" onchange="refreshTimeSlots()"></div>
+        <div class="form-group">
+          <label>Время <span id="durationHint" style="color:var(--accent);font-size:.8rem;font-weight:400"></span></label>
+          <div class="time-grid" id="timeGrid"></div>
+          <div style="display:flex;gap:1.5rem;margin-top:.75rem;font-size:.75rem;color:var(--muted)">
+            <span style="display:flex;align-items:center;gap:.35rem"><span style="width:10px;height:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:3px;display:inline-block"></span>Свободно</span>
+            <span style="display:flex;align-items:center;gap:.35rem"><span style="width:10px;height:10px;background:rgba(245,87,108,.3);border-radius:3px;display:inline-block"></span>Занято</span>
+          </div>
+        </div>
       </div>
       <div class="booking-step" id="bStep2">
         <div class="step-label">Шаг 2 из 4 — Комментарий и скидка</div>
@@ -437,13 +444,20 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);trans
 
 <script>
 const MASTERS = [
-  {id:1,name:'Анна Соколова',specialty:'Мастер маникюра',rating:4.9,reviews:127,price:'от 1500 ₽',experience:'5 лет',services:['Маникюр','Педикюр','Гель-лак','Наращивание'],avatar:'АС',gradient:'linear-gradient(135deg,#f093fb,#f5576c)',category:'manicure',photo:'master1.png'},
-  {id:2,name:'Мария Иванова',specialty:'Бровист',rating:4.8,reviews:89,price:'от 2000 ₽',experience:'3 года',services:['Коррекция','Окрашивание','Ламинирование','Татуаж'],avatar:'МИ',gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',category:'brows',photo:'master2.png'},
-  {id:3,name:'Елена Козлова',specialty:'Визажист',rating:5.0,reviews:203,price:'от 3000 ₽',experience:'7 лет',services:['Дневной макияж','Вечерний','Свадебный','Обучение'],avatar:'ЕК',gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',category:'makeup',photo:'master3.png'},
-  {id:4,name:'Ольга Петрова',specialty:'Мастер по волосам',rating:4.7,reviews:156,price:'от 2500 ₽',experience:'6 лет',services:['Стрижка','Окрашивание','Укладка','Кератин'],avatar:'ОП',gradient:'linear-gradient(135deg,#fa709a,#fee140)',category:'hair',photo:'master4.png'},
-  {id:5,name:'Наталья Сидорова',specialty:'Косметолог',rating:4.9,reviews:94,price:'от 3500 ₽',experience:'8 лет',services:['Чистка лица','Пилинг','Мезотерапия','Массаж'],avatar:'НС',gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',category:'skin',photo:'master5.png'},
-  {id:6,name:'Юлия Новикова',specialty:'Лэшмейкер',rating:4.8,reviews:112,price:'от 2200 ₽',experience:'4 года',services:['Наращивание ресниц','Ламинирование','Окрашивание','Завивка'],avatar:'ЮН',gradient:'linear-gradient(135deg,#f7971e,#ffd200)',category:'lash',photo:'master6.png'}
+  {id:1,name:'Анна Соколова',specialty:'Мастер маникюра',rating:4.9,reviews:127,price:'от 1500 ₽',experience:'5 лет',services:['Маникюр','Педикюр','Гель-лак','Наращивание'],avatar:'АС',gradient:'linear-gradient(135deg,#f093fb,#f5576c)',category:'manicure',photo:'master1.png',duration:150},
+  {id:2,name:'Мария Иванова',specialty:'Бровист',rating:4.8,reviews:89,price:'от 2000 ₽',experience:'3 года',services:['Коррекция','Окрашивание','Ламинирование','Татуаж'],avatar:'МИ',gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',category:'brows',photo:'master2.png',duration:60},
+  {id:3,name:'Елена Козлова',specialty:'Визажист',rating:5.0,reviews:203,price:'от 3000 ₽',experience:'7 лет',services:['Дневной макияж','Вечерний','Свадебный','Обучение'],avatar:'ЕК',gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',category:'makeup',photo:'master3.png',duration:90},
+  {id:4,name:'Ольга Петрова',specialty:'Мастер по волосам',rating:4.7,reviews:156,price:'от 2500 ₽',experience:'6 лет',services:['Стрижка','Окрашивание','Укладка','Кератин'],avatar:'ОП',gradient:'linear-gradient(135deg,#fa709a,#fee140)',category:'hair',photo:'master4.png',duration:120},
+  {id:5,name:'Наталья Сидорова',specialty:'Косметолог',rating:4.9,reviews:94,price:'от 3500 ₽',experience:'8 лет',services:['Чистка лица','Пилинг','Мезотерапия','Массаж'],avatar:'НС',gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',category:'skin',photo:'master5.png',duration:90},
+  {id:6,name:'Юлия Новикова',specialty:'Лэшмейкер',rating:4.8,reviews:112,price:'от 2200 ₽',experience:'4 года',services:['Наращивание ресниц','Ламинирование','Окрашивание','Завивка'],avatar:'ЮН',gradient:'linear-gradient(135deg,#f7971e,#ffd200)',category:'lash',photo:'master6.png',duration:90}
 ];
+
+// Duration label helper (also used in renderMasters)
+function durationLabel(mins){
+  if(mins<60)return`${mins} мин`;
+  const h=Math.floor(mins/60),m=mins%60;
+  return m?`${h} ч ${m} мин`:`${h} ч`;
+}
 
 const CATEGORIES=[
   {id:'all',label:'✨ Все'},{id:'manicure',label:'💅 Маникюр'},
@@ -476,7 +490,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const today=new Date().toISOString().split('T')[0];
   document.getElementById('bookDate').min=today;
-  document.getElementById('bookDate').value=today;
 
   renderCategories();
   renderMasters('all');
@@ -559,8 +572,9 @@ function renderMasters(category){
         <h3>${m.name}</h3>
         <div class="specialty">${m.specialty}</div>
         <div class="card-meta">
-          <span class="meta-item">⏱ ${m.experience}</span>
+          <span class="meta-item">🏆 ${m.experience}</span>
           <span class="meta-item">📋 ${m.reviews} отзывов</span>
+          <span class="meta-item" style="color:var(--accent);font-weight:600">⏱ ${durationLabel(m.duration)}</span>
         </div>
         <div class="services-list">
           ${m.services.slice(0,3).map(s=>`<span class="service-tag">${s}</span>`).join('')}
@@ -592,6 +606,61 @@ function toggleFav(id,btn){
   localStorage.setItem('glowFavorites',JSON.stringify(favs));
 }
 
+// ===== DURATION HELPERS =====
+function timeToMins(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function minsToTime(mins){return`${String(Math.floor(mins/60)).padStart(2,'0')}:${String(mins%60).padStart(2,'0')}`;}
+
+
+function getOccupiedSlots(masterId, date){
+  const appointments=JSON.parse(localStorage.getItem('glowAppointments')||'[]');
+  const blocked=JSON.parse(localStorage.getItem('glowMasterBlocked')||'{}');
+  const occupied=[];
+  // From existing bookings
+  appointments.filter(a=>a.masterId===masterId&&a.date===date&&a.status!=='cancelled')
+    .forEach(a=>{
+      const master=MASTERS.find(m=>m.id===masterId);
+      const dur=master?master.duration:60;
+      const start=timeToMins(a.time);
+      for(let t=start;t<start+dur;t+=30)occupied.push(minsToTime(t));
+    });
+  // From admin-blocked slots
+  if(blocked[masterId]&&blocked[masterId][date]){
+    occupied.push(...blocked[masterId][date]);
+  }
+  return occupied;
+}
+
+function generateTimeSlots(master, date){
+  const duration=master.duration||60;
+  const DAY_START=9*60, DAY_END=20*60;
+  const occupied=getOccupiedSlots(master.id, date);
+  const slots=[];
+  for(let start=DAY_START;start+duration<=DAY_END;start+=30){
+    const startStr=minsToTime(start);
+    const endStr=minsToTime(start+duration);
+    // Check if any 30-min chunk in [start, start+duration) is occupied
+    let busy=false;
+    for(let t=start;t<start+duration;t+=30){
+      if(occupied.includes(minsToTime(t))){busy=true;break;}
+    }
+    slots.push({time:startStr,end:endStr,busy});
+  }
+  return slots;
+}
+
+function refreshTimeSlots(){
+  if(!currentBookingMaster)return;
+  const date=document.getElementById('bookDate').value;
+  if(!date)return;
+  selectedTime=null;
+  const slots=generateTimeSlots(currentBookingMaster,date);
+  document.getElementById('timeGrid').innerHTML=slots.map(s=>
+    s.busy
+      ? `<button class="time-btn" disabled style="opacity:.35;cursor:not-allowed;text-decoration:line-through" title="Занято">${s.time}</button>`
+      : `<button class="time-btn" onclick="selectTime('${s.time}',this)">${s.time}<span style="display:block;font-size:.65rem;opacity:.6">${s.end}</span></button>`
+  ).join('');
+}
+
 function openBookingModal(masterId){
   currentBookingMaster=MASTERS.find(m=>m.id===masterId);
   if(!currentBookingMaster)return;
@@ -605,8 +674,16 @@ function openBookingModal(masterId){
   document.getElementById('cashForm').style.display='none';
   document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('active'));
   document.querySelector('.pay-method').classList.add('active');
-  const times=['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
-  document.getElementById('timeGrid').innerHTML=times.map(t=>`<button class="time-btn" onclick="selectTime('${t}',this)">${t}</button>`).join('');
+
+  // Duration hint
+  const dur=currentBookingMaster.duration||60;
+  document.getElementById('durationHint').textContent=`• Длительность: ${durationLabel(dur)}`;
+
+  // Generate slots
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('bookDate').value=today;
+  refreshTimeSlots();
+
   document.getElementById('modalTitle').textContent=`Запись — ${currentBookingMaster.name}`;
   bookingGoTo(1);
   document.getElementById('bookingModal').classList.add('open');
@@ -723,7 +800,7 @@ function openInfoModal(masterId){
   document.getElementById('infoModalContent').innerHTML=`
     <div class="info-modal-header">
       <div class="info-master-banner" style="background:${m.gradient}">
-        <img src="/images/${m.photo}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover"
+        <img src="/images/${m.photo}" alt="${m.name}" style="width:100%;height:100%;object-fit:cover;object-position:center 10%"
           onerror="this.style.display='none'">
         <div class="info-master-banner-overlay"></div>
         <button class="close-info" onclick="closeInfoModal()">×</button>
@@ -736,6 +813,9 @@ function openInfoModal(masterId){
         <div class="info-meta-item"><div class="val">⭐ ${m.rating}</div><div class="lbl">Рейтинг</div></div>
         <div class="info-meta-item"><div class="val">${m.reviews}</div><div class="lbl">Отзывов</div></div>
         <div class="info-meta-item"><div class="val">${m.experience}</div><div class="lbl">Опыт</div></div>
+      </div>
+      <div style="background:rgba(176,106,179,.08);border:1px solid rgba(176,106,179,.2);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.25rem;font-size:.85rem;display:flex;align-items:center;gap:.5rem">
+        ⏱ <strong>Длительность процедуры:</strong>&nbsp;<span style="color:var(--accent);font-weight:700">${durationLabel(m.duration)}</span>
       </div>
       <div class="info-services">
         <h4>Услуги</h4>

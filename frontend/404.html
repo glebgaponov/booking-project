@@ -1,52 +1,60 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 — Страница не найдена | GLOW</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',sans-serif;background:#0f0a1e;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-  .bubble{position:absolute;border-radius:50%;opacity:.15;animation:float linear infinite}
-  @keyframes float{0%{transform:translateY(100vh) rotate(0)}100%{transform:translateY(-100px) rotate(360deg)}}
-  .container{text-align:center;z-index:10;padding:2rem}
-  .code{font-size:clamp(80px,20vw,160px);font-weight:700;background:linear-gradient(135deg,#b06ab3,#4776e6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;animation:pulse 2s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-  .emoji{font-size:4rem;margin:1rem 0;display:block;animation:bounce 1s ease-in-out infinite alternate}
-  @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-20px)}}
-  h1{font-size:clamp(1.2rem,4vw,1.8rem);font-weight:600;margin-bottom:.75rem;opacity:.9}
-  p{font-size:1rem;opacity:.6;margin-bottom:2rem;line-height:1.6;max-width:400px;margin-left:auto;margin-right:auto}
-  .btn{display:inline-block;padding:.85rem 2rem;background:linear-gradient(135deg,#b06ab3,#4776e6);color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:.95rem;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 25px rgba(176,106,179,.4)}
-  .btn:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(176,106,179,.6)}
-  .links{margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-  .link-small{color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;transition:color .2s}
-  .link-small:hover{color:#fff}
+:root{--bg:#0f0a1e;--bg2:#1a1030;--card:#1e1535;--border:rgba(255,255,255,.08);--text:#f0eaff;--muted:rgba(240,234,255,.6);--accent:#b06ab3;--accent2:#4776e6}
+[data-theme="light"]{--bg:#faf8ff;--bg2:#f0ebff;--card:#fff;--border:rgba(0,0,0,.08);--text:#1a1030;--muted:rgba(26,16,48,.6)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;overflow:hidden;transition:background .3s,color .3s}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.2;pointer-events:none}
+.b1{width:500px;height:500px;background:var(--accent);top:-200px;left:-100px}
+.b2{width:400px;height:400px;background:var(--accent2);bottom:-150px;right:-100px}
+.content{position:relative;z-index:1;max-width:500px}
+.num{font-size:clamp(6rem,20vw,10rem);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2),#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:1rem;animation:float 3s ease-in-out infinite}
+h1{font-size:clamp(1.4rem,4vw,2rem);font-weight:700;margin-bottom:.75rem}
+p{color:var(--muted);font-size:1rem;line-height:1.6;margin-bottom:2.5rem}
+.btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{padding:.85rem 2rem;border-radius:50px;font-size:.95rem;font-weight:600;text-decoration:none;transition:all .3s;display:inline-block;font-family:'Inter',sans-serif;cursor:pointer;border:none}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 8px 25px rgba(176,106,179,.4)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(176,106,179,.6)}
+.btn-ghost{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.theme-btn{position:fixed;top:1.25rem;right:1.25rem;background:none;border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;z-index:10}
+.emoji{font-size:3rem;margin-bottom:1rem;display:block;animation:wiggle 2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes wiggle{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
 </style>
 </head>
 <body>
-<div id="bubbles"></div>
-<div class="container">
-  <div class="code">404</div>
-  <span class="emoji">💅</span>
-  <h1>Ой, такой страницы нет!</h1>
-  <p>Возможно, она переехала или никогда не существовала. Но красота — точно существует!</p>
-  <a href="/" class="btn">✨ На главную</a>
-  <div class="links">
-    <a href="/about.html" class="link-small">О нас</a>
-    <a href="/auth.html" class="link-small">Войти</a>
-    <a href="/client-profile.html" class="link-small">Мой профиль</a>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+<div class="content">
+  <span class="emoji">🔍</span>
+  <div class="num">404</div>
+  <h1>Страница не найдена</h1>
+  <p>Кажется, эта страница отправилась на маникюр и пока недоступна.<br>Попробуйте вернуться на главную.</p>
+  <div class="btns">
+    <a href="/" class="btn btn-primary">✨ На главную</a>
+    <a href="javascript:history.back()" class="btn btn-ghost">← Назад</a>
   </div>
 </div>
 <script>
-const colors=['#b06ab3','#4776e6','#f093fb','#43e97b','#f5576c'];
-const container=document.getElementById('bubbles');
-for(let i=0;i<15;i++){
-  const b=document.createElement('div');
-  b.className='bubble';
-  const size=Math.random()*80+20;
-  b.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*15+8}s;animation-delay:${Math.random()*5}s`;
-  container.appendChild(b);
+(function(){
+  const s=localStorage.getItem('theme')||'dark';
+  document.documentElement.dataset.theme=s;
+  document.getElementById('themeBtn').textContent=s==='dark'?'🌙':'☀️';
+})();
+function toggleTheme(){
+  const h=document.documentElement;const d=h.dataset.theme==='dark';
+  h.dataset.theme=d?'light':'dark';
+  document.getElementById('themeBtn').textContent=d?'☀️':'🌙';
+  localStorage.setItem('theme',h.dataset.theme);
 }
 </script>
 </body>
