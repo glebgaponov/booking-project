@@ -2,6 +2,8 @@
 <html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Войти | GLOW Beauty Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,259 +59,278 @@ select option{background:var(--bg)}
 .toast.show{transform:translateX(0)}
 .toast.success{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#0a2e1a}
 .toast.error{background:linear-gradient(135deg,#f5576c,#f093fb);color:#fff}
+
+/* Theme toggle icon */
+.theme-btn{position:relative;overflow:hidden}
+.theme-btn::before{
+  content:'';display:block;position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:14px;height:14px;border-radius:50%;
+  background:var(--text);
+  box-shadow:-5px -1px 0 2px var(--bg);
+  transition:all .3s;
+}
+[data-theme="light"] .theme-btn::before{
+  box-shadow:none;
+  background:transparent;
+  border:2px solid var(--text);
+  width:12px;height:12px;
+  filter:drop-shadow(0 0 3px var(--accent));
+  box-shadow:0 0 0 2px var(--bg),4px -4px 0 -1px var(--text),4px -4px 0 1px var(--text);
+}
 </style>
 </head>
 <body>
 <div class="blob b1"></div>
 <div class="blob b2"></div>
 <div class="blob b3"></div>
-<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn"></button>
 <a href="/" class="home-link">← На главную</a>
 
 <div class="card">
-  <a href="/" class="logo">✨ GLOW</a>
-  <p class="subtitle">Платформа красоты — запись к лучшим мастерам</p>
+ <a href="/" class="logo"> GLOW</a>
+ <p class="subtitle">Платформа красоты — запись к лучшим мастерам</p>
 
-  <div class="auth-tabs">
-    <button class="auth-tab active" onclick="switchTab('login',this)">Войти</button>
-    <button class="auth-tab" onclick="switchTab('register',this)">Регистрация</button>
-  </div>
+ <div class="auth-tabs">
+ <button class="auth-tab active" onclick="switchTab('login',this)">Войти</button>
+ <button class="auth-tab" onclick="switchTab('register',this)">Регистрация</button>
+ </div>
 
-  <!-- LOGIN -->
-  <div class="auth-form active" id="loginForm">
-    <div class="error-msg" id="loginError"></div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
-    <div class="form-group">
-      <label>Пароль</label>
-      <div class="input-wrap">
-        <input type="password" id="loginPw" placeholder="Ваш пароль" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-        <button type="button" class="toggle-pw" onclick="togglePw('loginPw',this)">👁</button>
-      </div>
-    </div>
-    <button class="btn" id="loginBtn" onclick="doLogin()">Войти в аккаунт</button>
+ <!-- LOGIN -->
+ <div class="auth-form active" id="loginForm">
+ <div class="error-msg" id="loginError"></div>
+ <div class="form-group">
+ <label>Email</label>
+ <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+ </div>
+ <div class="form-group">
+ <label>Пароль</label>
+ <div class="input-wrap">
+ <input type="password" id="loginPw" placeholder="Ваш пароль" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+ <button type="button" class="toggle-pw" onclick="togglePw('loginPw',this)">Показать</button>
+ </div>
+ </div>
+ <button class="btn" id="loginBtn" onclick="doLogin()">Войти в аккаунт</button>
 
-    <div class="divider">или войти как</div>
-    <div class="demo-btns">
-      <button class="demo-btn" onclick="demoLogin('client')">👤 Клиент (demo)</button>
-      <button class="demo-btn admin-demo" onclick="demoLogin('admin')">👑 Админ (demo)</button>
-    </div>
-  </div>
+ <div class="divider">или войти как</div>
+ <div class="demo-btns">
+ <button class="demo-btn" onclick="demoLogin('client')"> Клиент (demo)</button>
+ <button class="demo-btn admin-demo" onclick="demoLogin('admin')"> Админ (demo)</button>
+ </div>
+ </div>
 
-  <!-- REGISTER -->
-  <div class="auth-form" id="registerForm">
-    <div class="error-msg" id="regError"></div>
-    <div class="success-msg" id="regSuccess"></div>
-    <div class="form-group">
-      <label>Имя и фамилия</label>
-      <input type="text" id="regName" placeholder="Мария Иванова" autocomplete="name">
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email">
-    </div>
-    <div class="form-group">
-      <label>Пароль</label>
-      <div class="input-wrap">
-        <input type="password" id="regPw" placeholder="Минимум 6 символов" autocomplete="new-password" oninput="checkStrength(this.value)">
-        <button type="button" class="toggle-pw" onclick="togglePw('regPw',this)">👁</button>
-      </div>
-      <div class="password-strength"><div class="strength-bar" id="strengthBar"></div></div>
-      <div class="strength-text" id="strengthText"></div>
-    </div>
-    <div class="form-group">
-      <label>Роль</label>
-      <select id="regRole">
-        <option value="client">👤 Клиент — записываюсь к мастерам</option>
-        <option value="master">💅 Мастер — веду свой кабинет</option>
-      </select>
-    </div>
-    <button class="btn" id="regBtn" onclick="doRegister()">Создать аккаунт</button>
-  </div>
+ <!-- REGISTER -->
+ <div class="auth-form" id="registerForm">
+ <div class="error-msg" id="regError"></div>
+ <div class="success-msg" id="regSuccess"></div>
+ <div class="form-group">
+ <label>Имя и фамилия</label>
+ <input type="text" id="regName" placeholder="Мария Иванова" autocomplete="name">
+ </div>
+ <div class="form-group">
+ <label>Email</label>
+ <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email">
+ </div>
+ <div class="form-group">
+ <label>Пароль</label>
+ <div class="input-wrap">
+ <input type="password" id="regPw" placeholder="Минимум 6 символов" autocomplete="new-password" oninput="checkStrength(this.value)">
+ <button type="button" class="toggle-pw" onclick="togglePw('regPw',this)">Показать</button>
+ </div>
+ <div class="password-strength"><div class="strength-bar" id="strengthBar"></div></div>
+ <div class="strength-text" id="strengthText"></div>
+ </div>
+ <div class="form-group">
+ <label>Роль</label>
+ <select id="regRole">
+ <option value="client"> Клиент — записываюсь к мастерам</option>
+ <option value="master"> Мастер — веду свой кабинет</option>
+ </select>
+ </div>
+ <button class="btn" id="regBtn" onclick="doRegister()">Создать аккаунт</button>
+ </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 (function(){
-  const saved=localStorage.getItem('theme')||'dark';
-  document.documentElement.dataset.theme=saved;
-  document.getElementById('themeBtn').textContent=saved==='dark'?'🌙':'☀️';
-  // If already logged in — redirect
-  if(localStorage.getItem('glowToken')&&localStorage.getItem('glowUser')){
-    window.location.href='/client-profile.html';
-  }
+ const saved=localStorage.getItem('theme')||'dark';
+ document.documentElement.dataset.theme=saved;
+ 
+ // If already logged in — redirect
+ if(localStorage.getItem('glowToken')&&localStorage.getItem('glowUser')){
+ window.location.href='/client-profile.html';
+ }
 })();
 
 function toggleTheme(){
-  const html=document.documentElement;const isDark=html.dataset.theme==='dark';
-  html.dataset.theme=isDark?'light':'dark';
-  document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
-  localStorage.setItem('theme',html.dataset.theme);
+ const html=document.documentElement;const isDark=html.dataset.theme==='dark';
+ html.dataset.theme=isDark?'light':'dark';
+ 
+ localStorage.setItem('theme',html.dataset.theme);
 }
 
 function switchTab(tab,btn){
-  document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById(tab+'Form').classList.add('active');
-  clearErrors();
+ document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active'));
+ document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active'));
+ btn.classList.add('active');
+ document.getElementById(tab+'Form').classList.add('active');
+ clearErrors();
 }
 
 function togglePw(id,btn){
-  const inp=document.getElementById(id);
-  const show=inp.type==='password';
-  inp.type=show?'text':'password';
-  btn.textContent=show?'🙈':'👁';
+ const inp=document.getElementById(id);
+ const show=inp.type==='password';
+ inp.type=show?'text':'password';
+ btn.textContent=show?'Скрыть':'Показать';
 }
 
 function showError(id,msg){const el=document.getElementById(id);el.textContent=msg;el.style.display='block';}
 function clearErrors(){
-  ['loginError','regError','regSuccess'].forEach(id=>{
-    const el=document.getElementById(id);if(el){el.style.display='none';el.textContent='';}
-  });
+ ['loginError','regError','regSuccess'].forEach(id=>{
+ const el=document.getElementById(id);if(el){el.style.display='none';el.textContent='';}
+ });
 }
 
 function checkStrength(pw){
-  const bar=document.getElementById('strengthBar');
-  const txt=document.getElementById('strengthText');
-  if(!pw){bar.style.width='0';txt.textContent='';return;}
-  let score=0;
-  if(pw.length>=6)score++;if(pw.length>=10)score++;
-  if(/[A-ZА-Я]/.test(pw))score++;if(/[0-9]/.test(pw))score++;if(/[^a-zA-Zа-яА-Я0-9]/.test(pw))score++;
-  const levels=[
-    {label:'Слабый',color:'#f5576c',w:'20%'},
-    {label:'Слабый',color:'#f5576c',w:'30%'},
-    {label:'Средний',color:'#ffd700',w:'55%'},
-    {label:'Хороший',color:'#4facfe',w:'75%'},
-    {label:'Надёжный',color:'#43e97b',w:'100%'},
-  ];
-  const l=levels[Math.min(score,4)];
-  bar.style.width=l.w;bar.style.background=l.color;txt.textContent=l.label;txt.style.color=l.color;
+ const bar=document.getElementById('strengthBar');
+ const txt=document.getElementById('strengthText');
+ if(!pw){bar.style.width='0';txt.textContent='';return;}
+ let score=0;
+ if(pw.length>=6)score++;if(pw.length>=10)score++;
+ if(/[A-ZА-Я]/.test(pw))score++;if(/[0-9]/.test(pw))score++;if(/[^a-zA-Zа-яА-Я0-9]/.test(pw))score++;
+ const levels=[
+ {label:'Слабый',color:'#f5576c',w:'20%'},
+ {label:'Слабый',color:'#f5576c',w:'30%'},
+ {label:'Средний',color:'#ffd700',w:'55%'},
+ {label:'Хороший',color:'#4facfe',w:'75%'},
+ {label:'Надёжный',color:'#43e97b',w:'100%'},
+ ];
+ const l=levels[Math.min(score,4)];
+ bar.style.width=l.w;bar.style.background=l.color;txt.textContent=l.label;txt.style.color=l.color;
 }
 
 async function doLogin(){
-  clearErrors();
-  const email=document.getElementById('loginEmail').value.trim();
-  const pw=document.getElementById('loginPw').value;
-  if(!email||!pw){showError('loginError','Заполните email и пароль');return;}
-  const btn=document.getElementById('loginBtn');
-  btn.disabled=true;btn.textContent='Входим...';
+ clearErrors();
+ const email=document.getElementById('loginEmail').value.trim();
+ const pw=document.getElementById('loginPw').value;
+ if(!email||!pw){showError('loginError','Заполните email и пароль');return;}
+ const btn=document.getElementById('loginBtn');
+ btn.disabled=true;btn.textContent='Входим...';
 
-  try{
-    const res=await fetch('/api/auth/login',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:pw})
-    });
-    const data=await res.json();
-    if(res.ok&&data.token){
-      localStorage.setItem('glowToken',data.token);
-      localStorage.setItem('glowUser',JSON.stringify(data.user));
-      showToast('Добро пожаловать! 👋','success');
-      setTimeout(()=>window.location.href='/client-profile.html',800);
-    }else{
-      showError('loginError',data.error||'Неверный email или пароль');
-    }
-  }catch{
-    // Offline demo mode
-    offlineLogin(email,pw);
-  }finally{
-    btn.disabled=false;btn.textContent='Войти в аккаунт';
-  }
+ try{
+ const res=await fetch('/api/auth/login',{
+ method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({email,password:pw})
+ });
+ const data=await res.json();
+ if(res.ok&&data.token){
+ localStorage.setItem('glowToken',data.token);
+ localStorage.setItem('glowUser',JSON.stringify(data.user));
+ showToast('Добро пожаловать! ','success');
+ setTimeout(()=>window.location.href='/client-profile.html',800);
+ }else{
+ showError('loginError',data.error||'Неверный email или пароль');
+ }
+ }catch{
+ // Offline demo mode
+ offlineLogin(email,pw);
+ }finally{
+ btn.disabled=false;btn.textContent='Войти в аккаунт';
+ }
 }
 
 function offlineLogin(email,pw){
-  // Demo accounts
-  const demos={
-    'admin@glow.com':  {name:'Admin GLOW',role:'admin',email:'admin@glow.com'},
-    'client@glow.com': {name:'Мария Клиент',role:'client',email:'client@glow.com'},
-    'master@glow.com': {name:'Анна Мастер',role:'master',email:'master@glow.com'},
-  };
-  if(demos[email]&&pw.length>=4){
-    const u=demos[email];
-    localStorage.setItem('glowToken','demo-token-'+Date.now());
-    localStorage.setItem('glowUser',JSON.stringify(u));
-    showToast('Добро пожаловать! (offline-режим)','success');
-    setTimeout(()=>window.location.href='/client-profile.html',800);
-  }else{
-    // Check locally registered users
-    const users=JSON.parse(localStorage.getItem('glowUsers')||'[]');
-    const found=users.find(u=>u.email===email&&u.pw===pw);
-    if(found){
-      const {pw:_,...safe}=found;
-      localStorage.setItem('glowToken','local-token-'+Date.now());
-      localStorage.setItem('glowUser',JSON.stringify(safe));
-      showToast('Добро пожаловать! 👋','success');
-      setTimeout(()=>window.location.href='/client-profile.html',800);
-    }else{
-      showError('loginError','Неверный email или пароль');
-    }
-  }
+ // Demo accounts
+ const demos={
+ 'admin@glow.com': {name:'Admin GLOW',role:'admin',email:'admin@glow.com'},
+ 'client@glow.com': {name:'Мария Клиент',role:'client',email:'client@glow.com'},
+ 'master@glow.com': {name:'Анна Мастер',role:'master',email:'master@glow.com'},
+ };
+ if(demos[email]&&pw.length>=4){
+ const u=demos[email];
+ localStorage.setItem('glowToken','demo-token-'+Date.now());
+ localStorage.setItem('glowUser',JSON.stringify(u));
+ showToast('Добро пожаловать! (offline-режим)','success');
+ setTimeout(()=>window.location.href='/client-profile.html',800);
+ }else{
+ // Check locally registered users
+ const users=JSON.parse(localStorage.getItem('glowUsers')||'[]');
+ const found=users.find(u=>u.email===email&&u.pw===pw);
+ if(found){
+ const {pw:_,...safe}=found;
+ localStorage.setItem('glowToken','local-token-'+Date.now());
+ localStorage.setItem('glowUser',JSON.stringify(safe));
+ showToast('Добро пожаловать! ','success');
+ setTimeout(()=>window.location.href='/client-profile.html',800);
+ }else{
+ showError('loginError','Неверный email или пароль');
+ }
+ }
 }
 
 async function doRegister(){
-  clearErrors();
-  const name=document.getElementById('regName').value.trim();
-  const email=document.getElementById('regEmail').value.trim();
-  const pw=document.getElementById('regPw').value;
-  const role=document.getElementById('regRole').value;
-  if(!name){showError('regError','Введите имя');return;}
-  if(!email||!email.includes('@')){showError('regError','Введите корректный email');return;}
-  if(pw.length<6){showError('regError','Пароль должен быть не менее 6 символов');return;}
+ clearErrors();
+ const name=document.getElementById('regName').value.trim();
+ const email=document.getElementById('regEmail').value.trim();
+ const pw=document.getElementById('regPw').value;
+ const role=document.getElementById('regRole').value;
+ if(!name){showError('regError','Введите имя');return;}
+ if(!email||!email.includes('@')){showError('regError','Введите корректный email');return;}
+ if(pw.length<6){showError('regError','Пароль должен быть не менее 6 символов');return;}
 
-  const btn=document.getElementById('regBtn');
-  btn.disabled=true;btn.textContent='Создаём аккаунт...';
+ const btn=document.getElementById('regBtn');
+ btn.disabled=true;btn.textContent='Создаём аккаунт...';
 
-  try{
-    const res=await fetch('/api/auth/register',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name,email,password:pw,role})
-    });
-    const data=await res.json();
-    if(res.ok&&data.token){
-      localStorage.setItem('glowToken',data.token);
-      localStorage.setItem('glowUser',JSON.stringify(data.user));
-      showToast('Аккаунт создан! 🎉','success');
-      setTimeout(()=>window.location.href='/client-profile.html',800);
-    }else{
-      showError('regError',data.error||'Ошибка регистрации');
-    }
-  }catch{
-    // Offline: save locally
-    const users=JSON.parse(localStorage.getItem('glowUsers')||'[]');
-    if(users.find(u=>u.email===email)){showError('regError','Этот email уже зарегистрирован');btn.disabled=false;btn.textContent='Создать аккаунт';return;}
-    const newUser={name,email,role,pw,createdAt:new Date().toISOString()};
-    users.push(newUser);
-    localStorage.setItem('glowUsers',JSON.stringify(users));
-    const {pw:_,...safe}=newUser;
-    localStorage.setItem('glowToken','local-token-'+Date.now());
-    localStorage.setItem('glowUser',JSON.stringify(safe));
-    showToast('Аккаунт создан! 🎉 (offline)','success');
-    setTimeout(()=>window.location.href='/client-profile.html',800);
-  }finally{
-    btn.disabled=false;btn.textContent='Создать аккаунт';
-  }
+ try{
+ const res=await fetch('/api/auth/register',{
+ method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({name,email,password:pw,role})
+ });
+ const data=await res.json();
+ if(res.ok&&data.token){
+ localStorage.setItem('glowToken',data.token);
+ localStorage.setItem('glowUser',JSON.stringify(data.user));
+ showToast('Аккаунт создан! ','success');
+ setTimeout(()=>window.location.href='/client-profile.html',800);
+ }else{
+ showError('regError',data.error||'Ошибка регистрации');
+ }
+ }catch{
+ // Offline: save locally
+ const users=JSON.parse(localStorage.getItem('glowUsers')||'[]');
+ if(users.find(u=>u.email===email)){showError('regError','Этот email уже зарегистрирован');btn.disabled=false;btn.textContent='Создать аккаунт';return;}
+ const newUser={name,email,role,pw,createdAt:new Date().toISOString()};
+ users.push(newUser);
+ localStorage.setItem('glowUsers',JSON.stringify(users));
+ const {pw:_,...safe}=newUser;
+ localStorage.setItem('glowToken','local-token-'+Date.now());
+ localStorage.setItem('glowUser',JSON.stringify(safe));
+ showToast('Аккаунт создан! (offline)','success');
+ setTimeout(()=>window.location.href='/client-profile.html',800);
+ }finally{
+ btn.disabled=false;btn.textContent='Создать аккаунт';
+ }
 }
 
 function demoLogin(role){
-  const accounts={
-    client:{name:'Мария Клиент',email:'client@glow.com',role:'client'},
-    admin:{name:'Admin GLOW',email:'admin@glow.com',role:'admin'},
-  };
-  const u=accounts[role];
-  localStorage.setItem('glowToken','demo-'+role+'-'+Date.now());
-  localStorage.setItem('glowUser',JSON.stringify(u));
-  showToast(role==='admin'?'👑 Вошли как Администратор':'👤 Вошли как Клиент (demo)','success');
-  setTimeout(()=>window.location.href='/client-profile.html',800);
+ const accounts={
+ client:{name:'Мария Клиент',email:'client@glow.com',role:'client'},
+ admin:{name:'Admin GLOW',email:'admin@glow.com',role:'admin'},
+ };
+ const u=accounts[role];
+ localStorage.setItem('glowToken','demo-'+role+'-'+Date.now());
+ localStorage.setItem('glowUser',JSON.stringify(u));
+ showToast(role==='admin'?' Вошли как Администратор':' Вошли как Клиент (demo)','success');
+ setTimeout(()=>window.location.href='/client-profile.html',800);
 }
 
 function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className=`toast ${type}`;
-  setTimeout(()=>t.classList.add('show'),10);
-  setTimeout(()=>t.classList.remove('show'),3000);
+ const t=document.getElementById('toast');
+ t.textContent=msg;t.className=`toast ${type}`;
+ setTimeout(()=>t.classList.add('show'),10);
+ setTimeout(()=>t.classList.remove('show'),3000);
 }
 </script>
 </body>

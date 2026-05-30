@@ -2,6 +2,8 @@
 <html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Кабинет мастера | GLOW</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +13,7 @@
 [data-theme="light"]{--bg:#faf8ff;--bg2:#f0ebff;--card:#fff;--border:rgba(0,0,0,.08);--text:#1a1030;--muted:rgba(26,16,48,.6)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:rgba(15,10,30,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:rgba(15,10,30,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 [data-theme="light"] .navbar{background:rgba(250,248,255,.95)}
 .nav-logo{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;justify-self:start}
 .nav-right{display:flex;gap:.75rem;align-items:center;justify-self:end}
@@ -22,24 +24,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .theme-btn{background:none;border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem}
 .page{padding:5.5rem 2rem 3rem;max-width:1100px;margin:0 auto}
 
-/* Profile header */
-.profile-hero{display:grid;grid-template-columns:auto 1fr;gap:2rem;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:2rem;position:relative;overflow:hidden}
-.profile-hero::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(176,106,179,.1),transparent 70%);top:-150px;right:-100px;pointer-events:none}
+.profile-hero{display:grid;grid-template-columns:auto 1fr auto;gap:1.5rem;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:2rem;position:relative;overflow:hidden}
+.profile-hero::before{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(176,106,179,.1),transparent 70%);top:-150px;right:-50px;pointer-events:none}
 .master-avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:#fff;box-shadow:0 8px 20px rgba(176,106,179,.4);flex-shrink:0}
 .master-info h1{font-size:1.4rem;font-weight:700;margin-bottom:.2rem}
 .master-specialty{color:var(--accent);font-size:.9rem;margin-bottom:.75rem}
 .master-meta{display:flex;gap:1.5rem;flex-wrap:wrap}
 .meta-chip{font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:.35rem}
-.rating-stars{color:var(--yellow);font-weight:700}
+.rating-val{color:var(--yellow);font-weight:700}
 .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:.3rem;box-shadow:0 0 6px var(--green)}
+.hero-actions{display:flex;flex-direction:column;gap:.6rem;flex-shrink:0;position:relative;z-index:1}
 
-/* Stats */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center}
 .stat-val{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-lbl{font-size:.78rem;color:var(--muted);margin-top:.2rem}
 
-/* Tabs */
 .tabs{display:flex;gap:.4rem;margin-bottom:1.75rem;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:.75rem 1.25rem;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;font-weight:500;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;flex-shrink:0}
@@ -47,40 +47,50 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .tab-content{display:none}.tab-content.active{display:block}
 
 /* Booking cards */
-.booking-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:.75rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;transition:border-color .2s}
-.booking-card:hover{border-color:rgba(176,106,179,.3)}
-.bk-client{font-size:.95rem;font-weight:600;margin-bottom:.2rem}
+.booking-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:.75rem;display:grid;grid-template-columns:1fr auto;gap:1rem;transition:border-color .2s}
+.booking-card:hover{border-color:rgba(176,106,179,.25)}
+.bk-client{font-size:.95rem;font-weight:700;margin-bottom:.2rem}
 .bk-service{color:var(--accent);font-size:.82rem;margin-bottom:.3rem}
-.bk-meta{color:var(--muted);font-size:.78rem}
-.bk-right{text-align:right;flex-shrink:0}
-.bk-time{font-size:.95rem;font-weight:700}
+.bk-meta{color:var(--muted);font-size:.78rem;line-height:1.6}
+.bk-right{text-align:right}
+.bk-time{font-size:1rem;font-weight:700}
 .bk-date{color:var(--muted);font-size:.78rem;margin-top:.1rem}
+.bk-actions{display:flex;gap:.4rem;margin-top:.5rem;justify-content:flex-end;flex-wrap:wrap}
 .badge{display:inline-block;padding:.2rem .65rem;border-radius:20px;font-size:.72rem;font-weight:600;margin-top:.35rem}
 .b-ok{background:rgba(67,233,123,.15);color:var(--green)}
 .b-no{background:rgba(245,87,108,.15);color:var(--red)}
 .b-moved{background:rgba(71,118,230,.15);color:var(--accent2)}
-.b-new{background:rgba(255,215,0,.15);color:var(--yellow)}
-.btn-sm{background:none;border:1px solid var(--border);color:var(--muted);padding:.3rem .7rem;border-radius:8px;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif;transition:all .2s;margin-top:.5rem;margin-right:.3rem}
+.b-adm{background:rgba(255,215,0,.12);color:var(--yellow)}
+.btn-sm{background:none;border:1px solid var(--border);color:var(--muted);padding:.3rem .7rem;border-radius:8px;cursor:pointer;font-size:.75rem;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap}
 .btn-sm:hover{border-color:var(--accent);color:var(--accent)}
 .btn-sm.danger:hover{border-color:var(--red);color:var(--red)}
+.btn-sm.success{border-color:rgba(67,233,123,.3);color:var(--green)}
+.btn-sm.success:hover{background:rgba(67,233,123,.1)}
+
+/* Action button */
+.btn-action{padding:.6rem 1.2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;box-shadow:0 4px 15px rgba(176,106,179,.3);white-space:nowrap}
+.btn-action:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(176,106,179,.5)}
+.btn-action-ghost{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text)}
+.btn-action-ghost:hover{border-color:var(--accent);color:var(--accent);transform:none;box-shadow:none}
 
 /* Schedule */
 .week-nav{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem}
 .week-nav button{background:none;border:1px solid var(--border);color:var(--text);padding:.5rem .9rem;border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
 .week-nav button:hover{border-color:var(--accent);color:var(--accent)}
 .week-label{font-weight:600;font-size:.95rem;flex:1;text-align:center}
-.schedule-grid{display:grid;grid-template-columns:60px repeat(7,1fr);gap:.3rem;font-size:.72rem}
-.sg-header{text-align:center;padding:.4rem .2rem;font-weight:600;color:var(--muted);font-size:.7rem}
-.sg-time{color:var(--muted);font-size:.68rem;display:flex;align-items:center;padding-right:.4rem;justify-content:flex-end}
-.sg-cell{padding:.3rem .2rem;border-radius:6px;text-align:center;cursor:pointer;transition:all .2s;border:1px solid transparent;min-height:28px;display:flex;align-items:center;justify-content:center;font-size:.65rem}
-.sg-cell.free{background:rgba(67,233,123,.05);border-color:rgba(67,233,123,.15);color:rgba(67,233,123,.6)}
+.schedule-wrap{overflow-x:auto}
+.schedule-grid{display:grid;grid-template-columns:52px repeat(7,1fr);gap:.3rem;font-size:.7rem;min-width:520px}
+.sg-header{text-align:center;padding:.35rem .2rem;font-weight:600;color:var(--muted);font-size:.68rem}
+.sg-time{color:var(--muted);font-size:.65rem;display:flex;align-items:center;justify-content:flex-end;padding-right:.35rem}
+.sg-cell{padding:.28rem .15rem;border-radius:5px;text-align:center;cursor:pointer;transition:all .2s;border:1px solid transparent;min-height:26px;display:flex;align-items:center;justify-content:center;font-size:.62rem}
+.sg-cell.free{background:rgba(67,233,123,.04);border-color:rgba(67,233,123,.12);color:rgba(67,233,123,.5)}
 .sg-cell.free:hover{background:rgba(67,233,123,.15);border-color:var(--green);color:var(--green)}
-.sg-cell.occupied{background:rgba(176,106,179,.12);border-color:rgba(176,106,179,.3);color:var(--accent);cursor:default}
-.sg-cell.blocked{background:rgba(245,87,108,.08);border-color:rgba(245,87,108,.25);color:rgba(245,87,108,.7)}
+.sg-cell.occupied{background:rgba(176,106,179,.12);border-color:rgba(176,106,179,.3);color:var(--accent);cursor:default;font-size:.58rem}
+.sg-cell.blocked{background:rgba(245,87,108,.07);border-color:rgba(245,87,108,.2);color:rgba(245,87,108,.6)}
 .sg-cell.blocked:hover{background:rgba(245,87,108,.15);border-color:var(--red);color:var(--red)}
-.sg-today{background:rgba(176,106,179,.05)!important;border-radius:8px}
-.schedule-legend{display:flex;gap:1.5rem;margin-top:.75rem;font-size:.75rem;color:var(--muted)}
-.legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:.35rem}
+.sg-today-col{background:rgba(176,106,179,.03);border-radius:6px}
+.schedule-legend{display:flex;gap:1.5rem;margin-top:.75rem;font-size:.75rem;color:var(--muted);flex-wrap:wrap}
+.ldot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:.3rem;vertical-align:middle}
 
 /* Settings */
 .settings-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem}
@@ -94,22 +104,31 @@ textarea{resize:vertical;min-height:80px}
 .btn{padding:.8rem 1.75rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;font-size:.9rem;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:'Inter',sans-serif}
 .btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(176,106,179,.4)}
 .services-editor{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
-.service-chip{display:flex;align-items:center;gap:.4rem;padding:.3rem .7rem .3rem .9rem;background:rgba(176,106,179,.1);border:1px solid rgba(176,106,179,.25);border-radius:20px;font-size:.8rem;color:var(--accent)}
-.service-chip button{background:none;border:none;color:var(--accent);cursor:pointer;font-size:.9rem;line-height:1;padding:0;opacity:.7;transition:opacity .2s}
+.service-chip{display:flex;align-items:center;gap:.4rem;padding:.3rem .7rem.3rem .9rem;background:rgba(176,106,179,.1);border:1px solid rgba(176,106,179,.25);border-radius:20px;font-size:.8rem;color:var(--accent)}
+.service-chip button{background:none;border:none;color:var(--accent);cursor:pointer;font-size:.9rem;line-height:1;opacity:.7}
 .service-chip button:hover{opacity:1}
 .add-service-row{display:flex;gap:.5rem;margin-top:.75rem}
 .add-service-row input{flex:1}
-.add-service-row button{padding:.8rem 1.25rem;background:rgba(176,106,179,.15);border:1px solid rgba(176,106,179,.3);color:var(--accent);border-radius:10px;cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap;font-family:'Inter',sans-serif;transition:all .2s}
-.add-service-row button:hover{background:rgba(176,106,179,.25)}
+.add-service-row button{padding:.8rem 1.25rem;background:rgba(176,106,179,.15);border:1px solid rgba(176,106,179,.3);color:var(--accent);border-radius:10px;cursor:pointer;font-size:.85rem;font-weight:600;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap}
+
+/* Slot grid in modals */
+.slot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-top:.5rem}
+.slot-btn{padding:.5rem .3rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;transition:all .2s;text-align:center}
+.slot-btn:hover{border-color:var(--accent);color:var(--accent)}
+.slot-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.slot-btn.busy{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+
+/* Duration info */
+.dur-info{padding:.6rem .9rem;background:rgba(176,106,179,.1);border-radius:8px;font-size:.82rem;color:var(--accent);margin-bottom:.5rem}
 
 /* Empty */
 .empty{text-align:center;padding:3rem 1rem;color:var(--muted)}
-.empty .icon{font-size:3rem;margin-bottom:.75rem}
+.empty.icon{font-size:3rem;margin-bottom:.75rem}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
-.modal-box{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .modal-hdr{padding:1.5rem 1.5rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);z-index:1}
 .modal-hdr h3{font-size:1.1rem;font-weight:700}
 .modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center}
@@ -123,404 +142,594 @@ textarea{resize:vertical;min-height:80px}
 .toast.error{background:linear-gradient(135deg,#f5576c,#f093fb);color:#fff}
 .toast.info{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#0a1e2e}
 
-@media(max-width:640px){
-  .profile-hero{grid-template-columns:1fr;text-align:center}
-  .master-avatar{margin:0 auto}
-  .master-meta{justify-content:center}
-  .booking-card{flex-direction:column}
-  .bk-right{text-align:left}
-  .schedule-grid{grid-template-columns:44px repeat(7,1fr);font-size:.62rem}
+@media(max-width:700px){
+.profile-hero{grid-template-columns:1fr;text-align:center}
+.master-avatar{margin:0 auto}
+.master-meta{justify-content:center}
+.hero-actions{flex-direction:row;flex-wrap:wrap;justify-content:center}
+.booking-card{grid-template-columns:1fr}
+.bk-right{text-align:left}
+.bk-actions{justify-content:flex-start}
+.slot-grid{grid-template-columns:repeat(3,1fr)}
+}
+
+/* Theme toggle icon */
+.theme-btn{position:relative;overflow:hidden}
+.theme-btn::before{
+  content:'';display:block;position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:14px;height:14px;border-radius:50%;
+  background:var(--text);
+  box-shadow:-5px -1px 0 2px var(--bg);
+  transition:all .3s;
+}
+[data-theme="light"] .theme-btn::before{
+  box-shadow:none;
+  background:transparent;
+  border:2px solid var(--text);
+  width:12px;height:12px;
+  filter:drop-shadow(0 0 3px var(--accent));
+  box-shadow:0 0 0 2px var(--bg),4px -4px 0 -1px var(--text),4px -4px 0 1px var(--text);
 }
 </style>
 </head>
 <body>
 <nav class="navbar">
-  <a href="/" class="nav-logo">✨ GLOW</a>
-  <div></div>
-  <div class="nav-right">
-    <a href="/" class="btn-nav">Главная</a>
-    <button class="btn-nav btn-logout" onclick="logout()">Выйти</button>
-    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-  </div>
+ <a href="/" class="nav-logo"> GLOW</a>
+ <div></div>
+ <div class="nav-right">
+ <a href="/" class="btn-nav">Главная</a>
+ <button class="btn-nav btn-logout" onclick="logout()">Выйти</button>
+ <button class="theme-btn" onclick="toggleTheme()" id="themeBtn"></button>
+ </div>
 </nav>
 
 <div class="page">
-  <!-- Header -->
-  <div class="profile-hero">
-    <div class="master-avatar" id="masterAvatar">💅</div>
-    <div class="master-info">
-      <h1 id="masterName">Мастер</h1>
-      <div class="master-specialty" id="masterSpecialty">Загрузка...</div>
-      <div class="master-meta">
-        <span class="meta-chip"><span class="status-dot"></span>Онлайн</span>
-        <span class="meta-chip">⭐ <span class="rating-stars" id="masterRating">—</span></span>
-        <span class="meta-chip">⏱ <span id="masterDuration">—</span></span>
-        <span class="meta-chip">💰 <span id="masterPrice">—</span></span>
-      </div>
-    </div>
-  </div>
+ <!-- Header -->
+ <div class="profile-hero">
+ <div class="master-avatar" id="masterAvatar"></div>
+ <div class="master-info">
+ <h1 id="masterName">Мастер</h1>
+ <div class="master-specialty" id="masterSpecialty">Загрузка...</div>
+ <div class="master-meta">
+ <span class="meta-chip"><span class="status-dot"></span>Онлайн</span>
+ <span class="meta-chip"> <span class="rating-val" id="masterRating">—</span></span>
+ <span class="meta-chip">⏱ <span id="masterDuration">—</span></span>
+ <span class="meta-chip"> <span id="masterPrice">—</span></span>
+ </div>
+ </div>
+ <div class="hero-actions">
+ <button class="btn-action" onclick="openModal('modalNewBooking')">Записать клиента</button>
+ <button class="btn-action btn-action-ghost" onclick="showTab('schedule',document.querySelector('[data-tab=schedule]'))">Расписание</button>
+ </div>
+ </div>
 
-  <!-- Stats -->
-  <div class="stats-grid" id="statsGrid">
-    <div class="stat-card"><div class="stat-val" id="statTotal">0</div><div class="stat-lbl">Всего записей</div></div>
-    <div class="stat-card"><div class="stat-val" id="statToday">0</div><div class="stat-lbl">Сегодня</div></div>
-    <div class="stat-card"><div class="stat-val" id="statWeek">0</div><div class="stat-lbl">На этой неделе</div></div>
-    <div class="stat-card"><div class="stat-val" id="statCancelled">0</div><div class="stat-lbl">Отменено</div></div>
-  </div>
+ <!-- Stats -->
+ <div class="stats-grid">
+ <div class="stat-card"><div class="stat-val" id="statTotal">0</div><div class="stat-lbl">Всего записей</div></div>
+ <div class="stat-card"><div class="stat-val" id="statToday">0</div><div class="stat-lbl">Сегодня</div></div>
+ <div class="stat-card"><div class="stat-val" id="statWeek">0</div><div class="stat-lbl">На неделе</div></div>
+ <div class="stat-card"><div class="stat-val" id="statRevenue">0</div><div class="stat-lbl">Оборот ₽</div></div>
+ </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('today',this)">📅 Сегодня</button>
-    <button class="tab" onclick="showTab('upcoming',this)">🔜 Предстоящие</button>
-    <button class="tab" onclick="showTab('schedule',this)">📆 Расписание</button>
-    <button class="tab" onclick="showTab('settings',this)">⚙️ Профиль</button>
-  </div>
+ <!-- Tabs -->
+ <div class="tabs">
+ <button class="tab active" data-tab="today" onclick="showTab('today',this)"> Сегодня</button>
+ <button class="tab" data-tab="upcoming" onclick="showTab('upcoming',this)"> Предстоящие</button>
+ <button class="tab" data-tab="history" onclick="showTab('history',this)"> История</button>
+ <button class="tab" data-tab="schedule" onclick="showTab('schedule',this)">Расписание</button>
+ <button class="tab" data-tab="settings" onclick="showTab('settings',this)"> Профиль</button>
+ </div>
 
-  <!-- TODAY -->
-  <div id="today" class="tab-content active">
-    <div id="todayList"></div>
-  </div>
+ <div id="today" class="tab-content active"><div id="todayList"></div></div>
+ <div id="upcoming" class="tab-content"><div id="upcomingList"></div></div>
+ <div id="history" class="tab-content"><div id="historyList"></div></div>
 
-  <!-- UPCOMING -->
-  <div id="upcoming" class="tab-content">
-    <div id="upcomingList"></div>
-  </div>
+ <!-- SCHEDULE -->
+ <div id="schedule" class="tab-content">
+ <div class="week-nav">
+ <button onclick="changeWeek(-1)">← Пред.</button>
+ <div class="week-label" id="weekLabel"></div>
+ <button onclick="changeWeek(1)">След. →</button>
+ </div>
+ <div class="schedule-wrap">
+ <div id="scheduleGrid"></div>
+ </div>
+ <div class="schedule-legend">
+ <span><span class="ldot" style="background:rgba(67,233,123,.5)"></span>Свободно</span>
+ <span><span class="ldot" style="background:rgba(176,106,179,.5)"></span>Занято клиентом</span>
+ <span><span class="ldot" style="background:rgba(245,87,108,.5)"></span>Заблокировано вами</span>
+ </div>
+ <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem">Нажмите свободный слот — заблокируете. Заблокированный — разблокируете.</p>
+ </div>
 
-  <!-- SCHEDULE -->
-  <div id="schedule" class="tab-content">
-    <div class="week-nav">
-      <button onclick="changeWeek(-1)">← Пред.</button>
-      <div class="week-label" id="weekLabel"></div>
-      <button onclick="changeWeek(1)">След. →</button>
-    </div>
-    <div id="scheduleGrid"></div>
-    <div class="schedule-legend">
-      <span><span class="legend-dot" style="background:rgba(67,233,123,.5)"></span>Свободно</span>
-      <span><span class="legend-dot" style="background:rgba(176,106,179,.5)"></span>Занято</span>
-      <span><span class="legend-dot" style="background:rgba(245,87,108,.5)"></span>Заблокировано</span>
-    </div>
-    <p style="font-size:.75rem;color:var(--muted);margin-top:.5rem">Нажмите на свободный слот — заблокируете время. На заблокированный — разблокируете.</p>
-  </div>
-
-  <!-- SETTINGS -->
-  <div id="settings" class="tab-content">
-    <div class="settings-card">
-      <h3>👤 Личные данные</h3>
-      <div class="form-group"><label>Имя</label><input type="text" id="sName"></div>
-      <div class="form-group"><label>Email</label><input type="email" id="sEmail" disabled style="opacity:.6"></div>
-      <div class="form-group"><label>Специальность</label><input type="text" id="sSpecialty" placeholder="Напр: Мастер маникюра"></div>
-      <div class="form-group"><label>О себе</label><textarea id="sBio" placeholder="Расскажите о своём опыте..."></textarea></div>
-      <button class="btn" onclick="saveProfile()">Сохранить</button>
-    </div>
-    <div class="settings-card">
-      <h3>💅 Мои услуги</h3>
-      <div class="services-editor" id="servicesEditor"></div>
-      <div class="add-service-row">
-        <input type="text" id="newServiceInput" placeholder="Новая услуга..." onkeydown="if(event.key==='Enter')addService()">
-        <button onclick="addService()">+ Добавить</button>
-      </div>
-    </div>
-  </div>
+ <!-- SETTINGS -->
+ <div id="settings" class="tab-content">
+ <div class="settings-card">
+ <h3> Личные данные</h3>
+ <div class="form-group"><label>Имя</label><input type="text" id="sName"></div>
+ <div class="form-group"><label>Email</label><input type="email" id="sEmail" disabled style="opacity:.6"></div>
+ <div class="form-group"><label>Специальность</label><input type="text" id="sSpecialty"></div>
+ <div class="form-group"><label>О себе</label><textarea id="sBio" placeholder="Расскажите об опыте..."></textarea></div>
+ <button class="btn" onclick="saveProfile()">Сохранить</button>
+ </div>
+ <div class="settings-card">
+ <h3> Мои услуги</h3>
+ <div class="services-editor" id="servicesEditor"></div>
+ <div class="add-service-row">
+ <input type="text" id="newServiceInput" placeholder="Новая услуга..." onkeydown="if(event.key==='Enter')addService()">
+ <button onclick="addService()">+ Добавить</button>
+ </div>
+ </div>
+ </div>
 </div>
 
-<!-- Modal: booking detail -->
-<div class="modal-overlay" id="modalBooking" onclick="closeModal()">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-hdr">
-      <h3>📋 Запись</h3>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body" id="modalBookingBody"></div>
-  </div>
+<!-- ===== MODAL: Записать клиента ===== -->
+<div class="modal-overlay" id="modalNewBooking" onclick="handleOverlay(event,'modalNewBooking')">
+ <div class="modal-box">
+ <div class="modal-hdr">
+ <h3>Записать клиента</h3>
+ <button class="modal-close" onclick="closeModal('modalNewBooking')">×</button>
+ </div>
+ <div class="modal-body">
+ <div class="form-group"><label>Имя клиента *</label><input type="text" id="nb_client" placeholder="Мария Иванова"></div>
+ <div class="form-group"><label>Телефон</label><input type="tel" id="nb_phone" placeholder="+7 (999) 000-00-00"></div>
+ <div class="dur-info" id="nb_dur_info"></div>
+ <div class="form-group"><label>Дата *</label><input type="date" id="nb_date" onchange="refreshNbSlots()"></div>
+ <div class="form-group">
+ <label>Время *</label>
+ <div class="slot-grid" id="nb_slots"></div>
+ </div>
+ <div class="form-group"><label>Комментарий</label><textarea id="nb_comment" placeholder="Пожелания..."></textarea></div>
+ <div class="form-group">
+ <label>Оплата</label>
+ <select id="nb_pay">
+ <option value="cash"> Наличные</option>
+ <option value="card"> Карта</option>
+ <option value="sbp"> СБП</option>
+ </select>
+ </div>
+ <button class="btn" style="width:100%" onclick="saveNewBooking()"> Записать</button>
+ </div>
+ </div>
+</div>
+
+<!-- ===== MODAL: Перенести запись ===== -->
+<div class="modal-overlay" id="modalReschedule" onclick="handleOverlay(event,'modalReschedule')">
+ <div class="modal-box">
+ <div class="modal-hdr">
+ <h3>Перенести запись</h3>
+ <button class="modal-close" onclick="closeModal('modalReschedule')">×</button>
+ </div>
+ <div class="modal-body">
+ <div id="rs_info" style="background:rgba(176,106,179,.08);border:1px solid rgba(176,106,179,.2);border-radius:12px;padding:1rem;margin-bottom:1.25rem;font-size:.85rem;line-height:1.6"></div>
+ <div class="form-group"><label>Новая дата *</label><input type="date" id="rs_date" onchange="refreshRsSlots()"></div>
+ <div class="form-group">
+ <label>Новое время *</label>
+ <div class="slot-grid" id="rs_slots"></div>
+ </div>
+ <button class="btn" style="width:100%" onclick="confirmReschedule()">Перенести</button>
+ </div>
+ </div>
+</div>
+
+<!-- ===== MODAL: Детали записи ===== -->
+<div class="modal-overlay" id="modalDetail" onclick="handleOverlay(event,'modalDetail')">
+ <div class="modal-box">
+ <div class="modal-hdr">
+ <h3> Детали записи</h3>
+ <button class="modal-close" onclick="closeModal('modalDetail')">×</button>
+ </div>
+ <div class="modal-body" id="detailBody"></div>
+ </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── Auth check ───────────────────────────────────────────────────
+// Auth 
 const token = localStorage.getItem('glowToken');
 const userStr = localStorage.getItem('glowUser');
 if (!token || !userStr) { window.location.href = '/auth.html'; }
 const user = JSON.parse(userStr || '{}');
-if (user.role !== 'master' && user.role !== 'admin') {
-  window.location.href = '/client-profile.html';
-}
+if (user.role !== 'master' && user.role !== 'admin') { window.location.href = '/client-profile.html'; }
 
-// ─── Master data (match with index.html MASTERS array) ────────────
+// Master catalogue 
 const MASTERS_DATA = [
-  {id:1,name:'Анна Соколова',specialty:'Мастер маникюра',rating:4.9,price:'от 1500 ₽',duration:150,gradient:'linear-gradient(135deg,#f093fb,#f5576c)',avatar:'АС',services:['Маникюр','Педикюр','Гель-лак','Наращивание']},
-  {id:2,name:'Мария Иванова',specialty:'Бровист',rating:4.8,price:'от 2000 ₽',duration:60,gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',avatar:'МИ',services:['Коррекция','Окрашивание','Ламинирование','Татуаж']},
-  {id:3,name:'Елена Козлова',specialty:'Визажист',rating:5.0,price:'от 3000 ₽',duration:90,gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',avatar:'ЕК',services:['Дневной макияж','Вечерний','Свадебный','Обучение']},
-  {id:4,name:'Ольга Петрова',specialty:'Мастер по волосам',rating:4.7,price:'от 2500 ₽',duration:120,gradient:'linear-gradient(135deg,#fa709a,#fee140)',avatar:'ОП',services:['Стрижка','Окрашивание','Укладка','Кератин']},
-  {id:5,name:'Наталья Сидорова',specialty:'Косметолог',rating:4.9,price:'от 3500 ₽',duration:90,gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',avatar:'НС',services:['Чистка лица','Пилинг','Мезотерапия','Массаж']},
-  {id:6,name:'Юлия Новикова',specialty:'Лэшмейкер',rating:4.8,price:'от 2200 ₽',duration:90,gradient:'linear-gradient(135deg,#f7971e,#ffd200)',avatar:'ЮН',services:['Наращивание ресниц','Ламинирование','Окрашивание','Завивка']},
+ {id:1,name:'Анна Соколова', specialty:'Мастер маникюра', rating:4.9,price:'от 1500 ₽',duration:150,gradient:'linear-gradient(135deg,#f093fb,#f5576c)',avatar:'АС',services:['Маникюр','Педикюр','Гель-лак','Наращивание']},
+ {id:2,name:'Мария Иванова', specialty:'Бровист', rating:4.8,price:'от 2000 ₽',duration:60, gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',avatar:'МИ',services:['Коррекция','Окрашивание','Ламинирование','Татуаж']},
+ {id:3,name:'Елена Козлова', specialty:'Визажист', rating:5.0,price:'от 3000 ₽',duration:90, gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',avatar:'ЕК',services:['Дневной макияж','Вечерний','Свадебный','Обучение']},
+ {id:4,name:'Ольга Петрова', specialty:'Мастер по волосам', rating:4.7,price:'от 2500 ₽',duration:120,gradient:'linear-gradient(135deg,#fa709a,#fee140)',avatar:'ОП',services:['Стрижка','Окрашивание','Укладка','Кератин']},
+ {id:5,name:'Наталья Сидорова',specialty:'Косметолог', rating:4.9,price:'от 3500 ₽',duration:90, gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',avatar:'НС',services:['Чистка лица','Пилинг','Мезотерапия','Массаж']},
+ {id:6,name:'Юлия Новикова', specialty:'Лэшмейкер', rating:4.8,price:'от 2200 ₽',duration:90, gradient:'linear-gradient(135deg,#f7971e,#ffd200)',avatar:'ЮН',services:['Наращивание ресниц','Ламинирование','Окрашивание','Завивка']},
 ];
 
-// ─── State ────────────────────────────────────────────────────────
+// State 
 let masterData = null;
 let masterServices = [];
 let weekOffset = 0;
+let nbSelectedTime = null;
+let rsSelectedTime = null;
+let rescheduleIdx = null;
 
-// Find master by email or use first matching role
-function findMaster() {
-  // Demo: match by name or just use id=1 for any master login
-  const found = MASTERS_DATA.find(m => m.name.split(' ')[0].toLowerCase() === user.name.split(' ')[0].toLowerCase());
-  return found || MASTERS_DATA[0];
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────
-function timeToMins(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
-function minsToTime(m){return`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;}
+// Helpers 
+function toMins(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function fromMins(m){return`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;}
 function durLabel(m){const h=Math.floor(m/60),min=m%60;return min?`${h}ч ${min}мин`:`${h} ч`;}
-function getToday(){return new Date().toISOString().split('T')[0];}
-function addDays(date, n){const d=new Date(date);d.setDate(d.getDate()+n);return d.toISOString().split('T')[0];}
-function getWeekStart(offset=0){
-  const d=new Date(); d.setDate(d.getDate()-d.getDay()+1+offset*7);
-  return d.toISOString().split('T')[0];
-}
-function formatDate(d){return new Date(d).toLocaleDateString('ru',{day:'numeric',month:'short'});}
-
-function getAppointments(){return JSON.parse(localStorage.getItem('glowAppointments')||'[]');}
+function today(){return new Date().toISOString().split('T')[0];}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split('T')[0];}
+function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('ru',{day:'numeric',month:'short',weekday:'short'});}
+function getApps(){return JSON.parse(localStorage.getItem('glowAppointments')||'[]');}
 function getBlocked(){return JSON.parse(localStorage.getItem('glowMasterBlocked')||'{}');}
+function weekStart(off=0){const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7)+off*7);return d.toISOString().split('T')[0];}
 
-// ─── Init ─────────────────────────────────────────────────────────
+function findMaster(){
+ const found=MASTERS_DATA.find(m=>m.name.split(' ')[0].toLowerCase()===user.name?.split(' ')[0].toLowerCase());
+ return found||MASTERS_DATA[0];
+}
+
+// Init 
 (function init(){
-  const saved=localStorage.getItem('theme')||'dark';
-  document.documentElement.dataset.theme=saved;
-  document.getElementById('themeBtn').textContent=saved==='dark'?'🌙':'☀️';
+ const saved=localStorage.getItem('theme')||'dark';
+ document.documentElement.dataset.theme=saved;
+ 
 
-  masterData = findMaster();
-  masterServices = [...masterData.services];
+ masterData=findMaster();
+ masterServices=[...masterData.services];
 
-  // Header
-  const ini=(user.name||'M').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  const av=document.getElementById('masterAvatar');
-  av.textContent=ini;
-  av.style.background=masterData.gradient;
+ const ini=(user.name||'M').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+ const av=document.getElementById('masterAvatar');
+ av.textContent=ini; av.style.background=masterData.gradient;
 
-  document.getElementById('masterName').textContent=user.name||masterData.name;
-  document.getElementById('masterSpecialty').textContent=masterData.specialty;
-  document.getElementById('masterRating').textContent=masterData.rating;
-  document.getElementById('masterDuration').textContent=durLabel(masterData.duration);
-  document.getElementById('masterPrice').textContent=masterData.price;
+ document.getElementById('masterName').textContent=user.name||masterData.name;
+ document.getElementById('masterSpecialty').textContent=masterData.specialty;
+ document.getElementById('masterRating').textContent=masterData.rating;
+ document.getElementById('masterDuration').textContent=durLabel(masterData.duration);
+ document.getElementById('masterPrice').textContent=masterData.price;
+ document.getElementById('nb_dur_info').textContent=`⏱ ${masterData.specialty} · Длительность: ${durLabel(masterData.duration)}`;
 
-  // Settings pre-fill
-  document.getElementById('sName').value=user.name||'';
-  document.getElementById('sEmail').value=user.email||'';
-  document.getElementById('sSpecialty').value=masterData.specialty;
-  renderServiceChips();
+ document.getElementById('sName').value=user.name||'';
+ document.getElementById('sEmail').value=user.email||'';
+ document.getElementById('sSpecialty').value=masterData.specialty;
+ renderServiceChips();
 
-  loadStats();
-  renderToday();
-  renderUpcoming();
-  renderScheduleGrid();
+ const t=today();
+ document.getElementById('nb_date').value=t;
+ document.getElementById('nb_date').min=t;
+ document.getElementById('rs_date').min=t;
+
+ loadStats();
+ renderToday();
 })();
 
-// ─── Stats ────────────────────────────────────────────────────────
+// Stats 
 function loadStats(){
-  const apps=getAppointments().filter(a=>a.masterId===masterData.id);
-  const today=getToday();
-  const weekStart=getWeekStart();
-  const weekEnd=addDays(weekStart,6);
-  document.getElementById('statTotal').textContent=apps.filter(a=>a.status!=='cancelled').length;
-  document.getElementById('statToday').textContent=apps.filter(a=>a.date===today&&a.status!=='cancelled').length;
-  document.getElementById('statWeek').textContent=apps.filter(a=>a.date>=weekStart&&a.date<=weekEnd&&a.status!=='cancelled').length;
-  document.getElementById('statCancelled').textContent=apps.filter(a=>a.status==='cancelled').length;
+ const apps=getApps().filter(a=>a.masterId===masterData.id&&a.status!=='cancelled');
+ const t=today();
+ const ws=weekStart(); const we=addDays(ws,6);
+ document.getElementById('statTotal').textContent=apps.length;
+ document.getElementById('statToday').textContent=apps.filter(a=>a.date===t).length;
+ document.getElementById('statWeek').textContent=apps.filter(a=>a.date>=ws&&a.date<=we).length;
+ const base=parseInt(masterData.price.replace(/\D/g,''))||0;
+ document.getElementById('statRevenue').textContent=`~${(apps.length*base/1000).toFixed(0)}k`;
 }
 
-// ─── Booking cards ────────────────────────────────────────────────
-function bookingCard(a,i){
-  const statusCls=a.status==='confirmed'?'b-ok':a.status==='moved'?'b-moved':'b-no';
-  const statusLabel=a.status==='confirmed'?'✅ Подтверждено':a.status==='moved'?'🔄 Перенесено':'❌ Отменено';
-  const isNew=a.createdByAdmin?'<span class="badge b-new" style="margin-left:.4rem">Адм</span>':'';
-  return`<div class="booking-card" onclick="openBookingDetail(${i})" style="cursor:pointer">
-    <div>
-      <div class="bk-client">${a.clientName||'Клиент'}${isNew}</div>
-      <div class="bk-service">${a.service||masterData.specialty}</div>
-      <div class="bk-meta">${a.comment?`💬 ${a.comment.slice(0,50)}`:'Без комментария'}</div>
-    </div>
-    <div class="bk-right">
-      <div class="bk-time">${a.time}</div>
-      <div class="bk-date">${formatDate(a.date)}</div>
-      <div><span class="badge ${statusCls}">${statusLabel}</span></div>
-      ${a.status!=='cancelled'?`<button class="btn-sm danger" onclick="event.stopPropagation();cancelApt(${i})">Отменить</button>`:''}
-    </div>
-  </div>`;
+// Occupied chunks 
+function getOccupied(date, excludeIdx=null){
+ const apps=getApps();
+ const blocked=getBlocked();
+ const out=[];
+ apps.forEach((a,i)=>{
+ if(i===excludeIdx||a.masterId!==masterData.id||a.date!==date||a.status==='cancelled')return;
+ const s=toMins(a.time);
+ for(let t=s;t<s+masterData.duration;t+=30)out.push(fromMins(t));
+ });
+ if(blocked[masterData.id]?.[date])out.push(...blocked[masterData.id][date]);
+ return out;
 }
 
+function buildSlots(date, excludeIdx=null){
+ const occ=getOccupied(date,excludeIdx);
+ const slots=[];
+ for(let s=9*60;s+masterData.duration<=20*60;s+=30){
+ let busy=false;
+ for(let t=s;t<s+masterData.duration;t+=30){if(occ.includes(fromMins(t))){busy=true;break;}}
+ slots.push({time:fromMins(s),end:fromMins(s+masterData.duration),busy});
+ }
+ return slots;
+}
+
+function renderSlotGrid(containerId, slots, ref){
+ const el=document.getElementById(containerId);
+ if(!slots.length){el.innerHTML='<p style="color:var(--muted);font-size:.82rem">Нет доступных слотов</p>';return;}
+ el.innerHTML=slots.map(s=>s.busy
+ ?`<button class="slot-btn busy" disabled>${s.time}</button>`
+:`<button class="slot-btn" onclick="pickSlot('${s.time}',this,'${ref}')">${s.time}<span style="display:block;font-size:.6rem;opacity:.6">${s.end}</span></button>`
+ ).join('');
+}
+
+function pickSlot(time,btn,ref){
+ btn.closest('.slot-grid').querySelectorAll('.slot-btn').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ if(ref==='nb')nbSelectedTime=time;
+ else rsSelectedTime=time;
+}
+
+// Booking card renderer 
+function bookingCard(a, i, showActions=true){
+ const isPast=a.date<today();
+ const statusCls=a.status==='confirmed'?'b-ok':a.status==='moved'?'b-moved':'b-no';
+ const statusLabel=a.status==='confirmed'?' Подтверждено':a.status==='moved'?' Перенесено':' Отменено';
+ const actions = showActions && a.status!=='cancelled' ? `
+ <button class="btn-sm" onclick="event.stopPropagation();openReschedule(${i})">Перенести</button>
+ <button class="btn-sm danger" onclick="event.stopPropagation();cancelApt(${i})"> Отменить</button>
+ `: '';
+ return`<div class="booking-card" onclick="openDetail(${i})" style="cursor:pointer">
+ <div>
+ <div class="bk-client">${a.clientName||'Клиент'} ${a.clientPhone?`<span style="color:var(--muted);font-weight:400;font-size:.78rem">· ${a.clientPhone}</span>`:''}</div>
+ <div class="bk-service">${a.service||masterData.specialty}</div>
+ <div class="bk-meta">
+ ${a.payMethod==='card'?'Карта':a.payMethod==='sbp'?'СБП':'Нал.'} ${a.payMethod||'—'}
+ ${a.discount?` · <span style="color:var(--green)">-${a.discount}%</span>`:''}
+ ${a.createdByAdmin?'<span class="badge b-adm" style="margin-left:.4rem">Адм</span>':''}
+ ${a.createdByMaster?'<span class="badge" style="background:rgba(71,118,230,.12);color:var(--accent2);margin-left:.4rem">Мастер</span>':''}
+ </div>
+ ${a.comment?`<div class="bk-meta" style="margin-top:.25rem"> ${a.comment.slice(0,60)}</div>`:''}
+ </div>
+ <div class="bk-right">
+ <div class="bk-time">${a.time}</div>
+ <div class="bk-date">${fmtDate(a.date)}</div>
+ <div><span class="badge ${statusCls}">${statusLabel}</span></div>
+ <div class="bk-actions">${actions}</div>
+ </div>
+ </div>`;
+}
+
+// Tab: today 
 function renderToday(){
-  const apps=getAppointments();
-  const today=getToday();
-  const list=apps.map((a,i)=>({...a,_i:i})).filter(a=>a.masterId===masterData.id&&a.date===today).sort((a,b)=>a.time.localeCompare(b.time));
-  const el=document.getElementById('todayList');
-  if(!list.length){el.innerHTML='<div class="empty"><div class="icon">☀️</div><p>На сегодня записей нет</p></div>';return;}
-  el.innerHTML=list.map(a=>bookingCard(a,a._i)).join('');
+ const t=today();
+ const apps=getApps().map((a,i)=>({...a,_i:i})).filter(a=>a.masterId===masterData.id&&a.date===t).sort((a,b)=>a.time.localeCompare(b.time));
+ const el=document.getElementById('todayList');
+ if(!apps.length){el.innerHTML='<div class="empty"><div class="icon"></div><p>На сегодня записей нет</p></div>';return;}
+ el.innerHTML=apps.map(a=>bookingCard(a,a._i)).join('');
 }
 
+// Tab: upcoming 
 function renderUpcoming(){
-  const apps=getAppointments();
-  const today=getToday();
-  const list=apps.map((a,i)=>({...a,_i:i})).filter(a=>a.masterId===masterData.id&&a.date>today&&a.status!=='cancelled').sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
-  const el=document.getElementById('upcomingList');
-  if(!list.length){el.innerHTML='<div class="empty"><div class="icon">📆</div><p>Предстоящих записей нет</p></div>';return;}
-  el.innerHTML=list.map(a=>bookingCard(a,a._i)).join('');
+ const t=today();
+ const apps=getApps().map((a,i)=>({...a,_i:i})).filter(a=>a.masterId===masterData.id&&a.date>t&&a.status!=='cancelled').sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+ const el=document.getElementById('upcomingList');
+ if(!apps.length){el.innerHTML='<div class="empty"><div class="icon"></div><p>Предстоящих записей нет</p></div>';return;}
+ el.innerHTML=apps.map(a=>bookingCard(a,a._i)).join('');
 }
 
+// Tab: history 
+function renderHistory(){
+ const t=today();
+ const apps=getApps().map((a,i)=>({...a,_i:i})).filter(a=>a.masterId===masterData.id&&a.date<t).sort((a,b)=>b.date.localeCompare(a.date)||b.time.localeCompare(a.time));
+ const el=document.getElementById('historyList');
+ if(!apps.length){el.innerHTML='<div class="empty"><div class="icon"></div><p>История пуста</p></div>';return;}
+ el.innerHTML=apps.map(a=>bookingCard(a,a._i,false)).join('');
+}
+
+// Cancel 
 function cancelApt(i){
-  if(!confirm('Отменить запись?'))return;
-  const apps=getAppointments();apps[i].status='cancelled';
-  localStorage.setItem('glowAppointments',JSON.stringify(apps));
-  loadStats();renderToday();renderUpcoming();
-  showToast('Запись отменена','info');
+ if(!confirm('Отменить запись? Клиент будет уведомлён.'))return;
+ const apps=getApps(); apps[i].status='cancelled';
+ localStorage.setItem('glowAppointments',JSON.stringify(apps));
+ loadStats(); renderToday(); renderUpcoming(); renderHistory();
+ showToast('Запись отменена','info');
 }
 
-// ─── Booking detail modal ─────────────────────────────────────────
-function openBookingDetail(i){
-  const a=getAppointments()[i];
-  if(!a)return;
-  const payLabel=a.payMethod==='card'?'💳 Карта':a.payMethod==='sbp'?'📱 СБП':'💵 Наличные';
-  document.getElementById('modalBookingBody').innerHTML=`
-    <div style="display:flex;flex-direction:column;gap:.75rem;font-size:.9rem">
-      <div style="background:var(--bg2);border-radius:12px;padding:1rem">
-        <div style="font-size:1.1rem;font-weight:700;margin-bottom:.25rem">${a.clientName||'Клиент'}</div>
-        ${a.clientPhone?`<div style="color:var(--muted)">${a.clientPhone}</div>`:''}
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-        <div style="background:var(--bg2);border-radius:10px;padding:.85rem;text-align:center"><div style="font-weight:700">${a.date}</div><div style="color:var(--muted);font-size:.75rem">Дата</div></div>
-        <div style="background:var(--bg2);border-radius:10px;padding:.85rem;text-align:center"><div style="font-weight:700">${a.time}</div><div style="color:var(--muted);font-size:.75rem">Время</div></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Услуга</span><span>${a.service||'—'}</span></div>
-      <div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Длительность</span><span style="color:var(--accent)">${durLabel(masterData.duration)}</span></div>
-      <div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Оплата</span><span>${payLabel}</span></div>
-      ${a.discount?`<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Скидка</span><span style="color:var(--green)">-${a.discount}%</span></div>`:''}
-      ${a.comment?`<div style="background:rgba(176,106,179,.08);border-radius:10px;padding:.85rem;font-size:.85rem"><span style="color:var(--muted)">💬 </span>${a.comment}</div>`:''}
-      ${a.createdByAdmin?`<div style="font-size:.75rem;color:var(--muted);text-align:center">Запись создана администратором</div>`:''}
-    </div>
-  `;
-  document.getElementById('modalBooking').classList.add('open');
-  document.body.style.overflow='hidden';
+// Detail modal 
+function openDetail(i){
+ const a=getApps()[i]; if(!a)return;
+ const payLabel=a.payMethod==='card'?' Карта':a.payMethod==='sbp'?' СБП':' Наличные';
+ document.getElementById('detailBody').innerHTML=`
+ <div style="display:flex;flex-direction:column;gap:.85rem">
+ <div style="background:var(--bg2);border-radius:12px;padding:1rem">
+ <div style="font-size:1.1rem;font-weight:700">${a.clientName||'Клиент'}</div>
+ ${a.clientPhone?`<div style="color:var(--muted);margin-top:.2rem">${a.clientPhone}</div>`:''}
+ </div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+ <div style="background:var(--bg2);border-radius:10px;padding:.85rem;text-align:center"><div style="font-weight:700">${a.date}</div><div style="color:var(--muted);font-size:.75rem">Дата</div></div>
+ <div style="background:var(--bg2);border-radius:10px;padding:.85rem;text-align:center"><div style="font-weight:700">${a.time}</div><div style="color:var(--muted);font-size:.75rem">Время</div></div>
+ </div>
+ <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Услуга</span><span>${a.service||'—'}</span></div>
+ <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Длительность</span><span style="color:var(--accent)">${durLabel(masterData.duration)}</span></div>
+ <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Оплата</span><span>${payLabel}</span></div>
+ ${a.discount?`<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Скидка</span><span style="color:var(--green)">-${a.discount}%</span></div>`:''}
+ ${a.comment?`<div style="background:rgba(176,106,179,.07);border-radius:10px;padding:.85rem;font-size:.85rem;line-height:1.5"><span style="color:var(--muted)"> </span>${a.comment}</div>`:''}
+ </div>
+ `;
+ openModal('modalDetail');
 }
 
-function closeModal(){
-  document.getElementById('modalBooking').classList.remove('open');
-  document.body.style.overflow='';
+// New booking (by master) 
+function refreshNbSlots(){
+ nbSelectedTime=null;
+ const date=document.getElementById('nb_date').value;
+ if(!date){document.getElementById('nb_slots').innerHTML='';return;}
+ renderSlotGrid('nb_slots',buildSlots(date),'nb');
 }
 
-// ─── Schedule ─────────────────────────────────────────────────────
+function saveNewBooking(){
+ const client=document.getElementById('nb_client').value.trim();
+ const phone=document.getElementById('nb_phone').value.trim();
+ const date=document.getElementById('nb_date').value;
+ const pay=document.getElementById('nb_pay').value;
+ const comment=document.getElementById('nb_comment').value.trim();
+ if(!client){showToast('Введите имя клиента','error');return;}
+ if(!date){showToast('Выберите дату','error');return;}
+ if(!nbSelectedTime){showToast('Выберите время','error');return;}
+
+ const apps=getApps();
+ apps.unshift({
+ clientName:client,clientPhone:phone,
+ masterName:masterData.name,masterId:masterData.id,service:masterData.specialty,
+ date,time:nbSelectedTime,comment,payMethod:pay,discount:0,
+ status:'confirmed',createdByMaster:true,createdAt:new Date().toISOString()
+ });
+ localStorage.setItem('glowAppointments',JSON.stringify(apps));
+ closeModal('modalNewBooking');
+ loadStats();renderToday();renderUpcoming();
+ showToast(` ${client} записан(а) на ${date} в ${nbSelectedTime}`);
+ document.getElementById('nb_client').value='';
+ document.getElementById('nb_phone').value='';
+ document.getElementById('nb_comment').value='';
+ nbSelectedTime=null;
+ document.getElementById('nb_slots').innerHTML='';
+}
+
+// Reschedule 
+function openReschedule(idx){
+ rescheduleIdx=idx;
+ const apps=getApps(); const a=apps[idx];
+ document.getElementById('rs_info').innerHTML=`
+ <strong>${a.clientName||'Клиент'}</strong><br>
+ Текущее время: <strong>${a.date} в ${a.time}</strong><br>
+ Длительность: <span style="color:var(--accent)">${durLabel(masterData.duration)}</span>
+ `;
+ const t=today();
+ document.getElementById('rs_date').value=t;
+ rsSelectedTime=null;
+ renderSlotGrid('rs_slots',buildSlots(t,idx),'rs');
+ openModal('modalReschedule');
+}
+
+function refreshRsSlots(){
+ rsSelectedTime=null;
+ const date=document.getElementById('rs_date').value;
+ if(date&&rescheduleIdx!==null)renderSlotGrid('rs_slots',buildSlots(date,rescheduleIdx),'rs');
+}
+
+function confirmReschedule(){
+ if(!rsSelectedTime){showToast('Выберите новое время','error');return;}
+ const date=document.getElementById('rs_date').value;
+ if(!date){showToast('Выберите дату','error');return;}
+ const apps=getApps();
+ const old=`${apps[rescheduleIdx].date} в ${apps[rescheduleIdx].time}`;
+ apps[rescheduleIdx].date=date;
+ apps[rescheduleIdx].time=rsSelectedTime;
+ apps[rescheduleIdx].status='moved';
+ apps[rescheduleIdx].movedAt=new Date().toISOString();
+ localStorage.setItem('glowAppointments',JSON.stringify(apps));
+ closeModal('modalReschedule');
+ loadStats();renderToday();renderUpcoming();renderHistory();
+ showToast(` Перенесено: ${old} → ${date} в ${rsSelectedTime}`);
+ rescheduleIdx=null;rsSelectedTime=null;
+}
+
+// Schedule grid 
 function changeWeek(dir){weekOffset+=dir;renderScheduleGrid();}
 
 function renderScheduleGrid(){
-  const weekStart=getWeekStart(weekOffset);
-  const days=[],dayNames=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-  for(let i=0;i<7;i++)days.push(addDays(weekStart,i));
-  const today=getToday();
+ const ws=weekStart(weekOffset);
+ const days=[]; const dayNames=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+ for(let i=0;i<7;i++)days.push(addDays(ws,i));
+ const t=today();
+ document.getElementById('weekLabel').textContent=`${fmtDate(days[0])} — ${fmtDate(days[6])}`;
 
-  // week label
-  document.getElementById('weekLabel').textContent=`${formatDate(days[0])} — ${formatDate(days[6])}`;
+ const times=[]; for(let x=9*60;x<20*60;x+=30)times.push(fromMins(x));
+ const apps=getApps().filter(a=>a.masterId===masterData.id&&a.status!=='cancelled');
+ const blocked=getBlocked();
+ const dur=masterData.duration;
 
-  const times=[];for(let t=9*60;t<20*60;t+=30)times.push(minsToTime(t));
-  const apps=getAppointments().filter(a=>a.masterId===masterData.id&&a.status!=='cancelled');
-  const blocked=getBlocked();
-  const dur=masterData.duration;
-
-  let html=`<div class="schedule-grid">
-    <div></div>
-    ${days.map((d,i)=>`<div class="sg-header ${d===today?'sg-today':''}">${dayNames[i]}<br><span style="color:var(--text);font-weight:700">${d.slice(5)}</span></div>`).join('')}
-    ${times.map(t=>`
-      <div class="sg-time">${t}</div>
-      ${days.map(d=>{
-        const isBlocked=(blocked[masterData.id]&&blocked[masterData.id][d]||[]).includes(t);
-        const isOcc=apps.some(a=>{
-          if(a.date!==d)return false;
-          const s=timeToMins(a.time);
-          const tm=timeToMins(t);
-          return tm>=s&&tm<s+dur;
-        });
-        const cls=isOcc?'occupied':isBlocked?'blocked':'free';
-        const symbol=isOcc?'●':isBlocked?'✕':'·';
-        const title=isOcc?'Занято':isBlocked?'Заблокировано':'Свободно';
-        return`<div class="sg-cell ${cls} ${d===today?'sg-today':''}" title="${title}" onclick="toggleBlock('${d}','${t}',this)">${symbol}</div>`;
-      }).join('')}
-    `).join('')}
-  </div>`;
-  document.getElementById('scheduleGrid').innerHTML=html;
+ let html=`<div class="schedule-grid">
+ <div></div>
+ ${days.map((d,i)=>`<div class="sg-header" style="${d===t?'color:var(--accent);font-weight:700':''}">${dayNames[i]}<br>${d.slice(5)}</div>`).join('')}
+ ${times.map(tm=>`
+ <div class="sg-time">${tm}</div>
+ ${days.map(d=>{
+ const isBlk=(blocked[masterData.id]?.[d]||[]).includes(tm);
+ const isOcc=apps.some(a=>{if(a.date!==d)return false;const s=toMins(a.time);const tms=toMins(tm);return tms>=s&&tms<s+dur;});
+ const cls=isOcc?'occupied':isBlk?'blocked':'free';
+ const sym=isOcc?'●':isBlk?'×':'·';
+ const ttl=isOcc?'Занято клиентом':isBlk?'Заблокировано':'Свободно';
+ return`<div class="sg-cell ${cls}" title="${ttl}" onclick="toggleBlock('${d}','${tm}',this)">${sym}</div>`;
+ }).join('')}
+ `).join('')}
+ </div>`;
+ document.getElementById('scheduleGrid').innerHTML=html;
 }
 
 function toggleBlock(date,time,el){
-  const apps=getAppointments();
-  const dur=masterData.duration;
-  const isOcc=apps.some(a=>{
-    if(a.masterId!==masterData.id||a.date!==date||a.status==='cancelled')return false;
-    const s=timeToMins(a.time),tm=timeToMins(time);
-    return tm>=s&&tm<s+dur;
-  });
-  if(isOcc){showToast('Слот занят — нельзя заблокировать','error');return;}
-
-  const blocked=getBlocked();
-  if(!blocked[masterData.id])blocked[masterData.id]={};
-  if(!blocked[masterData.id][date])blocked[masterData.id][date]=[];
-  const idx=blocked[masterData.id][date].indexOf(time);
-  if(idx===-1){
-    blocked[masterData.id][date].push(time);
-    el.className='sg-cell blocked';el.textContent='✕';el.title='Заблокировано';
-    showToast(`${time} заблокировано`,'info');
-  }else{
-    blocked[masterData.id][date].splice(idx,1);
-    el.className='sg-cell free';el.textContent='·';el.title='Свободно';
-    showToast(`${time} разблокировано`);
-  }
-  localStorage.setItem('glowMasterBlocked',JSON.stringify(blocked));
+ const apps=getApps();
+ const dur=masterData.duration;
+ const isOcc=apps.some(a=>{
+ if(a.masterId!==masterData.id||a.date!==date||a.status==='cancelled')return false;
+ const s=toMins(a.time);const tm=toMins(time);return tm>=s&&tm<s+dur;
+ });
+ if(isOcc){showToast('Слот занят — нельзя заблокировать','error');return;}
+ const blocked=getBlocked();
+ if(!blocked[masterData.id])blocked[masterData.id]={};
+ if(!blocked[masterData.id][date])blocked[masterData.id][date]=[];
+ const idx=blocked[masterData.id][date].indexOf(time);
+ if(idx===-1){
+ blocked[masterData.id][date].push(time);
+ el.className='sg-cell blocked';el.textContent='×';el.title='Заблокировано';
+ showToast(`${time} заблокировано`,'info');
+ }else{
+ blocked[masterData.id][date].splice(idx,1);
+ el.className='sg-cell free';el.textContent='·';el.title='Свободно';
+ showToast(`${time} разблокировано`);
+ }
+ localStorage.setItem('glowMasterBlocked',JSON.stringify(blocked));
 }
 
-// ─── Profile settings ─────────────────────────────────────────────
+// Profile settings 
 function saveProfile(){
-  const name=document.getElementById('sName').value.trim();
-  const specialty=document.getElementById('sSpecialty').value.trim();
-  if(!name){showToast('Введите имя','error');return;}
-  user.name=name;
-  localStorage.setItem('glowUser',JSON.stringify(user));
-  document.getElementById('masterName').textContent=name;
-  if(specialty)document.getElementById('masterSpecialty').textContent=specialty;
-  showToast('✅ Профиль сохранён');
+ const name=document.getElementById('sName').value.trim();
+ if(!name){showToast('Введите имя','error');return;}
+ user.name=name;localStorage.setItem('glowUser',JSON.stringify(user));
+ document.getElementById('masterName').textContent=name;
+ showToast(' Профиль сохранён');
 }
-
 function renderServiceChips(){
-  document.getElementById('servicesEditor').innerHTML=masterServices.map((s,i)=>`
-    <div class="service-chip">${s}<button onclick="removeService(${i})">×</button></div>
-  `).join('');
+ document.getElementById('servicesEditor').innerHTML=masterServices.map((s,i)=>`
+ <div class="service-chip">${s}<button onclick="removeService(${i})">×</button></div>
+ `).join('');
 }
 function removeService(i){masterServices.splice(i,1);renderServiceChips();}
 function addService(){
-  const inp=document.getElementById('newServiceInput');
-  const val=inp.value.trim();
-  if(!val)return;
-  masterServices.push(val);inp.value='';renderServiceChips();
-  showToast('Услуга добавлена');
+ const inp=document.getElementById('newServiceInput');
+ const val=inp.value.trim();if(!val)return;
+ masterServices.push(val);inp.value='';renderServiceChips();
+ showToast('Услуга добавлена');
 }
 
-// ─── Tabs ─────────────────────────────────────────────────────────
+// Tabs 
 function showTab(id,btn){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-  if(id==='schedule')renderScheduleGrid();
-  if(id==='today')renderToday();
-  if(id==='upcoming')renderUpcoming();
+ document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ if(btn)btn.classList.add('active');
+ if(id==='schedule')renderScheduleGrid();
+ if(id==='today')renderToday();
+ if(id==='upcoming')renderUpcoming();
+ if(id==='history')renderHistory();
 }
 
-// ─── Misc ─────────────────────────────────────────────────────────
+// Modal helpers 
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+function handleOverlay(e,id){if(e.target===document.getElementById(id))closeModal(id);}
+
+// Misc 
 function showToast(msg,type='success'){
-  const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type}`;
-  setTimeout(()=>t.classList.add('show'),10);setTimeout(()=>t.classList.remove('show'),3000);
+ const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type}`;
+ setTimeout(()=>t.classList.add('show'),10);setTimeout(()=>t.classList.remove('show'),3200);
 }
 function logout(){localStorage.removeItem('glowToken');localStorage.removeItem('glowUser');window.location.href='/';}
 function toggleTheme(){
-  const h=document.documentElement;const d=h.dataset.theme==='dark';
-  h.dataset.theme=d?'light':'dark';
-  document.getElementById('themeBtn').textContent=d?'☀️':'🌙';
-  localStorage.setItem('theme',h.dataset.theme);
+ const h=document.documentElement;const d=h.dataset.theme==='dark';
+ h.dataset.theme=d?'light':'dark';
+ 
+ localStorage.setItem('theme',h.dataset.theme);
 }
+
+// initial slot render
+refreshNbSlots();
 </script>
 </body>
 </html>

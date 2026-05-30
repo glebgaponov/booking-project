@@ -2,6 +2,8 @@
 <html lang="ru" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 — Страница не найдена | GLOW</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,33 +30,52 @@ p{color:var(--muted);font-size:1rem;line-height:1.6;margin-bottom:2.5rem}
 .emoji{font-size:3rem;margin-bottom:1rem;display:block;animation:wiggle 2s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes wiggle{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+
+/* Theme toggle icon */
+.theme-btn{position:relative;overflow:hidden}
+.theme-btn::before{
+  content:'';display:block;position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:14px;height:14px;border-radius:50%;
+  background:var(--text);
+  box-shadow:-5px -1px 0 2px var(--bg);
+  transition:all .3s;
+}
+[data-theme="light"] .theme-btn::before{
+  box-shadow:none;
+  background:transparent;
+  border:2px solid var(--text);
+  width:12px;height:12px;
+  filter:drop-shadow(0 0 3px var(--accent));
+  box-shadow:0 0 0 2px var(--bg),4px -4px 0 -1px var(--text),4px -4px 0 1px var(--text);
+}
 </style>
 </head>
 <body>
 <div class="blob b1"></div>
 <div class="blob b2"></div>
-<button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+<button class="theme-btn" onclick="toggleTheme()" id="themeBtn"></button>
 <div class="content">
-  <span class="emoji">🔍</span>
-  <div class="num">404</div>
-  <h1>Страница не найдена</h1>
-  <p>Кажется, эта страница отправилась на маникюр и пока недоступна.<br>Попробуйте вернуться на главную.</p>
-  <div class="btns">
-    <a href="/" class="btn btn-primary">✨ На главную</a>
-    <a href="javascript:history.back()" class="btn btn-ghost">← Назад</a>
-  </div>
+ 
+ <div class="num">404</div>
+ <h1>Страница не найдена</h1>
+ <p>Эта страница недоступна.<br>Попробуйте вернуться на главную.</p>
+ <div class="btns">
+ <a href="/" class="btn btn-primary">На главную</a>
+ <a href="javascript:history.back()" class="btn btn-ghost">← Назад</a>
+ </div>
 </div>
 <script>
 (function(){
-  const s=localStorage.getItem('theme')||'dark';
-  document.documentElement.dataset.theme=s;
-  document.getElementById('themeBtn').textContent=s==='dark'?'🌙':'☀️';
+ const s=localStorage.getItem('theme')||'dark';
+ document.documentElement.dataset.theme=s;
+ 
 })();
 function toggleTheme(){
-  const h=document.documentElement;const d=h.dataset.theme==='dark';
-  h.dataset.theme=d?'light':'dark';
-  document.getElementById('themeBtn').textContent=d?'☀️':'🌙';
-  localStorage.setItem('theme',h.dataset.theme);
+ const h=document.documentElement;const d=h.dataset.theme==='dark';
+ h.dataset.theme=d?'light':'dark';
+ 
+ localStorage.setItem('theme',h.dataset.theme);
 }
 </script>
 </body>
