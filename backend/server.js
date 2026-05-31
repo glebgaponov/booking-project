@@ -8,6 +8,7 @@ const path = require('path');
 require('dotenv').config();
 
 const { Users, Appointments, Blocked } = require('./db');
+const { log, requestLogger } = require('./logger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'glow-secret-key-change-in-prod';
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 app.use(express.json());
+app.use(requestLogger); // Audit log — каждый запрос
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 const limiter     = rateLimit({ windowMs: 15*60*1000, max: 200, message: { error: 'Слишком много запросов' } });
@@ -74,6 +76,7 @@ app.post('/api/auth/register', async (req, res) => {
     const safeRole = ['client','master'].includes(role) ? role : 'client';
     const info = Users.create({ name, email, password: hashed, role: safeRole });
     const user = Users.findById(info.lastInsertRowid);
+    log('REGISTER', { newUserId: user.id, email, role: safeRole }, req);
     res.status(201).json({ token: generateToken(user), user: Users.safe(user) });
   } catch (e) {
     res.status(500).json({ error: 'Ошибка сервера' });
@@ -85,8 +88,11 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'Введите email и пароль' });
     const user = Users.findByEmail(email);
-    if (!user || !(await bcrypt.compare(password, user.password)))
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      log('LOGIN_FAIL', { email }, req);
       return res.status(401).json({ error: 'Неверный email или пароль' });
+    }
+    log('LOGIN', { userId: user.id, email, role: user.role }, req);
     res.json({ token: generateToken(user), user: Users.safe(user) });
   } catch (e) {
     res.status(500).json({ error: 'Ошибка сервера' });
@@ -124,7 +130,9 @@ app.post('/api/appointments', authMiddleware, (req, res) => {
     clientPhone, comment, payMethod, discount,
     createdByAdmin: req.user.role === 'admin',
   });
-  res.status(201).json(Appointments.findById(info.lastInsertRowid));
+  const created = Appointments.findById(info.lastInsertRowid);
+  log('BOOKING_CREATE', { appointmentId: created.id, masterId, date, time }, req);
+  res.status(201).json(created);
 });
 
 app.patch('/api/appointments/:id', authMiddleware, (req, res) => {

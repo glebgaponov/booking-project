@@ -57,6 +57,33 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_apt_master_date ON appointments(master_id, date);
   CREATE INDEX IF NOT EXISTS idx_apt_user       ON appointments(user_id);
   CREATE INDEX IF NOT EXISTS idx_blocked        ON blocked_slots(master_id, date);
+
+  -- Триггер 1: автоматически устанавливает updated_at при изменении записи
+  CREATE TRIGGER IF NOT EXISTS trg_apt_updated_at
+    AFTER UPDATE ON appointments
+    FOR EACH ROW
+    BEGIN
+      UPDATE appointments SET updated_at = datetime('now') WHERE id = OLD.id;
+    END;
+
+  -- Триггер 2: запрещает изменять отменённую запись
+  CREATE TRIGGER IF NOT EXISTS trg_no_update_cancelled
+    BEFORE UPDATE ON appointments
+    FOR EACH ROW
+    WHEN OLD.status = 'cancelled'
+    BEGIN
+      SELECT RAISE(ABORT, 'Нельзя изменить отменённую запись');
+    END;
+
+  -- Триггер 3: при удалении пользователя — отменяет все его активные записи
+  CREATE TRIGGER IF NOT EXISTS trg_cancel_on_user_delete
+    BEFORE DELETE ON users
+    FOR EACH ROW
+    BEGIN
+      UPDATE appointments
+        SET status = 'cancelled', updated_at = datetime('now')
+        WHERE user_id = OLD.id AND status != 'cancelled';
+    END;
 `);
 
 // ─── Seed: demo-пользователи ──────────────────────────────────────
