@@ -5,6 +5,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
 const { Users, Appointments, Blocked } = require('./db');
@@ -13,6 +15,203 @@ const { log, requestLogger } = require('./logger');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'glow-secret-key-change-in-prod';
+
+// ─── Swagger ──────────────────────────────────────────────────────
+const swaggerSpec = swaggerJsdoc({
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'GLOW Beauty Platform API',
+      version: '1.0.0',
+      description: 'REST API для онлайн-записи клиентов к мастерам красоты',
+    },
+    servers: [{ url: `http://localhost:${process.env.PORT || 3000}` }],
+    components: {
+      securitySchemes: {
+        bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }
+      }
+    },
+    tags: [
+      { name: 'Auth',     description: 'Регистрация и авторизация' },
+      { name: 'Masters',  description: 'Каталог мастеров' },
+      { name: 'Appointments', description: 'Управление записями' },
+      { name: 'Blocked',  description: 'Блокировка слотов' },
+      { name: 'Admin',    description: 'Административные функции' },
+    ],
+    paths: {
+      '/api/auth/register': {
+        post: {
+          tags: ['Auth'], summary: 'Регистрация нового пользователя',
+          requestBody: { required: true, content: { 'application/json': { schema: {
+            type: 'object', required: ['name','email','password'],
+            properties: {
+              name:     { type: 'string', example: 'Иван Иванов' },
+              email:    { type: 'string', example: 'ivan@example.com' },
+              password: { type: 'string', example: 'secret123' },
+              role:     { type: 'string', enum: ['client','master'], example: 'client' }
+            }
+          }}}},
+          responses: {
+            201: { description: 'Пользователь создан, возвращает JWT-токен' },
+            400: { description: 'Не заполнены обязательные поля / пароль слишком короткий' },
+            409: { description: 'Email уже зарегистрирован' }
+          }
+        }
+      },
+      '/api/auth/login': {
+        post: {
+          tags: ['Auth'], summary: 'Вход в систему',
+          requestBody: { required: true, content: { 'application/json': { schema: {
+            type: 'object', required: ['email','password'],
+            properties: {
+              email:    { type: 'string', example: 'admin@glow.com' },
+              password: { type: 'string', example: 'admin123' }
+            }
+          }}}},
+          responses: {
+            200: { description: 'Успешный вход, возвращает JWT-токен' },
+            401: { description: 'Неверный email или пароль' }
+          }
+        }
+      },
+      '/api/auth/me': {
+        get: {
+          tags: ['Auth'], summary: 'Получить данные текущего пользователя',
+          security: [{ bearerAuth: [] }],
+          responses: {
+            200: { description: 'Объект пользователя' },
+            401: { description: 'Не авторизован' }
+          }
+        }
+      },
+      '/api/masters': {
+        get: {
+          tags: ['Masters'], summary: 'Список мастеров',
+          parameters: [{ in: 'query', name: 'category', schema: { type: 'string' }, description: 'Фильтр по категории (manicure, brows, makeup, hair, skin, lash)' }],
+          responses: { 200: { description: 'Массив мастеров' } }
+        }
+      },
+      '/api/masters/{id}': {
+        get: {
+          tags: ['Masters'], summary: 'Мастер по ID',
+          parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'integer' } }],
+          responses: {
+            200: { description: 'Объект мастера' },
+            404: { description: 'Мастер не найден' }
+          }
+        }
+      },
+      '/api/appointments': {
+        get: {
+          tags: ['Appointments'], summary: 'Список записей (с фильтрацией)',
+          security: [{ bearerAuth: [] }],
+          parameters: [
+            { in: 'query', name: 'masterId', schema: { type: 'integer' } },
+            { in: 'query', name: 'date',     schema: { type: 'string' } },
+            { in: 'query', name: 'status',   schema: { type: 'string' } }
+          ],
+          responses: { 200: { description: 'Массив записей' }, 401: { description: 'Не авторизован' } }
+        },
+        post: {
+          tags: ['Appointments'], summary: 'Создать запись',
+          security: [{ bearerAuth: [] }],
+          requestBody: { required: true, content: { 'application/json': { schema: {
+            type: 'object', required: ['masterId','date','time'],
+            properties: {
+              masterId:     { type: 'integer', example: 1 },
+              date:         { type: 'string',  example: '2026-06-15' },
+              time:         { type: 'string',  example: '10:00' },
+              durationMins: { type: 'integer', example: 60 },
+              payMethod:    { type: 'string',  example: 'card' }
+            }
+          }}}},
+          responses: {
+            201: { description: 'Запись создана' },
+            409: { description: 'Конфликт времени' },
+            401: { description: 'Не авторизован' }
+          }
+        }
+      },
+      '/api/appointments/{id}': {
+        patch: {
+          tags: ['Appointments'], summary: 'Обновить / перенести запись',
+          security: [{ bearerAuth: [] }],
+          parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'integer' } }],
+          requestBody: { content: { 'application/json': { schema: {
+            type: 'object',
+            properties: {
+              date:   { type: 'string' },
+              time:   { type: 'string' },
+              status: { type: 'string', enum: ['confirmed','moved','cancelled'] }
+            }
+          }}}},
+          responses: { 200: { description: 'Обновлённая запись' }, 403: { description: 'Нет доступа' }, 409: { description: 'Конфликт времени' } }
+        },
+        delete: {
+          tags: ['Appointments'], summary: 'Отменить запись',
+          security: [{ bearerAuth: [] }],
+          parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'integer' } }],
+          responses: { 200: { description: 'Запись отменена' }, 403: { description: 'Нет доступа' } }
+        }
+      },
+      '/api/blocked': {
+        get: {
+          tags: ['Blocked'], summary: 'Заблокированные слоты',
+          parameters: [
+            { in: 'query', name: 'masterId', schema: { type: 'integer' } },
+            { in: 'query', name: 'date',     schema: { type: 'string' } }
+          ],
+          responses: { 200: { description: 'Массив заблокированных слотов' } }
+        },
+        post: {
+          tags: ['Blocked'], summary: 'Заблокировать слот (только admin)',
+          security: [{ bearerAuth: [] }],
+          requestBody: { required: true, content: { 'application/json': { schema: {
+            type: 'object', required: ['masterId','date','time'],
+            properties: {
+              masterId: { type: 'integer', example: 1 },
+              date:     { type: 'string',  example: '2026-06-15' },
+              time:     { type: 'string',  example: '14:00' }
+            }
+          }}}},
+          responses: { 200: { description: 'Слот заблокирован' }, 403: { description: 'Доступ запрещён' } }
+        },
+        delete: {
+          tags: ['Blocked'], summary: 'Разблокировать слот (только admin)',
+          security: [{ bearerAuth: [] }],
+          requestBody: { required: true, content: { 'application/json': { schema: {
+            type: 'object', required: ['masterId','date','time'],
+            properties: {
+              masterId: { type: 'integer' },
+              date:     { type: 'string' },
+              time:     { type: 'string' }
+            }
+          }}}},
+          responses: { 200: { description: 'Слот разблокирован' }, 403: { description: 'Доступ запрещён' } }
+        }
+      },
+      '/api/admin/users': {
+        get: {
+          tags: ['Admin'], summary: 'Все пользователи (только admin)',
+          security: [{ bearerAuth: [] }],
+          responses: { 200: { description: 'Массив пользователей' }, 403: { description: 'Доступ запрещён' } }
+        }
+      },
+      '/api/admin/stats': {
+        get: {
+          tags: ['Admin'], summary: 'Статистика платформы (только admin)',
+          security: [{ bearerAuth: [] }],
+          responses: { 200: { description: 'Объект статистики' }, 403: { description: 'Доступ запрещён' } }
+        }
+      }
+    }
+  },
+  apis: [],
+});
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customSiteTitle: 'GLOW API Docs',
+  swaggerOptions: { persistAuthorization: true }
+}));
 
 // ─── Middleware ───────────────────────────────────────────────────
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -196,12 +395,12 @@ app.get('/api/admin/stats', authMiddleware, adminOnly, (req, res) => {
 
 // ─── MASTERS (публичные данные) ───────────────────────────────────
 const MASTERS = [
-  { id:1, name:'Анна Соколова',   specialty:'Мастер маникюра', rating:4.9, reviews:127, price:'от 1500 ₽', experience:'5 лет',  duration:150, category:'manicure' },
-  { id:2, name:'Мария Иванова',   specialty:'Бровист',          rating:4.8, reviews:89,  price:'от 2000 ₽', experience:'3 года', duration:60,  category:'brows'    },
-  { id:3, name:'Елена Козлова',   specialty:'Визажист',          rating:5.0, reviews:203, price:'от 3000 ₽', experience:'7 лет',  duration:90,  category:'makeup'   },
-  { id:4, name:'Ольга Петрова',   specialty:'Мастер по волосам', rating:4.7, reviews:156, price:'от 2500 ₽', experience:'6 лет',  duration:120, category:'hair'     },
-  { id:5, name:'Наталья Сидорова',specialty:'Косметолог',        rating:4.9, reviews:94,  price:'от 3500 ₽', experience:'8 лет',  duration:90,  category:'skin'     },
-  { id:6, name:'Юлия Новикова',   specialty:'Лэшмейкер',         rating:4.8, reviews:112, price:'от 2200 ₽', experience:'4 года', duration:90,  category:'lash'     },
+  { id:1, name:'Анна Соколова',   specialty:'Мастер маникюра', rating:4.9, reviews:127, price:'от 1500 ₽', experience:'5 лет',  duration:150, category:'manicure', photo:'master1.png' },
+  { id:2, name:'Мария Иванова',   specialty:'Бровист',          rating:4.8, reviews:89,  price:'от 2000 ₽', experience:'3 года', duration:60,  category:'brows',    photo:'master2.png' },
+  { id:3, name:'Елена Козлова',   specialty:'Визажист',          rating:5.0, reviews:203, price:'от 3000 ₽', experience:'7 лет',  duration:90,  category:'makeup',   photo:'master3.png' },
+  { id:4, name:'Ольга Петрова',   specialty:'Мастер по волосам', rating:4.7, reviews:156, price:'от 2500 ₽', experience:'6 лет',  duration:120, category:'hair',     photo:'master4.png' },
+  { id:5, name:'Наталья Сидорова',specialty:'Косметолог',        rating:4.9, reviews:94,  price:'от 3500 ₽', experience:'8 лет',  duration:90,  category:'skin',     photo:'master5.png' },
+  { id:6, name:'Юлия Новикова',   specialty:'Лэшмейкер',         rating:4.8, reviews:112, price:'от 2200 ₽', experience:'4 года', duration:90,  category:'lash',     photo:'master6.png' },
 ];
 
 app.get('/api/masters', (req, res) => {
@@ -223,9 +422,23 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
+// ─── Глобальные обработчики ошибок ────────────────────────────────
+process.on('uncaughtException', (err) => {
+  console.error('[FATAL] Необработанное исключение:', err.message);
+  log('FATAL_ERROR', { message: err.message, stack: err.stack });
+  // Приложение продолжает работу
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[FATAL] Необработанный Promise rejection:', reason);
+  log('FATAL_REJECTION', { reason: String(reason) });
+});
+
 // ─── Start ────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`✨ GLOW сервер: http://localhost:${PORT}`);
   console.log(`   БД: ${require('path').join(__dirname, 'glow.db')}`);
   console.log(`   Логины: admin@glow.com/admin123 · client@glow.com/client123`);
 });
+
+module.exports = app;

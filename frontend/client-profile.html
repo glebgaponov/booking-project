@@ -158,6 +158,19 @@ textarea{resize:vertical;min-height:70px}
 .toast.error{background:linear-gradient(135deg,#f5576c,#f093fb);color:#fff}
 .toast.info{background:linear-gradient(135deg,#4facfe,#00f2fe);color:#0a1e2e}
 
+/* Confirm dialog */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:10000;display:none;align-items:center;justify-content:center;padding:1rem}
+.confirm-overlay.open{display:flex}
+.confirm-dialog{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:380px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden}
+.confirm-dialog-header{padding:1.25rem 1.5rem .75rem;display:flex;align-items:center;gap:.75rem;border-bottom:1px solid var(--border)}
+.confirm-dialog-header .dlg-icon{font-size:1.4rem;line-height:1}
+.confirm-dialog-header h4{font-size:1rem;font-weight:700;margin:0}
+.confirm-dialog-body{padding:1rem 1.5rem;color:var(--muted);font-size:.9rem}
+.confirm-dialog-footer{padding:.75rem 1.5rem 1.25rem;display:flex;gap:.75rem;justify-content:flex-end}
+.confirm-dialog-footer button{padding:.55rem 1.25rem;border-radius:10px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:opacity .2s}
+.confirm-dialog-footer .btn-confirm{background:linear-gradient(135deg,#f5576c,#f093fb);color:#fff}
+.confirm-dialog-footer .btn-cancel{background:var(--bg2);color:var(--text)}
+
 @media(max-width:640px){
 .profile-header{flex-direction:column;text-align:center}
 .admin-stats{grid-template-columns:1fr 1fr}
@@ -359,6 +372,21 @@ textarea{resize:vertical;min-height:70px}
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- Confirm dialog -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-dialog" role="dialog" aria-modal="true">
+    <div class="confirm-dialog-header">
+      <span class="dlg-icon" id="dlgIcon">⚠️</span>
+      <h4 id="dlgTitle">Подтверждение</h4>
+    </div>
+    <div class="confirm-dialog-body" id="dlgMessage"></div>
+    <div class="confirm-dialog-footer">
+      <button class="btn-cancel" onclick="dlgReject()">Отмена</button>
+      <button class="btn-confirm" id="dlgConfirmBtn" onclick="dlgResolve()">Подтвердить</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const MASTERS_DATA=[
@@ -570,13 +598,14 @@ function loadPast(){
 }
 
 // ===== CLIENT: CANCEL =====
-function cancelOwn(i){
+async function cancelOwn(i){
  const apps=JSON.parse(localStorage.getItem('glowAppointments')||'[]');
  const a=apps[i];
  // Check 2h rule
  const aptDt=new Date(`${a.date}T${a.time}`);
  if(aptDt-new Date()<2*60*60*1000){showToast('Отмена возможна не позднее чем за 2 часа','error');return;}
- if(!confirm('Отменить запись?'))return;
+ const ok=await showConfirm({title:'Отмена записи',message:`Вы уверены, что хотите отменить запись к ${a.masterName} на ${a.date} в ${a.time}?`,icon:'❌',confirmText:'Отменить запись'});
+ if(!ok)return;
  apps[i].status='cancelled';
  localStorage.setItem('glowAppointments',JSON.stringify(apps));
  loadUpcoming();showToast('Запись отменена','info');
@@ -803,9 +832,11 @@ async function loadAdminUsers(){
  }
 }
 
-function adminCancel(i){
- if(!confirm('Отменить запись?'))return;
+async function adminCancel(i){
  const apps=JSON.parse(localStorage.getItem('glowAppointments')||'[]');
+ const a=apps[i];
+ const ok=await showConfirm({title:'Отмена записи',message:`Отменить запись клиента ${a.clientName||'—'} к ${a.masterName} на ${a.date} в ${a.time}?`,icon:'❌',confirmText:'Отменить запись'});
+ if(!ok)return;
  apps[i].status='cancelled';localStorage.setItem('glowAppointments',JSON.stringify(apps));
  loadAdminData();loadUpcoming();showToast('Запись отменена','info');
 }
@@ -816,8 +847,9 @@ function exportData(){
  Object.assign(document.createElement('a'),{href:url,download:`glow-export-${Date.now()}.json`}).click();
  URL.revokeObjectURL(url);showToast(' Экспорт готов');
 }
-function clearAll(){
- if(!confirm('Удалить ВСЕ записи?'))return;
+async function clearAll(){
+ const ok=await showConfirm({title:'Удаление всех записей',message:'Это действие необратимо. Все записи будут удалены без возможности восстановления.',icon:'🗑️',confirmText:'Удалить всё'});
+ if(!ok)return;
  localStorage.removeItem('glowAppointments');
  loadAdminData();loadUpcoming();showToast('Все записи удалены','info');
 }
@@ -948,6 +980,21 @@ function showToast(msg,type='success'){
  const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type}`;
  setTimeout(()=>t.classList.add('show'),10);setTimeout(()=>t.classList.remove('show'),3200);
 }
+
+// ===== CUSTOM CONFIRM DIALOG =====
+let _dlgResolve=null;
+function showConfirm({title='Подтверждение',message,icon='⚠️',confirmText='Подтвердить'}){
+ return new Promise(resolve=>{
+  _dlgResolve=resolve;
+  document.getElementById('dlgTitle').textContent=title;
+  document.getElementById('dlgMessage').textContent=message;
+  document.getElementById('dlgIcon').textContent=icon;
+  document.getElementById('dlgConfirmBtn').textContent=confirmText;
+  document.getElementById('confirmOverlay').classList.add('open');
+ });
+}
+function dlgResolve(){document.getElementById('confirmOverlay').classList.remove('open');if(_dlgResolve)_dlgResolve(true);_dlgResolve=null;}
+function dlgReject(){document.getElementById('confirmOverlay').classList.remove('open');if(_dlgResolve)_dlgResolve(false);_dlgResolve=null;}
 </script>
 </body>
 </html>
